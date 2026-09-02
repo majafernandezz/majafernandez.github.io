@@ -1,9 +1,9 @@
 body {
   background-color:lightgoldenrodyellow;
-  color: red;
+  color: #B22323;
 }
 h1 {
-  text-align: center;
+  text-align: left;
   margin-top: 100px;
   font-family: "Raleway", sans-serif;
   font-size: 80px;
@@ -14,4 +14,9 @@ h1 {
   width: 100%;
   display: block;
   margin-top: -45px;
+}
+.hjartan {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
