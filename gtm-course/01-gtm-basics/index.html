@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1 — Tags, triggers and variables</title>
+<meta name="description" content="Beginner Google Tag Manager exercises: install a container, fire a tag, build click and form triggers, and create the four variable types you will use every day.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html" aria-current="page">Module 1</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Module 1</span>
+            <span>Six exercises</span>
+            <span>90 minutes</span>
+        </div>
+
+        <h1>Tags, triggers and variables</h1>
+
+        <div class="purpose">
+            <h2>What this module is for</h2>
+            <p>Everything Tag Manager does is three nouns: a <b>tag</b> runs, a <b>trigger</b> decides when, a
+                <b>variable</b> fills in the details.</p>
+            <p>Start here. Do the exercises in order.</p>
+        </div>
+
+        <h3>Before you start</h3>
+        <ul class="build-list">
+            <li>Get a free container: <a href="../reference/setup.html">Set up a container</a>, 15 minutes</li>
+            <li>Paste your container ID into the box under the panel on any exercise page</li>
+            <li>Every page then loads your container, so your tags fire on these demos</li>
+        </ul>
+
+        <h2>The exercises</h2>
+        <ul class="exercises">
+            <li><a href="1-first-tag.html"><span class="n">1.1</span><span>Install a container and fire your first tag</span><span class="what">Preview mode</span></a></li>
+            <li><a href="2-install-ga4.html"><span class="n">1.2</span><span>Install Google Analytics 4</span><span class="what">Google tag</span></a></li>
+            <li><a href="3-click-trigger.html"><span class="n">1.3</span><span>Track a button click, and send it to GA4</span><span class="what">Click triggers</span></a></li>
+            <li><a href="4-variables.html"><span class="n">1.4</span><span>Four variables, four jobs</span><span class="what">Variables</span></a></li>
+            <li><a href="5-form-trigger.html"><span class="n">1.5</span><span>Track a form submission</span><span class="what">Form trigger</span></a></li>
+            <li><a href="6-scroll-visibility.html"><span class="n">1.6</span><span>Scroll depth and element visibility</span><span class="what">Passive triggers</span></a></li>
+        </ul>
+
+        <h2>How every exercise page is laid out</h2>
+        <table class="settings">
+            <tr><th>What this page is for</th><td>What the demo does and what you will build.</td></tr>
+            <tr><th>Steps</th><td>Numbered instructions for Tag Manager. Follow them literally the first time.</td></tr>
+            <tr><th>What you should see</th><td>The exact result. If you do not get it, you have a bug.</td></tr>
+            <tr><th>If it does not work</th><td>The four or five things that are actually wrong when it breaks.</td></tr>
+            <tr><th>Go further</th><td>Variations to try once the basic version works.</td></tr>
+        </table>
+
+        <div class="note">
+            <h3>Console tags first, GA4 tags second</h3>
+            <p>Most exercises here start with a Custom HTML tag that writes to the browser console. It proves the
+                trigger works in seconds, with no waiting for a report to update.</p>
+            <p>Google Analytics goes in at exercise 1.2. From there you can swap any console tag for a real GA4
+                event tag — exercise 1.3 walks through that swap, and the rest are yours to convert.</p>
+        </div>
+
+        <div class="pager">
+            <span><a href="../index.html">All modules</a></span>
+            <span><a href="1-first-tag.html">Exercise 1.1</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a> · <a href="../reference/setup.html">Set up a container</a></p>
+</footer>
+
+</body>
+</html>

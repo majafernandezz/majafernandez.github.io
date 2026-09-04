@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.2 Install Google Analytics 4</title>
+<meta name="description" content="Step-by-step GTM exercise: create a GA4 property, store the measurement ID in a Constant variable, install the Google tag through Tag Manager and verify it in DebugView.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 1</a></li>
+        <li><a href="2-install-ga4.html" aria-current="page">1.2 Install GA4</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">1.2</span>
+            <span class="level"><i class="on"></i><i></i><i></i> Beginner</span>
+            <span>30 minutes</span>
+        </div>
+
+        <h1>Install Google Analytics 4</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>Right now your container fires tags that write to the console. Nothing is being measured anywhere.
+                This exercise connects Google Analytics, so the rest of the course sends data to a real report.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>A GA4 property and a web data stream</li>
+                <li>A <b>Constant</b> variable holding your measurement ID</li>
+                <li>A <b>Google tag</b> on the Initialization — All Pages trigger</li>
+                <li>A verified pageview in DebugView and Realtime</li>
+            </ul>
+        </div>
+
+        <h3>Before you start</h3>
+        <ul class="build-list">
+            <li>Finish <a href="1-first-tag.html">exercise 1.1</a> first. You need a working container and Preview mode.</li>
+            <li>Have your Tag Manager workspace open in one tab.</li>
+        </ul>
+
+        <div class="note">
+            <h3>Two different Google products, two different IDs</h3>
+            <p><b>Tag Manager</b> delivers tags to your site. Its ID looks like <code>GTM-A1B2C3D</code>.</p>
+            <p><b>Google Analytics</b> is one of the things Tag Manager delivers. Its ID looks like
+                <code>G-XXXXXXXXXX</code> and is called a <b>measurement ID</b>.</p>
+            <p>You need both. They are not interchangeable, and mixing them up is the single most common mistake in
+                this exercise.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Create a GA4 property</h2>
+
+        <ol class="steps">
+            <li><p>Go to <a href="https://analytics.google.com/">analytics.google.com</a> and sign in.</p></li>
+            <li><p>Press <span class="path">Admin</span>, bottom left.</p></li>
+            <li><p>Press <span class="path">Create › Property</span>.</p></li>
+            <li>
+                <p>Fill it in:</p>
+                <table class="settings">
+                    <tr><th>Property name</th><td>your site's name</td></tr>
+                    <tr><th>Reporting time zone</th><td>Sweden</td></tr>
+                    <tr><th>Currency</th><td>Swedish Krona (SEK)</td></tr>
+                </table>
+                <p>Time zone and currency are awkward to change later. Set them correctly now.</p>
+            </li>
+            <li><p>Answer the business questions and press <b>Create</b>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 2</span> Create a web data stream and copy the measurement ID</h2>
+
+        <ol class="steps">
+            <li><p>When asked to choose a platform, pick <b>Web</b>.</p></li>
+            <li><p>Enter your website URL and give the stream a name.</p></li>
+            <li><p>Press <b>Create stream</b>.</p></li>
+            <li><p>The stream details panel opens. Copy the <b>Measurement ID</b> at the top right. It starts with
+                <code>G-</code>.</p></li>
+            <li><p>Ignore the installation instructions Google offers. You are installing it through Tag Manager.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 3</span> Store the ID as a Constant variable</h2>
+
+        <p>You could type the ID straight into the tag. Do not. It will end up in five tags, and one day it changes.</p>
+
+        <ol class="steps">
+            <li><p>In Tag Manager: <span class="path">Variables › User-Defined Variables › New</span>.</p></li>
+            <li><p>Choose <b>Constant</b>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Value</th><td>your <code>G-XXXXXXXXXX</code></td></tr>
+                    <tr><th>Name</th><td><code>const — GA4 measurement ID</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save. This is your first genuinely useful variable.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 4</span> Build the Google tag</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Tags › New</span>.</p></li>
+            <li><p>Click <span class="path">Tag Configuration</span> and choose <b>Google Tag</b>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Tag ID</th><td><code>{{const — GA4 measurement ID}}</code></td></tr>
+                    <tr><th>Configuration settings</th><td>leave empty for now</td></tr>
+                    <tr><th>Trigger</th><td><b>Initialization — All Pages</b></td></tr>
+                    <tr><th>Name</th><td><code>GA4 — Google tag</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save.</p></li>
+        </ol>
+
+        <div class="gotcha">
+            <h3>Initialization, not All Pages</h3>
+            <p>There are two triggers with almost the same name. <b>Initialization — All Pages</b> fires before
+                everything else in the container.</p>
+            <p>Google Analytics has to load before any GA4 event tag fires, or the events arrive with nothing to
+                attach to. Use Initialization for this tag and All Pages for everything else.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 5</span> Verify it in DebugView</h2>
+
+        <ol class="steps">
+            <li><p>Press <span class="path">Preview</span> in Tag Manager and connect to this page.</p></li>
+            <li><p>Click around the demo below so there is something to look at.</p></li>
+            <li><p>In Google Analytics, go to <span class="path">Admin › DebugView</span>.</p></li>
+            <li><p>Watch the middle column. Events appear within a few seconds.</p></li>
+        </ol>
+
+        <div class="demo">
+            <h3>Something to click while you watch</h3>
+            <p class="demo-hint">These push events to the dataLayer. In exercise 1.3 you will turn them into GA4
+                events.</p>
+            <div class="row">
+                <button class="btn signal" id="ga-btn-1">Signed up</button>
+                <button class="btn" id="ga-btn-2">Downloaded a guide</button>
+                <button class="btn secondary" id="ga-btn-3">Watched a video</button>
+            </div>
+            <p class="readout" id="ga-out">Press a button.</p>
+        </div>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>Tag Assistant lists <b>GA4 — Google tag</b> under <b>Tags Fired</b> on the <b>Initialization</b> event.</li>
+            <li>DebugView shows a device connected, with <code>page_view</code>, <code>session_start</code> and <code>first_visit</code> events.</li>
+            <li>Clicking an event in DebugView opens its parameters — <code>page_location</code>, <code>page_title</code>, <code>language</code> and more, all collected automatically.</li>
+            <li><span class="path">Reports › Realtime</span> shows 1 user in the last 30 minutes.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>DebugView is empty.</b> It only shows traffic from a browser in debug mode. Tag Manager's Preview turns that on for you — so you must be in Preview, in the tab Tag Assistant opened.</li>
+            <li><b>The tag fires but no data arrives.</b> An ad blocker or tracking protection is blocking <code>google-analytics.com</code>. Test in an incognito window with extensions off.</li>
+            <li><b>Your variable is empty.</b> Constants have no default. Reopen it and check the value was actually saved.</li>
+            <li><b>You pasted the GTM ID into the tag.</b> The Google tag needs <code>G-</code>, not <code>GTM-</code>. It will fail silently.</li>
+            <li><b>Realtime is empty but DebugView works.</b> Give it a minute. Standard reports take up to 24 hours; Realtime and DebugView are the only instant views.</li>
+        </ul>
+
+        <div class="note">
+            <h3>What you get for free</h3>
+            <p>The Google tag alone gives you <code>page_view</code>, <code>session_start</code>,
+                <code>first_visit</code>, <code>scroll</code>, <code>click</code> on outbound links,
+                <code>file_download</code> and site search. Google calls these <b>enhanced measurement</b>, and they
+                are switched on in the data stream settings.</p>
+            <p>Everything you build in the rest of this course is what enhanced measurement cannot do for you.</p>
+        </div>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Open the data stream settings and look at the enhanced measurement toggles. Turn off <b>Scroll</b>, since you will build your own in exercise 1.6.</li>
+            <li>Press Submit and Publish, then visit this page in a normal window and check Realtime.</li>
+            <li>Find where in Admin you set data retention, and set it to 14 months.</li>
+            <li>Note what GA4 is doing without consent from the visitor. That is a real problem for a European site, and worth raising with your teacher.</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>ga4 set up google tag manager google tag</q>,
+            <q>ga4 debugview</q>, <q>ga4 enhanced measurement</q>,
+            <q>gtm initialization all pages trigger</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="1-first-tag.html">1.1 First tag</a></span>
+            <span><a href="3-click-trigger.html">1.3 Track a button click</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+[['ga-btn-1', 'sign_up', { method: 'demo button' }],
+ ['ga-btn-2', 'file_download', { file_name: 'gtm-guide.pdf', file_extension: 'pdf' }],
+ ['ga-btn-3', 'video_start', { video_title: 'How Tag Manager works' }]
+].forEach(function (item) {
+    document.getElementById(item[0]).addEventListener('click', function () {
+        var payload = Object.assign({ event: item[1] }, item[2]);
+        Course.push(payload);
+        document.getElementById('ga-out').textContent =
+            'Pushed ' + item[1] + '. Nothing reaches GA4 yet — you have no tag listening for it. That is exercise 1.3.';
+    });
+});
+</script>
+
+</body>
+</html>

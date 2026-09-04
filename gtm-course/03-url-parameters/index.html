@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3 — URL parameters</title>
+<meta name="description" content="GTM exercises on URL query parameters: the URL Variable, campaign tracking, page personalisation and virtual pageviews.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html" aria-current="page">Module 3</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Module 3</span>
+            <span>Six exercises</span>
+            <span>About an hour</span>
+        </div>
+
+        <h1>URL parameters</h1>
+
+        <div class="purpose">
+            <h2>What this module is for</h2>
+            <p>Everything after the question mark in a URL. It is where campaign data lives and where the most
+                avoidable tracking mistakes get made.</p>
+            <p>Six exercises. Reading a parameter is trivial; the exercises are about what goes wrong afterwards.</p>
+        </div>
+
+        <h3>How to read a URL</h3>
+<pre><code>https://example.com/shoes<span class="tok-kw">?</span><span class="tok-key">product</span>=<span class="tok-str">runner</span><span class="tok-kw">&amp;</span><span class="tok-key">color</span>=<span class="tok-str">blue</span><span class="tok-kw">#</span>reviews
+└──────────────────────┘ └─────────────────────────────┘ └──────┘
+        page                    query parameters          fragment</code></pre>
+
+        <ul class="build-list">
+            <li><b>?</b> starts the query, <b>&amp;</b> separates parameters. Order does not matter.</li>
+            <li>The fragment after <b>#</b> is never sent to the server. Useless for campaigns.</li>
+            <li>Parameter names are case sensitive.</li>
+        </ul>
+
+        <h2>The exercises</h2>
+        <ul class="exercises">
+            <li><a href="1-one-parameter.html"><span class="n">3.1</span><span>Read a single parameter</span><span class="what">URL Variable</span></a></li>
+            <li><a href="2-swap-content.html"><span class="n">3.2</span><span>Change the page from the URL</span><span class="what">Personalisation</span></a></li>
+            <li><a href="3-two-parameters.html"><span class="n">3.3</span><span>Combine two parameters</span><span class="what">Nested data</span></a></li>
+            <li><a href="4-campaign-source.html"><span class="n">3.4</span><span>Track where a visitor came from</span><span class="what">Campaigns</span></a></li>
+            <li><a href="5-personalise.html"><span class="n">3.5</span><span>Two parameters, one page state</span><span class="what">Lookup Table</span></a></li>
+            <li><a href="6-virtual-pageviews.html"><span class="n">3.6</span><span>Pages that never reload</span><span class="what">Virtual pageview</span></a></li>
+        </ul>
+
+        <h2>The variable you will build six times</h2>
+        <table class="settings">
+            <tr><th>Type</th><td>URL</td></tr>
+            <tr><th>Component Type</th><td>Query</td></tr>
+            <tr><th>Query Key</th><td>the parameter name, exactly as it appears in the address</td></tr>
+            <tr><th>Set Default Value</th><td><code>(not set)</code>, so you can tell missing from empty</td></tr>
+        </table>
+
+        <p>Build one per parameter and name it after the parameter: <code>url — utm_source</code>,
+            <code>url — product</code>. Six variables that each do one obvious thing beat one clever variable.</p>
+
+        <div class="pager">
+            <span><a href="../02-datalayer/index.html">Module 2</a></span>
+            <span><a href="1-one-parameter.html">Exercise 3.1</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+</body>
+</html>

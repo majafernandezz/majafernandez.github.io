@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.2 Change the page from the URL</title>
+<meta name="description" content="Step-by-step GTM exercise: use a Custom HTML tag on a DOM Ready trigger to change a headline based on a URL parameter, and track which variant was shown.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 3</a></li>
+        <li><a href="2-swap-content.html" aria-current="page">3.2 Change the page</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">3.2</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i></i> Getting real</span>
+            <span>25 minutes</span>
+        </div>
+
+        <h1>Change the page from the URL</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>This is a landing page whose headline matches the ad that sent you. You will make Tag Manager do the
+                rewriting — the first time you use it to <b>change</b> a page rather than watch one.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>A URL Variable for a <code>content</code> parameter</li>
+                <li>A Custom HTML tag on a <b>DOM Ready</b> trigger that rewrites the headline</li>
+                <li>A dataLayer push recording which variant was shown</li>
+            </ul>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Arrive from four different ads</h2>
+
+        <div class="demo">
+            <h3>The landing page</h3>
+            <p class="demo-hint">The two lines in the box get replaced.</p>
+            <div class="card" style="margin-bottom:1rem">
+                <h2 id="dynamic-headline" style="margin-top:0">Everything you need to run better campaigns</h2>
+                <p id="dynamic-text" style="margin-bottom:0">The default copy, shown to anyone who arrives without a
+                    parameter.</p>
+            </div>
+            <div class="row">
+                <a class="btn" href="?content=Save%20four%20hours%20a%20week">Ad A — time</a>
+                <a class="btn" href="?content=Cut%20your%20ad%20spend%20by%2030%25">Ad B — cost</a>
+                <a class="btn" href="?content=Finally%20understand%20your%20data">Ad C — clarity</a>
+                <a class="btn secondary" href="2-swap-content.html">Direct visit</a>
+            </div>
+            <p class="readout" id="content-out"></p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 2</span> Build the URL Variable</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Variables › New › URL</span>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Component Type</th><td>Query</td></tr>
+                    <tr><th>Query Key</th><td><code>content</code></td></tr>
+                    <tr><th>Set Default Value</th><td>On, <code>(not set)</code></td></tr>
+                    <tr><th>Name</th><td><code>url — content</code></td></tr>
+                </table>
+            </li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 3</span> Build the trigger</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Triggers › New › Page View › DOM Ready</span>.</p></li>
+            <li><p>Choose <b>Some DOM Ready Events</b>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Condition</th><td><code>url — content</code> <b>does not equal</b> <code>(not set)</code></td></tr>
+                    <tr><th>Name</th><td><code>DOM Ready — content parameter present</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save.</p></li>
+        </ol>
+
+        <div class="note">
+            <h3>Why DOM Ready and not Page View</h3>
+            <p>A Page View trigger fires while the browser is still reading the HTML. The headline may not exist yet,
+                and your tag would find nothing. DOM Ready means the page structure is complete.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 4</span> Build the tag</h2>
+
+        <ol class="steps">
+            <li>
+                <p><span class="path">Tags › New › Custom HTML</span>:</p>
+<pre><code>&lt;script&gt;
+  (<span class="tok-kw">function</span>() {
+    <span class="tok-kw">var</span> headline = document.getElementById(<span class="tok-str">'dynamic-headline'</span>);
+    <span class="tok-kw">if</span> (!headline) { <span class="tok-kw">return</span>; }          <span class="tok-com">// the element may not exist</span>
+
+    headline.textContent = <span class="tok-kw">{{url — content}}</span>;
+
+    dataLayer.push({
+      <span class="tok-key">event</span>: <span class="tok-str">'content_variant_shown'</span>,
+      <span class="tok-key">content_variant</span>: <span class="tok-kw">{{url — content}}</span>
+    });
+  })();
+&lt;/script&gt;</code></pre>
+            </li>
+            <li><p>Attach the DOM Ready trigger. Save.</p></li>
+            <li><p>Preview, then click <b>Ad A</b> above.</p></li>
+        </ol>
+
+        <div class="note">
+            <h3>Two habits in that snippet</h3>
+            <p>It is wrapped in a function, so its variables cannot collide with the website's own.</p>
+            <p>It checks the element exists before touching it. A tag that throws an error can stop later tags in the
+                same container from running.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 5</span> Track the variant</h2>
+
+        <ol class="steps">
+            <li><p>Build a Data Layer Variable for <code>content_variant</code>.</p></li>
+            <li><p>Build a Custom Event trigger for <code>content_variant_shown</code>.</p></li>
+            <li><p>Now every later event can be segmented by which headline the visitor saw. That was the point.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>With <code>?content=Save%20four%20hours%20a%20week</code>: the headline changes.</li>
+            <li>Tag Assistant shows a <b>DOM Ready</b> event with your tag fired.</li>
+            <li>Then a <code>content_variant_shown</code> event carrying the text.</li>
+            <li>With no parameter: the default headline stays and no tag fires.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>The headline does not change.</b> The trigger is a Page View, not DOM Ready. The element did not exist yet.</li>
+            <li><b>The tag fires on every visit.</b> The condition is missing, or you left the trigger on <b>All DOM Ready Events</b>.</li>
+            <li><b>Never use <code>innerHTML</code> here.</b> The text comes straight from the address bar. With <code>innerHTML</code>, anyone can send a link that injects working HTML and script into your page. Use <code>textContent</code>.</li>
+            <li><b>Visitors see the old headline first.</b> That is flicker, and it is real. Serious personalisation and A/B testing is done on the server or in the page's own code for this reason.</li>
+        </ul>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Extend the tag to replace the paragraph too, from a second parameter <code>?sub=</code>.</li>
+            <li>Use a <b>Lookup Table</b> so the URL carries a short code — <code>?content=a</code> — and the table holds the real text. Cleaner links. What did you lose?</li>
+            <li>Find where GA4 lets you exclude a query parameter from reports, and exclude <code>content</code>.</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>gtm custom html tag dom ready trigger</q>,
+            <q>gtm change page content</q>, <q>anti-flicker snippet ab testing</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="1-one-parameter.html">3.1 One parameter</a></span>
+            <span><a href="3-two-parameters.html">3.3 Two parameters</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+var content = Course.param('content');
+var out = document.getElementById('content-out');
+
+if (content) {
+    // textContent, never innerHTML — this value came from the address bar.
+    document.getElementById('dynamic-headline').textContent = content;
+    document.getElementById('dynamic-text').textContent = 'Copy adapted to the campaign that sent you here.';
+    out.textContent = 'Headline replaced with "' + content + '" and content_variant_shown pushed.';
+
+    Course.push({ event: 'content_variant_shown', content_variant: content });
+} else {
+    out.textContent = 'No content parameter — the default headline is showing.';
+}
+</script>
+
+</body>
+</html>

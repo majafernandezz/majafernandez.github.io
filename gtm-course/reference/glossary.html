@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossary</title>
+<meta name="description" content="Every Google Tag Manager term used in this course, defined in one line, with the search term to look it up.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+<style>
+    table.glossary { max-width: 52rem; }
+    table.glossary th { width: 16rem; font-family: var(--sans); }
+    table.glossary td { font-family: var(--serif); font-size: 1rem; }
+    table.glossary td a { white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="glossary.html" aria-current="page">Glossary</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Reference B</span>
+            <span>Look things up</span>
+        </div>
+
+        <h1>Glossary</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>Every term this course uses, in one line each, with the exercise that teaches it. The names are
+                Google's official ones, so searching for them finds real documentation.</p>
+        </div>
+
+        <h2>The three nouns</h2>
+        <table class="settings glossary">
+            <tr><th>Tag</th><td>The code that runs. A GA4 event, an advertising pixel, a Custom HTML script. <a href="../01-gtm-basics/1-first-tag.html">1.1</a></td></tr>
+            <tr><th>Trigger</th><td>The condition that decides when a tag runs. A tag with no trigger never fires. <a href="../01-gtm-basics/3-click-trigger.html">1.3</a></td></tr>
+            <tr><th>Variable</th><td>A named value filled in at the moment a tag fires. Written <code>{{like this}}</code>. <a href="../01-gtm-basics/4-variables.html">1.4</a></td></tr>
+        </table>
+
+        <h2>Containers and publishing</h2>
+        <table class="settings glossary">
+            <tr><th>Container</th><td>All your tags, triggers and variables for one website. Has an ID like <code>GTM-A1B2C3D</code>.</td></tr>
+            <tr><th>Workspace</th><td>Your unsaved draft. Changes live here until you Submit.</td></tr>
+            <tr><th>Preview / Tag Assistant</th><td>Runs your workspace for you alone, and shows what fires. <a href="../01-gtm-basics/1-first-tag.html">1.1</a></td></tr>
+            <tr><th>Submit and Publish</th><td>Makes the workspace live for everyone. Creates a version you can roll back to.</td></tr>
+            <tr><th>Version</th><td>A saved snapshot of the container. Name them after what changed.</td></tr>
+        </table>
+
+        <h2>Trigger types</h2>
+        <table class="settings glossary">
+            <tr><th>All Pages</th><td>Every page load. Ships with every container.</td></tr>
+            <tr><th>DOM Ready</th><td>Fires once the page structure is complete. Use it when a tag reads the page. <a href="../03-url-parameters/2-swap-content.html">3.2</a></td></tr>
+            <tr><th>Click — All Elements</th><td>Any click anywhere. Always add a condition. <a href="../01-gtm-basics/3-click-trigger.html">1.3</a></td></tr>
+            <tr><th>Click — Just Links</th><td>Clicks on <code>&lt;a&gt;</code> elements only. Gives you Click URL and Wait for Tags.</td></tr>
+            <tr><th>Form Submission</th><td>A native form submit. Does nothing on JavaScript forms. <a href="../01-gtm-basics/5-form-trigger.html">1.5</a></td></tr>
+            <tr><th>Scroll Depth</th><td>Fires at percentages or pixel depths. <a href="../01-gtm-basics/6-scroll-visibility.html">1.6</a></td></tr>
+            <tr><th>Element Visibility</th><td>Fires when an element appears on screen. Needs Observe DOM changes for elements added later. <a href="../01-gtm-basics/6-scroll-visibility.html">1.6</a></td></tr>
+            <tr><th>Custom Event</th><td>Fires on an <code>event</code> name pushed to the dataLayer. <a href="../02-datalayer/1-push-events.html">2.1</a></td></tr>
+            <tr><th>History Change</th><td>Fires when the URL changes without a page load. <a href="../03-url-parameters/6-virtual-pageviews.html">3.6</a></td></tr>
+            <tr><th>Timer</th><td>Fires after a set interval on the page.</td></tr>
+        </table>
+
+        <h2>Variable types</h2>
+        <table class="settings glossary">
+            <tr><th>Constant</th><td>A value you type once and reuse, such as a measurement ID. <a href="../01-gtm-basics/2-install-ga4.html">1.2</a></td></tr>
+            <tr><th>Data Layer Variable</th><td>Reads a key from the dataLayer. Use dots for nested values. <a href="../02-datalayer/2-form-user-data.html">2.2</a></td></tr>
+            <tr><th>DOM Element</th><td>Reads text or an attribute off the page. Fragile. <a href="../01-gtm-basics/4-variables.html">1.4</a></td></tr>
+            <tr><th>URL</th><td>Reads part of the address. Component Type <b>Query</b> reads a parameter. <a href="../03-url-parameters/1-one-parameter.html">3.1</a></td></tr>
+            <tr><th>Lookup Table</th><td>Translates one variable's value into another. Case sensitive. <a href="../03-url-parameters/5-personalise.html">3.5</a></td></tr>
+            <tr><th>RegEx Table</th><td>A Lookup Table that matches with regular expressions.</td></tr>
+            <tr><th>Custom JavaScript</th><td>A function that <b>returns</b> a value. Wrap risky reads in try/catch. <a href="../02-datalayer/3-storage.html">2.3</a></td></tr>
+            <tr><th>Built-In Variables</th><td>Ready-made variables you switch on under Variables › Configure.</td></tr>
+        </table>
+
+        <h2>Data</h2>
+        <table class="settings glossary">
+            <tr><th>dataLayer</th><td>A JavaScript array the website uses to tell Tag Manager things. <a href="../02-datalayer/index.html">Module 2</a></td></tr>
+            <tr><th>dataLayer.push()</th><td>Adds one object to it. The only way data gets in.</td></tr>
+            <tr><th>event key</th><td>The special key Tag Manager watches. No <code>event</code>, no trigger.</td></tr>
+            <tr><th>Query parameter</th><td>A <code>key=value</code> pair after the <code>?</code> in a URL. <a href="../03-url-parameters/index.html">Module 3</a></td></tr>
+            <tr><th>UTM parameters</th><td>The five campaign parameters GA4 reads automatically. <a href="../03-url-parameters/4-campaign-source.html">3.4</a></td></tr>
+            <tr><th>sessionStorage</th><td>Browser storage that lasts until the tab closes. <a href="../02-datalayer/3-storage.html">2.3</a></td></tr>
+            <tr><th>SHA-256</th><td>A one-way fingerprint of a value. What ad platforms accept instead of an email address. <a href="../02-datalayer/2-form-user-data.html">2.2</a></td></tr>
+        </table>
+
+        <h2>Ecommerce</h2>
+        <table class="settings glossary">
+            <tr><th>ecommerce object</th><td>The structured object GA4 recognises by shape. <a href="../04-ecommerce/1-shop.html">4.1</a></td></tr>
+            <tr><th>items array</th><td>The products. Always an array, even for one product.</td></tr>
+            <tr><th>ecommerce: null</th><td>The clearing push before every ecommerce event. Skip it and products leak between events.</td></tr>
+            <tr><th>transaction_id</th><td>The order number. GA4 uses it to avoid counting a purchase twice.</td></tr>
+        </table>
+
+        <h2>Google Analytics 4</h2>
+        <table class="settings glossary">
+            <tr><th>Measurement ID</th><td>Identifies a GA4 data stream. Looks like <code>G-XXXXXXXXXX</code>. <a href="../01-gtm-basics/2-install-ga4.html">1.2</a></td></tr>
+            <tr><th>Google tag</th><td>The tag that loads Google Analytics. Belongs on <b>Initialization — All Pages</b>. <a href="../01-gtm-basics/2-install-ga4.html">1.2</a></td></tr>
+            <tr><th>GA4 Event tag</th><td>Sends one event to Analytics. Everything you build ends as one of these. <a href="../01-gtm-basics/3-click-trigger.html">1.3</a></td></tr>
+            <tr><th>Event parameter</th><td>Extra detail sent with an event. <code>button_text</code>, <code>value</code>. Prefer parameters over new event names.</td></tr>
+            <tr><th>DebugView</th><td>Admin › DebugView. Shows your own events within seconds, but only while you are in Preview. <a href="../01-gtm-basics/2-install-ga4.html">1.2</a></td></tr>
+            <tr><th>Realtime</th><td>Reports › Realtime. The last 30 minutes of all traffic. Standard reports take up to 24 hours.</td></tr>
+            <tr><th>Enhanced measurement</th><td>Events GA4 collects on its own once the Google tag is installed: scroll, outbound clicks, file downloads, site search.</td></tr>
+            <tr><th>Key event</th><td>An event you have marked as important. GA4's word for what used to be called a conversion.</td></tr>
+            <tr><th>Data stream</th><td>One website or app feeding a GA4 property. Where the measurement ID lives.</td></tr>
+        </table>
+
+        <h2>Google's product IDs</h2>
+        <table class="settings glossary">
+            <tr><th>GTM-XXXXXXX</th><td>A Tag Manager container.</td></tr>
+            <tr><th>G-XXXXXXXXXX</th><td>A GA4 measurement ID. Goes inside a tag.</td></tr>
+            <tr><th>AW-XXXXXXXXX</th><td>A Google Ads conversion ID.</td></tr>
+        </table>
+
+        <div class="pager">
+            <span><a href="../index.html">Tag Manager course</a></span>
+            <span><a href="setup.html">Set up a container</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="setup.html">Set up a container</a></p>
+</footer>
+
+</body>
+</html>

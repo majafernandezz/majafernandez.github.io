@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.2 Send form data, and hash what is personal</title>
+<meta name="description" content="Step-by-step GTM exercise: push form data to the dataLayer, SHA-256 hash a normalised email the way Google Ads enhanced conversions requires, and read nested values with dot notation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 2</a></li>
+        <li><a href="2-form-user-data.html" aria-current="page">2.2 Form data</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">2.2</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i class="on"></i> Careful now</span>
+            <span>35 minutes</span>
+        </div>
+
+        <h1>Send form data, and hash what is personal</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>This page has a lead form. When you submit it, the email address is hashed in your browser and only the
+                hash goes into the dataLayer. You will read that hash in Tag Manager.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>Data Layer Variables that reach into a nested object with dots</li>
+                <li>A tag that reads the hashed email</li>
+                <li>Proof that normalising the address before hashing is not optional</li>
+            </ul>
+        </div>
+
+        <h3>Why hashing at all</h3>
+        <p>Ad platforms want to know the person who filled in your form is the person who clicked an ad last week.
+            A <b>SHA-256</b> hash lets them check that without you sending a plain email address. They hash their copy
+            the same way and compare. It only works if both sides clean the address identically first.</p>
+
+        <h2 class="step"><span class="num">Step 1</span> Submit the form</h2>
+
+        <p>Use a made-up address. Nothing leaves your browser — the hash is calculated locally.</p>
+
+        <div class="demo">
+            <h3>Lead form</h3>
+            <form id="lead-form" class="stack" novalidate>
+                <div>
+                    <label class="field" for="f-email">Email</label>
+                    <input type="email" id="f-email" name="email" placeholder="anna@example.com" autocomplete="off">
+                </div>
+                <div>
+                    <label class="field" for="f-name">First name</label>
+                    <input type="text" id="f-name" name="name" placeholder="Anna" autocomplete="off">
+                </div>
+                <div>
+                    <label class="field" for="f-country">Country</label>
+                    <select id="f-country" name="country">
+                        <option value="SE">Sweden</option>
+                        <option value="NO">Norway</option>
+                        <option value="DK">Denmark</option>
+                    </select>
+                </div>
+                <button class="btn signal" type="submit">Send enquiry</button>
+            </form>
+            <p class="readout" id="lead-out">Fill it in and submit.</p>
+        </div>
+
+        <h3>What the page does on submit</h3>
+<pre><code><span class="tok-com">// 1. Normalise: trim, lowercase. Google does the same on their side.</span>
+<span class="tok-kw">const</span> clean = email.trim().toLowerCase();
+
+<span class="tok-com">// 2. Hash with the browser's built-in crypto.</span>
+<span class="tok-kw">async function</span> sha256(value) {
+  <span class="tok-kw">const</span> bytes  = <span class="tok-kw">new</span> TextEncoder().encode(value);
+  <span class="tok-kw">const</span> digest = <span class="tok-kw">await</span> crypto.subtle.digest(<span class="tok-str">'SHA-256'</span>, bytes);
+  <span class="tok-kw">return</span> Array.from(<span class="tok-kw">new</span> Uint8Array(digest))
+    .map(b =&gt; b.toString(<span class="tok-kw">16</span>).padStart(<span class="tok-kw">2</span>, <span class="tok-str">'0'</span>))
+    .join(<span class="tok-str">''</span>);
+}
+
+<span class="tok-com">// 3. Push the hash — never the address itself.</span>
+dataLayer.push({
+  <span class="tok-key">event</span>: <span class="tok-str">'generate_lead'</span>,
+  <span class="tok-key">user_data</span>: {
+    <span class="tok-key">sha256_email_address</span>: <span class="tok-kw">await</span> sha256(clean),
+    <span class="tok-key">address</span>: { <span class="tok-key">first_name</span>: <span class="tok-str">'anna'</span>, <span class="tok-key">country</span>: <span class="tok-str">'SE'</span> }
+  }
+});</code></pre>
+
+        <h2 class="step"><span class="num">Step 2</span> Build a Data Layer Variable for a nested value</h2>
+
+        <p>The hash is not at the top level. It is inside <code>user_data</code>. Reach into an object with dots.</p>
+
+        <ol class="steps">
+            <li><p><span class="path">Variables › New › Data Layer Variable</span>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Data Layer Variable Name</th><td><code>user_data.sha256_email_address</code></td></tr>
+                    <tr><th>Data Layer Version</th><td>Version 2</td></tr>
+                    <tr><th>Name</th><td><code>dlv — user_data.sha256_email_address</code></td></tr>
+                </table>
+            </li>
+            <li><p>Build a second one for <code>user_data.address.first_name</code>. The dots keep working however
+                deep the object goes.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 3</span> Build the trigger and tag</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Triggers › New › Custom Event</span>, event name <code>generate_lead</code>.</p></li>
+            <li>
+                <p><span class="path">Tags › New › Custom HTML</span>:</p>
+<pre><code>&lt;script&gt;
+  console.log(<span class="tok-str">"Lead:"</span>, <span class="tok-kw">{{dlv — user_data.sha256_email_address}}</span>);
+&lt;/script&gt;</code></pre>
+            </li>
+            <li><p>Attach the trigger. Save. Preview.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 4</span> Prove that normalising matters</h2>
+
+        <ol class="steps">
+            <li><p>Submit the form with <code>anna@example.com</code>. Note the first eight characters of the hash.</p></li>
+            <li><p>Submit again with <code>&nbsp;&nbsp;Anna@Example.COM&nbsp;&nbsp;</code> — spaces and capitals included.</p></li>
+            <li><p>Compare the two hashes.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>The hash is 64 hexadecimal characters, always, no matter how long the email was.</li>
+            <li>Both submissions above produce the <b>same</b> hash. That is the normalisation working.</li>
+            <li><code>anna@example.com</code> always hashes to <code style="white-space:normal">f7d54c22dda5b1780276601cd005909b70543fc4a6ba72d735b4cb9bbb611f01</code>. Everyone in the room gets that string.</li>
+            <li>In Tag Assistant, <code>dlv — user_data.sha256_email_address</code> shows the same value.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>The variable is empty.</b> A missing or extra dot in the variable name. Compare it against the object in the panel, character by character.</li>
+            <li><b>Your hash is shorter than 64 characters, or has letters past f.</b> That is not SHA-256.</li>
+            <li><b>The page says crypto.subtle is unavailable.</b> It only exists on HTTPS. A hashing script that works in production can fail silently on an <code>http://</code> staging server.</li>
+        </ul>
+
+        <div class="gotcha">
+            <h3>Read this part twice</h3>
+            <ul class="build-list">
+                <li><b>A hash is not anonymisation.</b> Under GDPR a hashed email is still personal data — whoever holds the original can reproduce the hash and match it. Hashing changes what you may send to an ad platform. It does not remove your need for a legal basis or consent.</li>
+                <li><b>Never push the raw address alongside the hash.</b> Once a plain email is in the dataLayer, every tag in the container can read it, including third-party tags you did not write. Hash at the source.</li>
+                <li><b>The bit-shift "hash" in old tutorials is not a hash.</b> Short loops multiplying character codes produce a number with a handful of digits. They collide constantly. If you inherit code doing this, replace it.</li>
+            </ul>
+        </div>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Add a Data Layer Variable for <code>user_data.address.country</code> and log all three values in one tag.</li>
+            <li>Open a <b>Google Ads Conversion Tracking</b> tag in your container and find the user-provided data field. That is where this variable would really go.</li>
+            <li>Discuss: the form also pushes <code>form_id</code> and <code>page_path</code>. Which fields on this page are personal data and which are not?</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>enhanced conversions user provided data gtm</q>,
+            <q>google ads sha256 email normalization</q>, <q>gtm data layer variable nested dot notation</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="1-push-events.html">2.1 Push events</a></span>
+            <span><a href="3-storage.html">2.3 Stored values</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+// Real SHA-256 via the browser's Web Crypto API. Requires HTTPS.
+async function sha256(value) {
+    if (!window.crypto || !window.crypto.subtle) {
+        return null;
+    }
+    const bytes = new TextEncoder().encode(value);
+    const digest = await window.crypto.subtle.digest('SHA-256', bytes);
+    return Array.from(new Uint8Array(digest))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+}
+
+document.getElementById('lead-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const out = document.getElementById('lead-out');
+    const rawEmail = this.email.value;
+    const rawName = this.name.value;
+
+    if (!rawEmail.trim()) {
+        out.textContent = 'Enter an email address first.';
+        return;
+    }
+
+    // Normalise exactly the way the ad platforms do before they hash their copy.
+    const cleanEmail = rawEmail.trim().toLowerCase();
+    const cleanName = rawName.trim().toLowerCase();
+    const hashedEmail = await sha256(cleanEmail);
+
+    if (!hashedEmail) {
+        out.textContent = 'crypto.subtle is unavailable — this page needs to be served over HTTPS.';
+        return;
+    }
+
+    Course.push({
+        event: 'generate_lead',
+        form_id: 'lead-form',
+        page_path: window.location.pathname,
+        user_data: {
+            sha256_email_address: hashedEmail,
+            address: {
+                first_name: cleanName || undefined,
+                country: this.country.value
+            }
+        }
+    });
+
+    out.textContent =
+        'Raw input:  "' + rawEmail + '"\n' +
+        'Normalised: "' + cleanEmail + '"\n' +
+        'SHA-256:    ' + hashedEmail + '\n' +
+        '(' + hashedEmail.length + ' characters — always 64)';
+    out.style.whiteSpace = 'pre-wrap';
+});
+</script>
+
+</body>
+</html>

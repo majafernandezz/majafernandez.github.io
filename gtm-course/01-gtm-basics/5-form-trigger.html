@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.5 Track a form submission</title>
+<meta name="description" content="Step-by-step GTM exercise: build a Form Submission trigger with Check Validation, and see why it does nothing on a modern JavaScript form.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 1</a></li>
+        <li><a href="5-form-trigger.html" aria-current="page">1.5 Form submission</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">1.5</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i></i> Getting real</span>
+            <span>30 minutes</span>
+        </div>
+
+        <h1>Track a form submission</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>This page has two forms. They look identical. The Form Submission trigger works on one and does
+                nothing at all on the other. You will find out why.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>A Form Submission trigger with <b>Check Validation</b> switched on</li>
+                <li>A tag that only fires on a successful submission</li>
+                <li>An understanding of when this trigger cannot be used</li>
+            </ul>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Submit both forms</h2>
+
+        <p>Submit Form A empty first. Then with a valid email. Then submit Form B. Watch the readouts and the
+            dataLayer panel.</p>
+
+        <div class="demo">
+            <h3>Form A — a plain HTML form</h3>
+            <p class="demo-hint">A real <code>&lt;form&gt;</code> with a real submit button.</p>
+            <form id="newsletter-form" class="stack" novalidate>
+                <div>
+                    <label class="field" for="a-email">Email</label>
+                    <input type="email" id="a-email" name="email" placeholder="you@example.com" required>
+                </div>
+                <div>
+                    <label class="field" for="a-topic">Interested in</label>
+                    <select id="a-topic" name="topic">
+                        <option>Analytics</option>
+                        <option>Advertising</option>
+                        <option>Everything</option>
+                    </select>
+                </div>
+                <button class="btn signal" type="submit">Subscribe</button>
+            </form>
+            <p class="readout" id="form-a-out">Not submitted yet.</p>
+        </div>
+
+        <div class="demo">
+            <h3>Form B — a JavaScript form</h3>
+            <p class="demo-hint">Not a <code>&lt;form&gt;</code> at all. The button runs a function.</p>
+            <div id="contact-form" class="stack">
+                <div>
+                    <label class="field" for="b-email">Email</label>
+                    <input type="email" id="b-email" placeholder="you@example.com">
+                </div>
+                <button class="btn signal" type="button" id="b-send">Send message</button>
+            </div>
+            <p class="readout" id="form-b-out">Not submitted yet.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 2</span> Switch on the form variables</h2>
+
+        <ol class="steps">
+            <li><p>Go to <span class="path">Variables › Configure</span>.</p></li>
+            <li><p>Under <b>Forms</b>, tick <b>Form ID</b>, <b>Form Classes</b>, <b>Form Element</b> and <b>Form URL</b>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 3</span> Build the trigger</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Triggers › New › Form Submission</span>.</p></li>
+            <li><p>Tick <b>Check Validation</b>. A new field called <b>Enable when</b> appears.</p></li>
+            <li>
+                <p>Fill in the whole trigger:</p>
+                <table class="settings">
+                    <tr><th>Wait for Tags</th><td>On, 2000 ms</td></tr>
+                    <tr><th>Check Validation</th><td>On</td></tr>
+                    <tr><th>Enable when</th><td><code>Page URL</code> contains <code>/gtm-course/</code></td></tr>
+                    <tr><th>Fires on</th><td>Some Forms: <code>Form ID</code> equals <code>newsletter-form</code></td></tr>
+                    <tr><th>Name</th><td><code>Form — newsletter</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save.</p></li>
+        </ol>
+
+        <div class="note">
+            <h3>What Check Validation does</h3>
+            <p>Without it, the trigger fires even when the browser rejects the form for a missing field, and you count
+                submissions that never happened. With it on, Tag Manager waits to see whether the form was accepted.</p>
+            <p><b>Enable when</b> is asking on which pages it should install its listener. Any condition that is true
+                on this page will do.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 4</span> Build the tag and test</h2>
+
+        <ol class="steps">
+            <li>
+                <p><span class="path">Tags › New › Custom HTML</span>:</p>
+<pre><code>&lt;script&gt;
+  console.log(<span class="tok-str">"Form submitted:"</span>, <span class="tok-kw">{{Form ID}}</span>);
+&lt;/script&gt;</code></pre>
+            </li>
+            <li><p>Attach the trigger. Save.</p></li>
+            <li><p>Press <span class="path">Preview</span> and connect to this page.</p></li>
+            <li><p>Submit Form A empty. Then with a valid email. Then submit Form B.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li><b>Form A, empty:</b> a <code>Form Submission</code> event appears, and your tag is under <b>Tags Not Fired</b>. Validation failed, so the trigger correctly held back.</li>
+            <li><b>Form A, valid email:</b> the tag fires. The console prints <b>Form submitted: newsletter-form</b>.</li>
+            <li><b>Form B:</b> no <code>Form Submission</code> event appears at all. Instead you get a custom event called <code>generate_lead</code>, because this page pushes one itself.</li>
+        </ul>
+
+        <div class="gotcha">
+            <h3>Form B is not a configuration mistake</h3>
+            <p>Form B never fires a native submit event, so the Form Submission trigger cannot see it. Changing the
+                Form ID in your trigger will not help. Nothing you do in this trigger type will help.</p>
+            <p>This is normal on modern sites: single-page apps, most form builders, and anything using
+                <code>fetch()</code>. Your options, best first:</p>
+            <ul class="build-list">
+                <li>Ask a developer for a <code>dataLayer.push()</code> on success — that is Module 2</li>
+                <li>Use a <b>Custom Event</b> trigger if the platform already pushes something</li>
+                <li>Use an <b>Element Visibility</b> trigger on the thank-you message — that is exercise 1.6</li>
+            </ul>
+        </div>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>The trigger fires on the empty form too.</b> Check Validation is not ticked, or Enable when is empty.</li>
+            <li><b>Form ID is blank.</b> The form has no <code>id</code> attribute. Filter on <b>Form Classes</b> or <b>Form URL</b> instead.</li>
+            <li><b>Nothing at all on Form A.</b> The form variables are not enabled. Go back to Step 2.</li>
+            <li><b>You are tempted to use a click trigger on the submit button.</b> Do not. It counts every failed attempt as a conversion. If you must, name the event <code>form_submit_attempt</code>, not <code>generate_lead</code>.</li>
+        </ul>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Add <code>{{Form URL}}</code> to the tag so you can tell the same form apart on different pages.</li>
+            <li>Build a Custom Event trigger for <code>generate_lead</code> so Form B is tracked too. Compare how much work each approach was.</li>
+            <li>Replace the Custom HTML tag with a real <b>GA4 event</b> tag named <code>generate_lead</code>.</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>gtm form submission trigger check validation</q>,
+            <q>gtm form trigger not firing</q>, <q>gtm ajax form tracking datalayer</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="4-variables.html">1.3 Variables</a></span>
+            <span><a href="6-scroll-visibility.html">1.5 Scroll and visibility</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+// Form A: a genuine HTML form. GTM's Form Submission trigger sees this.
+document.getElementById('newsletter-form').addEventListener('submit', function (event) {
+    event.preventDefault(); // demo only — we do not want to navigate away
+
+    var email = this.email.value.trim();
+    var valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+    var out = document.getElementById('form-a-out');
+
+    if (!valid) {
+        out.textContent = 'Rejected: the email is not valid. Check Validation would block the tag here.';
+        return;
+    }
+
+    out.textContent = 'Accepted: ' + email + ' — topic ' + this.topic.value;
+});
+
+// Form B: no form element, no submit event. Only a dataLayer push saves this.
+document.getElementById('b-send').addEventListener('click', function () {
+    var email = document.getElementById('b-email').value.trim();
+    var out = document.getElementById('form-b-out');
+
+    if (!email) {
+        out.textContent = 'Enter an email first.';
+        return;
+    }
+
+    out.textContent = 'Sent via JavaScript. No native submit event happened — only the dataLayer push.';
+
+    Course.push({
+        event: 'generate_lead',
+        form_name: 'contact-form',
+        form_destination: window.location.pathname
+    });
+});
+</script>
+
+</body>
+</html>

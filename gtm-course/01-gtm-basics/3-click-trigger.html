@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.3 Track a button click, and send it to GA4</title>
+<meta name="description" content="Step-by-step GTM exercise: enable the built-in click variables, build an All Elements click trigger, and fire a tag on one specific button.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 1</a></li>
+        <li><a href="3-click-trigger.html" aria-current="page">1.3 Click trigger</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">1.3</span>
+            <span class="level"><i class="on"></i><i></i><i></i> Beginner</span>
+            <span>35 minutes</span>
+        </div>
+
+        <h1>Track a button click, and send it to GA4</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>This page has four things you can click. You will make a tag fire on one of them and stay quiet on the
+                other three.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>The built-in click variables, switched on</li>
+                <li>An All Elements trigger filtered to one button</li>
+                <li>A Custom HTML tag that logs which button was clicked</li>
+                <li>A real <b>GA4 event</b> tag that sends the same click to Google Analytics</li>
+            </ul>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Click the demo buttons</h2>
+
+        <p>Click each one. The box underneath shows what Tag Manager sees. Note how the values differ — that
+            difference is what you will filter on.</p>
+
+        <div class="demo">
+            <h3>Demo elements</h3>
+            <div class="row">
+                <button class="btn signal cta primary" id="signup-btn">Start free trial</button>
+                <button class="btn secondary cta" id="download-btn">Download the guide</button>
+                <button class="btn secondary" id="contact-btn">Contact sales</button>
+                <a href="#demo-anchor" class="doc-link" id="docs-link">Read the docs</a>
+            </div>
+            <p class="readout" id="click-out">Click something above.</p>
+            <span id="demo-anchor"></span>
+        </div>
+
+        <table class="settings">
+            <tr><th>Element</th><th>Click ID</th><th>Click Classes</th></tr>
+            <tr><td>Start free trial</td><td><code>signup-btn</code></td><td><code>btn signal cta primary</code></td></tr>
+            <tr><td>Download the guide</td><td><code>download-btn</code></td><td><code>btn secondary cta</code></td></tr>
+            <tr><td>Contact sales</td><td><code>contact-btn</code></td><td><code>btn secondary</code></td></tr>
+            <tr><td>Read the docs</td><td><code>docs-link</code></td><td><code>doc-link</code></td></tr>
+        </table>
+
+        <h2 class="step"><span class="num">Step 2</span> Switch on the click variables</h2>
+
+        <ol class="steps">
+            <li><p>Go to <span class="path">Variables</span> in the left menu.</p></li>
+            <li><p>Press <span class="path">Configure</span> in the <b>Built-In Variables</b> section.</p></li>
+            <li>
+                <p>Scroll to <b>Clicks</b> and tick all five:</p>
+                <ul>
+                    <li>Click Element</li>
+                    <li>Click Classes</li>
+                    <li>Click ID</li>
+                    <li>Click Text</li>
+                    <li>Click URL</li>
+                </ul>
+            </li>
+            <li><p>Close the panel. You do this once per container.</p></li>
+        </ol>
+
+        <div class="gotcha">
+            <h3>Do not skip this step</h3>
+            <p>Until these are ticked, the trigger condition dropdown will not offer them and nothing you build will
+                fire. This is the most common reason a beginner's click trigger does nothing.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 3</span> Build the trigger</h2>
+
+        <ol class="steps">
+            <li><p>Go to <span class="path">Triggers › New</span>.</p></li>
+            <li><p>Choose <b>Click › All Elements</b>.</p></li>
+            <li><p>Select <b>Some Clicks</b>.</p></li>
+            <li>
+                <p>Set the condition and name:</p>
+                <table class="settings">
+                    <tr><th>Trigger type</th><td>Click — All Elements</td></tr>
+                    <tr><th>Fires on</th><td>Some Clicks</td></tr>
+                    <tr><th>Condition</th><td><code>Click ID</code> &nbsp;<b>equals</b>&nbsp; <code>signup-btn</code></td></tr>
+                    <tr><th>Name</th><td><code>Click — Start free trial button</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 4</span> Build the tag</h2>
+
+        <ol class="steps">
+            <li><p>Go to <span class="path">Tags › New › Custom HTML</span>.</p></li>
+            <li>
+                <p>Paste this in. Type <code>{{</code> in Tag Manager and it will autocomplete the variable names.</p>
+<pre><code>&lt;script&gt;
+  console.log(<span class="tok-str">"Clicked:"</span>, <span class="tok-kw">{{Click Text}}</span>, <span class="tok-kw">{{Click ID}}</span>);
+&lt;/script&gt;</code></pre>
+            </li>
+            <li><p>Attach the trigger you just made.</p></li>
+            <li><p>Name it <code>HTML — click logger</code> and save.</p></li>
+            <li><p>Press <span class="path">Preview</span>, connect to this page, and click all four demo elements.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 5</span> Send the click to GA4 for real</h2>
+
+        <p>The console tag proved the trigger works. Now replace it with something that measures.</p>
+
+        <ol class="steps">
+            <li><p><span class="path">Tags › New</span> and choose <b>Google Analytics: GA4 Event</b>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Measurement ID</th><td><code>{{const — GA4 measurement ID}}</code></td></tr>
+                    <tr><th>Event Name</th><td><code>cta_click</code></td></tr>
+                    <tr><th>Trigger</th><td><code>Click — Start free trial button</code></td></tr>
+                    <tr><th>Name</th><td><code>GA4 — cta_click</code></td></tr>
+                </table>
+            </li>
+            <li>
+                <p>Open <b>Event Parameters</b> and add two rows. This is where your variables earn their keep:</p>
+                <table class="settings">
+                    <tr><th>button_text</th><td><code>{{Click Text}}</code></td></tr>
+                    <tr><th>button_id</th><td><code>{{Click ID}}</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save. Press <span class="path">Preview</span> and click <b>Start free trial</b>.</p></li>
+            <li><p>Open <span class="path">Admin › DebugView</span> in Google Analytics and click the
+                <code>cta_click</code> event to see your two parameters.</p></li>
+        </ol>
+
+        <div class="note">
+            <h3>Event names are a decision, not a detail</h3>
+            <p>Use lowercase with underscores: <code>cta_click</code>, not <code>CTA Click</code>. Use the same name
+                for the same thing everywhere on the site, and put the differences in parameters instead. One
+                <code>cta_click</code> event with a <code>button_text</code> parameter beats fourteen event names.</p>
+        </div>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>Tag Assistant shows a <b>Click</b> event for every one of your four clicks. This is correct — the trigger listens to all clicks, then filters.</li>
+            <li>Only the <b>Start free trial</b> click has your tag under <b>Tags Fired</b>. The other three have it under <b>Tags Not Fired</b>.</li>
+            <li>The console prints <b>Clicked: Start free trial signup-btn</b> once.</li>
+            <li>Clicking that event and opening the <b>Variables</b> tab shows <code>Click ID</code> as <code>signup-btn</code>.</li>
+            <li>DebugView shows a <code>cta_click</code> event carrying <code>button_text</code> and <code>button_id</code>.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>No Click events appear at all.</b> The built-in click variables are not enabled. Go back to Step 2.</li>
+            <li><b>Click ID is empty.</b> You clicked text inside the button, not the button. Change the condition to <code>Click Element</code> <b>matches CSS selector</b> <code>#signup-btn, #signup-btn *</code>.</li>
+            <li><b>The tag fires on several buttons.</b> You used <b>contains</b> where you needed <b>equals</b>, or filtered on Click Classes instead of Click ID.</li>
+            <li><b>The GA4 event never reaches DebugView.</b> The Google tag from exercise 1.2 is missing, or it is on All Pages instead of Initialization — All Pages, so it loads after your event tag.</li>
+            <li><b>Nothing fires on the link.</b> Links need either All Elements or the <b>Just Links</b> trigger type. Just Links also gives you Click URL and a <b>Wait for Tags</b> option.</li>
+        </ul>
+
+        <div class="note">
+            <h3>Click Classes is one long string</h3>
+            <p>It is every class on the element, separated by spaces, in the order written in the HTML. Use
+                <b>contains</b> on it, never <b>equals</b>. <code>contains</code> <code>cta</code> would match the
+                first two buttons above.</p>
+        </div>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Make a trigger that fires on both call-to-action buttons using <code>Click Classes</code> <b>contains</b> <code>cta</code>. Confirm Contact sales does not fire it.</li>
+            <li>Make a <b>Just Links</b> trigger for the link and log <code>{{Click URL}}</code>.</li>
+            <li>Make one GA4 event tag that fires for any element whose Click Classes contains <code>btn</code>, sending <code>{{Click Text}}</code> as a parameter. One tag for every button is how this is done on a real site.</li>
+            <li>In GA4, go to <span class="path">Admin › Events</span> after a day and find your <code>cta_click</code>. Mark it as a key event.</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>gtm click trigger all elements</q>, <q>gtm built-in click variables</q>,
+            <q>gtm ga4 event tag parameters</q>, <q>ga4 event naming conventions</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="1-first-tag.html">1.1 First tag</a></span>
+            <span><a href="4-variables.html">1.3 Four variables</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+// Mirror what GTM's built-in click variables would contain.
+document.querySelector('.demo .row').addEventListener('click', function (event) {
+    var el = event.target.closest('button, a');
+    if (!el) { return; }
+    if (el.tagName === 'A') { event.preventDefault(); }
+
+    var values = {
+        'Click Element': '<' + el.tagName.toLowerCase() + '>',
+        'Click ID': el.id || '(empty)',
+        'Click Classes': el.className || '(empty)',
+        'Click Text': el.textContent.trim(),
+        'Click URL': el.href || '(empty)'
+    };
+
+    var out = document.getElementById('click-out');
+    out.textContent = Object.keys(values).map(function (k) { return k + ': ' + values[k]; }).join('\n');
+    out.style.whiteSpace = 'pre-line';
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.1 Install a container and fire your first tag</title>
+<meta name="description" content="Step-by-step GTM exercise: connect a Google Tag Manager container, build a Custom HTML tag on the All Pages trigger, and verify it in Preview mode.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 1</a></li>
+        <li><a href="1-first-tag.html" aria-current="page">1.1 First tag</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">1.1</span>
+            <span class="level"><i class="on"></i><i></i><i></i> Beginner</span>
+            <span>20 minutes</span>
+        </div>
+
+        <h1>Install a container and fire your first tag</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>This page is a practice website. You attach your own Tag Manager container to it, then make one tag
+                run on it.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>A Custom HTML tag that writes a message to the browser console</li>
+                <li>An All Pages trigger that runs it on every page load</li>
+                <li>A working Preview session in Tag Assistant</li>
+            </ul>
+        </div>
+
+        <h3>Before you start</h3>
+        <ul class="build-list">
+            <li>You need a container ID. It looks like <code>GTM-A1B2C3D</code>.</li>
+            <li>No container yet? Do <a href="../reference/setup.html">Set up a container</a> first. It takes 10 minutes.</li>
+        </ul>
+
+        <h2 class="step"><span class="num">Step 1</span> Attach your container to this page</h2>
+
+        <ol class="steps">
+            <li><p>Copy your container ID from the top right of the Tag Manager workspace.</p></li>
+            <li><p>Paste it into the box under the dataLayer panel on this page.</p></li>
+            <li><p>Press <span class="path">Connect</span>. The page reloads.</p></li>
+            <li><p>Check the panel. The status line should now name your container.</p></li>
+        </ol>
+
+        <div class="note">
+            <h3>What you just skipped</h3>
+            <p>On a real website you paste two blocks of code into the HTML instead: a <code>&lt;script&gt;</code> in
+                the <code>&lt;head&gt;</code> and a <code>&lt;noscript&gt;</code> just after
+                <code>&lt;body&gt;</code>. Tag Manager shows both under
+                <span class="path">Admin › Install Google Tag Manager</span>. This page does it for you so you can
+                start building today.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 2</span> Build the tag</h2>
+
+        <ol class="steps">
+            <li>
+                <p>In Tag Manager, go to <span class="path">Tags › New</span>.</p>
+            </li>
+            <li>
+                <p>Click the <span class="path">Tag Configuration</span> box. Choose <b>Custom HTML</b>.</p>
+            </li>
+            <li>
+                <p>Paste this into the HTML field:</p>
+<pre><code>&lt;script&gt;
+  console.log(<span class="tok-str">"My first tag fired."</span>);
+&lt;/script&gt;</code></pre>
+            </li>
+            <li>
+                <p>Click the <span class="path">Triggering</span> box. Choose <b>All Pages</b>.</p>
+            </li>
+            <li>
+                <p>Name the tag <code>HTML — hello world</code> at the top left.</p>
+            </li>
+            <li>
+                <p>Press <span class="path">Save</span>.</p>
+            </li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 3</span> Test it in Preview</h2>
+
+        <ol class="steps">
+            <li><p>Press <span class="path">Preview</span> at the top right of Tag Manager.</p></li>
+            <li><p>Tag Assistant opens in a new tab and asks for a URL. Paste this page's address.</p></li>
+            <li><p>Press <b>Connect</b>. A second tab opens with this page in it.</p></li>
+            <li><p>Switch back to the Tag Assistant tab.</p></li>
+            <li><p>Click <b>Container Loaded</b> in the left column.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>The dataLayer panel on this page names your container and shows a green dot.</li>
+            <li>Tag Assistant lists your tag under <b>Tags Fired</b> on the Container Loaded event.</li>
+            <li>The browser console prints <b>My first tag fired.</b> Open it with <kbd>F12</kbd>, or right-click the page, choose <b>Inspect</b>, then the <b>Console</b> tab.</li>
+        </ul>
+
+        <div class="demo">
+            <h3>Or check automatically</h3>
+            <p class="demo-hint">This button reads the page and reports what it can see.</p>
+            <div class="row">
+                <button class="btn" id="check-btn">Check this page</button>
+            </div>
+            <p class="readout" id="check-out">Press the button.</p>
+        </div>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>Tag Assistant will not connect.</b> Turn off your ad blocker. Try an incognito window.</li>
+            <li><b>The tag is under Tags Not Fired.</b> The trigger is missing or wrong. Reopen the tag and check that All Pages is attached.</li>
+            <li><b>Nothing in the console.</b> Make sure you are looking at the tab with this page in it, not the Tag Assistant tab.</li>
+            <li><b>The panel says no container.</b> The ID was mistyped. It must start with <code>GTM-</code>, not <code>G-</code> or <code>AW-</code>.</li>
+        </ul>
+
+        <div class="gotcha">
+            <h3>Preview is not published</h3>
+            <p>Your tag runs for you only. Tag Assistant set a cookie in your browser that tells the container to use
+                your unsaved workspace. Everyone else still gets the last published version.</p>
+            <p>To make it real: <span class="path">Submit</span>, then <span class="path">Publish</span>.</p>
+        </div>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Change the message and preview again. You do not need to publish to test a change.</li>
+            <li>Add a second tag on the same All Pages trigger. Confirm both fire.</li>
+            <li>Press Submit and Publish. Open this page in a different browser and check the console.</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>gtm custom html tag</q>, <q>google tag manager preview mode tag assistant</q>,
+            <q>gtm all pages trigger</q>. Official docs:
+            <a href="https://support.google.com/tagmanager/">support.google.com/tagmanager</a>.
+        </div>
+
+        <div class="pager">
+            <span><a href="index.html">Module 1</a></span>
+            <span><a href="3-click-trigger.html">1.2 Track a button click</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+document.getElementById('check-btn').addEventListener('click', function () {
+    var out = document.getElementById('check-out');
+    var lines = [];
+
+    lines.push('dataLayer exists: ' + (Array.isArray(window.dataLayer) ? 'yes, ' + window.dataLayer.length + ' entries' : 'no'));
+
+    if (window.google_tag_manager) {
+        var ids = Object.keys(window.google_tag_manager).filter(function (k) { return /^GTM-/.test(k); });
+        lines.push('Container loaded: ' + (ids.join(', ') || 'yes'));
+    } else {
+        lines.push('Container loaded: no — paste your GTM ID in the box below the panel');
+    }
+
+    var preview = document.cookie.indexOf('gtm_auth') > -1 || document.cookie.indexOf('gtm_debug') > -1;
+    lines.push('Tag Assistant cookie: ' + (preview ? 'found — you are in Preview mode' : 'not found'));
+
+    out.textContent = lines.join('\n');
+    out.style.whiteSpace = 'pre-line';
+});
+</script>
+
+</body>
+</html>

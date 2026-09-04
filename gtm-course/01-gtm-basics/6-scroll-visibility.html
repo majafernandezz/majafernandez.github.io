@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.6 Scroll depth and element visibility</title>
+<meta name="description" content="Step-by-step GTM exercise: build a Scroll Depth trigger and an Element Visibility trigger with Observe DOM changes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+<style>
+    #thank-you {
+        background: var(--ok-wash);
+        border: 1px solid #B9DED2;
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        margin: 1.5rem 0 0;
+        font-family: var(--sans);
+    }
+    #thank-you h3 { margin-top: 0; color: var(--ok); }
+    .hidden { display: none; }
+    .spacer { border-top: 1px solid var(--rule-soft); margin-top: 2.5rem; padding-top: 1.5rem; }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 1</a></li>
+        <li><a href="6-scroll-visibility.html" aria-current="page">1.6 Scroll and visibility</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">1.6</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i></i> Getting real</span>
+            <span>25 minutes</span>
+        </div>
+
+        <h1>Scroll depth and element visibility</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>This page is long, and it has a box near the bottom that only appears when you press a button. You will
+                fire tags off both facts, without anyone clicking anything you are tracking.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>A Scroll Depth trigger with four thresholds</li>
+                <li>An Element Visibility trigger with <b>Observe DOM changes</b> on</li>
+                <li>A tag that reports which threshold was crossed</li>
+            </ul>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Switch on the scroll variables</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Variables › Configure</span>.</p></li>
+            <li><p>Under <b>Scrolling</b>, tick <b>Scroll Depth Threshold</b>, <b>Scroll Depth Units</b> and
+                <b>Scroll Direction</b>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 2</span> Build the Scroll Depth trigger</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Triggers › New › Scroll Depth</span>.</p></li>
+            <li><p>Tick <b>Vertical Scroll Depths</b> and choose <b>Percentages</b>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Percentages</th><td><code>25,50,75,90</code></td></tr>
+                    <tr><th>Fires on</th><td>All Pages</td></tr>
+                    <tr><th>Name</th><td><code>Scroll — vertical percentages</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save. One trigger covers all four thresholds.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 3</span> Build the tag</h2>
+
+        <ol class="steps">
+            <li>
+                <p><span class="path">Tags › New › Custom HTML</span>:</p>
+<pre><code>&lt;script&gt;
+  console.log(<span class="tok-str">"Scrolled to"</span>, <span class="tok-kw">{{Scroll Depth Threshold}}</span> + <span class="tok-str">"%"</span>);
+&lt;/script&gt;</code></pre>
+            </li>
+            <li><p>Attach the scroll trigger. Save.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 4</span> Build the Element Visibility trigger</h2>
+
+        <p>Near the bottom of this page is a box with the id <code>thank-you</code>. It does not exist when the page
+            loads.</p>
+
+        <ol class="steps">
+            <li><p><span class="path">Triggers › New › Element Visibility</span>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Selection Method</th><td>ID</td></tr>
+                    <tr><th>Element ID</th><td><code>thank-you</code></td></tr>
+                    <tr><th>When to fire</th><td>Once per page</td></tr>
+                    <tr><th>Minimum Percent Visible</th><td><code>50</code></td></tr>
+                    <tr><th>Observe DOM changes</th><td><b>On</b></td></tr>
+                    <tr><th>Name</th><td><code>Visibility — thank you box</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save. Build a second Custom HTML tag on this trigger that logs <code>"Thank you shown"</code>.</p></li>
+            <li><p>Press <span class="path">Preview</span> and connect to this page.</p></li>
+            <li><p>Scroll slowly to the bottom, then press the reveal button.</p></li>
+        </ol>
+
+        <div class="gotcha">
+            <h3>Observe DOM changes is not optional here</h3>
+            <p>Without it, Tag Manager looks for the element once, does not find it, and gives up. The box is added
+                after page load, so the trigger would never fire.</p>
+        </div>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>Four separate <code>Scroll Depth</code> events in Tag Assistant as you scroll: 25, 50, 75, 90.</li>
+            <li>Clicking each one and opening <b>Variables</b> shows <code>Scroll Depth Threshold</code> changing.</li>
+            <li>One <code>Element Visibility</code> event when you reveal the box — and only one, even if you scroll it off screen and back.</li>
+            <li>Two different messages in the console.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>All four scroll thresholds fire at once on load.</b> The whole page fits on your screen, so you are already at the bottom. Make the window smaller, or check on a phone.</li>
+            <li><b>The visibility trigger never fires.</b> Observe DOM changes is off, or the Minimum Percent Visible is higher than the part of the box actually on screen.</li>
+            <li><b>The visibility trigger fires many times.</b> You set <b>Once per element</b> or <b>Every time</b> instead of <b>Once per page</b>.</li>
+            <li><b>Scroll Depth Threshold is blank in the tag.</b> The built-in variable is not enabled. Go back to Step 1.</li>
+        </ul>
+
+        <div class="note">
+            <h3>What these numbers are worth</h3>
+            <p>A visitor who reaches 90% may have read every word, or flicked past on a phone in one thumb movement.
+                Scroll depth is a weak signal. Use it where nothing better exists, and do not build a KPI on it.</p>
+            <p>Element Visibility is the stronger of the two, and the one you will use most: a thank-you message on a
+                form you do not control, a cookie banner appearing, a product list scrolling into view.</p>
+        </div>
+
+        <section class="spacer">
+            <h2>Scroll past this — it exists so the page is long enough</h2>
+
+            <h3>What Module 1 covered</h3>
+            <p>A <b>tag</b> is code Tag Manager runs for you. Every tag in this module was a Custom HTML tag that
+                wrote to the console. On a real site it would be a GA4 event tag or an advertising pixel.</p>
+            <p>A <b>trigger</b> is the condition. You have built five kinds: All Pages, a filtered Click trigger, a
+                Form Submission trigger with validation, a Scroll Depth trigger, and an Element Visibility trigger.</p>
+            <p>A <b>variable</b> is a value filled in when the tag fires. Four types: Constant, Data Layer Variable,
+                DOM Element, Lookup Table.</p>
+
+            <h3>What Module 1 did not cover</h3>
+            <ul class="build-list">
+                <li>Consent. On a European site, no tag should fire before the visitor agrees. Tag Manager has a whole consent system for it.</li>
+                <li>Server-side tagging, where the container runs on your server rather than in the browser.</li>
+                <li>Publishing discipline: version names, container notes, and the fact that Submit is what makes anything real.</li>
+            </ul>
+
+            <h3>One habit worth starting today</h3>
+            <p>Name things. A container with tags called <code>GA4 — purchase</code> and <code>Meta — pageview</code>
+                can be understood in ten minutes. A container with <code>Tag 1</code>, <code>Untitled Tag</code> and
+                <code>test copy 2</code> gets thrown away and rebuilt.</p>
+            <p>Pick a convention on day one: platform, em dash, event name. Use a type prefix for variables and
+                triggers, the way this course does: <code>dlv —</code>, <code>lookup —</code>, <code>url —</code>.</p>
+        </section>
+
+        <div class="demo">
+            <h3>The visibility target</h3>
+            <p class="demo-hint">Press the button. The box your trigger is watching appears below it.</p>
+            <button class="btn signal" id="reveal">Show the thank-you message</button>
+
+            <div id="thank-you" class="hidden">
+                <h3>Thanks — your message was sent</h3>
+                <p style="margin-bottom:0">This box was not in the page when it loaded.</p>
+            </div>
+        </div>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Add a <b>Timer</b> trigger that fires after 30 seconds on the page. Compare it with 75% scroll depth.</li>
+            <li>Change the visibility trigger to <b>Once per element</b> and a CSS selector matching all the <code>.demo</code> boxes on this page. Count the events.</li>
+            <li>Set the scroll trigger to use <b>Pixels</b> instead of percentages. When would that be the better choice?</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>gtm scroll depth trigger</q>,
+            <q>gtm element visibility trigger observe dom changes</q>, <q>gtm timer trigger</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="5-form-trigger.html">1.4 Form submission</a></span>
+            <span><a href="../02-datalayer/index.html">Module 2: the dataLayer</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+document.getElementById('reveal').addEventListener('click', function () {
+    var box = document.getElementById('thank-you');
+    box.classList.remove('hidden');
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    this.disabled = true;
+    this.textContent = 'Message shown';
+
+    Course.push({ event: 'thank_you_shown' });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.6 Pages that never reload</title>
+<meta name="description" content="Step-by-step GTM exercise: track a single-page app with the History Change trigger and a virtual pageview custom event.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+<style>
+    .fake-nav { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .fake-nav a {
+        font-family: var(--sans);
+        font-size: .95rem;
+        text-decoration: none;
+        color: var(--ink);
+        border: 1px solid var(--rule);
+        border-radius: var(--radius);
+        padding: .4rem .9rem;
+    }
+    .fake-nav a[aria-current="page"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .fake-nav a:hover { border-color: var(--ink); }
+    #app-view { border-top: 1px solid var(--rule-soft); padding-top: 1.25rem; }
+    #app-view h3 { margin-top: 0; }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 3</a></li>
+        <li><a href="6-virtual-pageviews.html" aria-current="page">3.6 Pages that never reload</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">3.6</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i class="on"></i> Careful now</span>
+            <span>30 minutes</span>
+        </div>
+
+        <h1>Pages that never reload</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>The little app below changes its URL and its content without ever loading a page. Your All Pages
+                trigger fires once and then goes quiet. You will fix that.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>A <b>History Change</b> trigger</li>
+                <li>A Custom Event trigger for a virtual pageview</li>
+                <li>A comparison of which one you should trust</li>
+            </ul>
+        </div>
+
+        <h3>Why this happens</h3>
+        <p>A single-page app swaps content in place and updates the address with
+            <code>history.pushState()</code>. No page load happens, so no Page View event happens, so GA4 records one
+            pageview for a visitor who saw six screens.</p>
+
+        <h2 class="step"><span class="num">Step 1</span> Click through the app and watch the address bar</h2>
+
+        <div class="demo">
+            <h3>A three-screen app</h3>
+            <p class="demo-hint">The URL changes. The page does not reload. Use the browser's back button too.</p>
+            <nav class="fake-nav" id="app-nav">
+                <a href="?page=home&amp;ref=navigation" data-page="home">Home</a>
+                <a href="?page=about&amp;ref=navigation" data-page="about">About</a>
+                <a href="?page=contact&amp;ref=navigation" data-page="contact">Contact</a>
+            </nav>
+            <div id="app-view">
+                <h3 id="page-heading">Loading…</h3>
+                <p id="content-area" style="margin-bottom:0"></p>
+            </div>
+            <p class="readout" id="spa-out"></p>
+        </div>
+
+        <h3>What the app pushes on every screen change</h3>
+<pre><code>history.pushState({}, <span class="tok-str">''</span>, <span class="tok-str">'?page=about&amp;ref=navigation'</span>);
+
+dataLayer.push({
+  <span class="tok-key">event</span>: <span class="tok-str">'virtual_pageview'</span>,
+  <span class="tok-key">page_path</span>:  <span class="tok-str">'/gtm-course/03-url-parameters/6-virtual-pageviews.html?page=about'</span>,
+  <span class="tok-key">page_title</span>: <span class="tok-str">'About Our Company'</span>,
+  <span class="tok-key">page_id</span>:    <span class="tok-str">'about'</span>
+});</code></pre>
+
+        <h2 class="step"><span class="num">Step 2</span> Prove the problem first</h2>
+
+        <ol class="steps">
+            <li><p>Preview this page and connect.</p></li>
+            <li><p>Click Home, About and Contact in the app above.</p></li>
+            <li><p>Count the <b>Page View</b> events in Tag Assistant's left column.</p></li>
+        </ol>
+
+        <p>There is one. Your All Pages trigger fired once, when the page loaded, and never again.</p>
+
+        <h2 class="step"><span class="num">Step 3</span> Build the History Change trigger</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Triggers › New › History Change</span>.</p></li>
+            <li><p>Leave it on <b>All History Changes</b>. Name it <code>History — all changes</code>.</p></li>
+            <li>
+                <p>Build a Custom HTML tag on it. Turn on the built-in <b>New History Fragment</b> and
+                    <b>Old History Fragment</b> variables first (<span class="path">Variables › Configure</span>,
+                    under <b>History</b>).</p>
+<pre><code>&lt;script&gt;
+  console.log(<span class="tok-str">"History change:"</span>, <span class="tok-kw">{{Page URL}}</span>);
+&lt;/script&gt;</code></pre>
+            </li>
+            <li><p>Save and preview. Click through the app again.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 4</span> Build the virtual pageview trigger</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Triggers › New › Custom Event</span>, event name <code>virtual_pageview</code>.</p></li>
+            <li><p>Build Data Layer Variables for <code>page_path</code> and <code>page_title</code>.</p></li>
+            <li>
+                <p>Build a second tag on this trigger:</p>
+<pre><code>&lt;script&gt;
+  console.log(<span class="tok-str">"Virtual pageview:"</span>, <span class="tok-kw">{{dlv — page_title}}</span>,
+              <span class="tok-kw">{{dlv — page_path}}</span>);
+&lt;/script&gt;</code></pre>
+            </li>
+            <li><p>Save and preview. Click through the app once more, watching both tags.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>One <b>Page View</b> event for the whole session, no matter how many screens you visit.</li>
+            <li>A <b>History Change</b> event on every navigation, including when you press the browser's back button.</li>
+            <li>A <code>virtual_pageview</code> event on every navigation, carrying a real title and path.</li>
+            <li>The History Change tag knows the URL. Only the custom event tag knows the page <b>title</b>.</li>
+        </ul>
+
+        <div class="note">
+            <h3>Which of the two to use</h3>
+            <p>The custom event, whenever the developers will give you one. It fires when the new screen is actually
+                ready and it carries the title.</p>
+            <p>History Change is the fallback for when nobody will change the app's code. It fires on the URL change,
+                which can be a moment before the new content exists.</p>
+        </div>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>History Change fires twice per navigation.</b> Some frameworks call <code>pushState</code> then immediately <code>replaceState</code>. Filter the trigger on <b>New History Fragment</b> so it only fires when the path actually changed.</li>
+            <li><b>The GA4 pageview reports the wrong page.</b> The tag fired before the app updated <code>document.title</code>. Send the title from the dataLayer instead of letting GA4 read it off the page.</li>
+            <li><b>Back-button navigations are missing.</b> You used the custom event only and the app does not push on <code>popstate</code>. History Change catches these; a custom event only catches them if the developer remembered.</li>
+            <li><b>Nothing fires at all.</b> The app uses the <code>#</code> fragment rather than pushState. History Change covers that too, but check <b>New History Fragment</b> rather than Page URL.</li>
+        </ul>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Add a real <b>GA4 event</b> tag with the event name <code>page_view</code>, sending <code>page_location</code> and <code>page_title</code> from your Data Layer Variables. This is the actual production setup.</li>
+            <li>Filter the History Change trigger so it does not fire when only the <code>ref</code> parameter changes.</li>
+            <li>Click Home twice in a row. Should that count as two pageviews? Decide, then make your trigger match your decision.</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>gtm history change trigger</q>, <q>gtm single page app tracking</q>,
+            <q>ga4 virtual pageview spa</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="5-personalise.html">3.5 One page state</a></span>
+            <span><a href="../04-ecommerce/index.html">Module 4: Ecommerce</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+var SCREENS = {
+    home:    { title: 'Welcome to our homepage', body: 'This is the main screen. Nothing here reloads.' },
+    about:   { title: 'About our company',       body: 'Learn what we do. The URL above changed, the page did not.' },
+    contact: { title: 'Contact us today',        body: 'Reach out to the team. Try the browser back button now.' }
+};
+
+function render(pageId, ref, isInitialLoad) {
+    var screen = SCREENS[pageId] || { title: 'Screen not found', body: 'No screen with that name.' };
+
+    document.getElementById('page-heading').textContent = screen.title;
+    document.getElementById('content-area').textContent = screen.body;
+
+    document.querySelectorAll('#app-nav a').forEach(function (link) {
+        if (link.dataset.page === pageId) { link.setAttribute('aria-current', 'page'); }
+        else { link.removeAttribute('aria-current'); }
+    });
+
+    document.getElementById('spa-out').textContent = isInitialLoad
+        ? 'First load. This one really was a page load.'
+        : 'Screen changed to "' + pageId + '" with no page load. virtual_pageview pushed.';
+
+    Course.push({
+        event: 'virtual_pageview',
+        page_path: window.location.pathname + window.location.search,
+        page_title: screen.title,
+        page_id: pageId,
+        page_referrer_type: ref || 'direct'
+    });
+}
+
+document.getElementById('app-nav').addEventListener('click', function (event) {
+    var link = event.target.closest('a');
+    if (!link) { return; }
+    event.preventDefault();
+
+    var pageId = link.dataset.page;
+
+    // Change the address without loading a page. This is what breaks naive tracking.
+    history.pushState({ page: pageId }, '', '?page=' + pageId + '&ref=navigation');
+    render(pageId, 'navigation', false);
+});
+
+// The back and forward buttons. A custom event only catches these if you handle popstate.
+window.addEventListener('popstate', function () {
+    render(Course.param('page') || 'home', Course.param('ref'), false);
+});
+
+render(Course.param('page') || 'home', Course.param('ref'), true);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.3 Read a value stored earlier in the visit</title>
+<meta name="description" content="Step-by-step GTM exercise: store a campaign in sessionStorage, read it back on another page with a Custom JavaScript variable.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 2</a></li>
+        <li><a href="3-storage.html" aria-current="page">2.3 Stored values</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">2.3</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i class="on"></i> Careful now</span>
+            <span>30 minutes</span>
+        </div>
+
+        <h1>Read a value stored earlier in the visit</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>The dataLayer is wiped by every page load. This page shows you where to put something that has to
+                survive the visitor walking to the next page.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>A Custom JavaScript variable that reads sessionStorage</li>
+                <li>A tag that reports the stored value on every page</li>
+                <li>The landing-page capture pattern used for campaigns</li>
+            </ul>
+        </div>
+
+        <h3>Three places to keep things</h3>
+        <table class="settings">
+            <tr><th>sessionStorage</th><td>Gone when the tab closes. Per tab, not per browser. Use for "this visit".</td></tr>
+            <tr><th>localStorage</th><td>Survives restarts, indefinitely. Use for a returning-visitor flag.</td></tr>
+            <tr><th>Cookies</th><td>Sent to the server on every request, with an expiry you set. What GA4 itself uses.</td></tr>
+        </table>
+
+        <h2 class="step"><span class="num">Step 1</span> Store something, then navigate away</h2>
+
+        <ol class="steps">
+            <li><p>Type a campaign name below and press <b>Save to sessionStorage</b>.</p></li>
+            <li><p>Go to <a href="1-push-events.html">exercise 2.1</a>.</p></li>
+            <li><p>Come back with the browser's back button.</p></li>
+            <li><p>Press <b>Read it back</b>. The value survived. The dataLayer did not.</p></li>
+        </ol>
+
+        <div class="demo">
+            <h3>Storage demo</h3>
+            <p class="demo-hint">Saved under the key <code>course_campaign</code>.</p>
+            <form id="store-form" class="stack">
+                <div>
+                    <label class="field" for="s-value">Campaign source</label>
+                    <input type="text" id="s-value" placeholder="spring-newsletter" autocomplete="off">
+                </div>
+                <div class="row">
+                    <button class="btn signal" type="submit">Save to sessionStorage</button>
+                    <button class="btn secondary" type="button" id="s-read">Read it back</button>
+                    <button class="btn secondary" type="button" id="s-clear">Clear</button>
+                </div>
+            </form>
+            <p class="readout" id="store-out">Nothing stored yet.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 2</span> Build the Custom JavaScript variable</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Variables › New › Custom JavaScript</span>.</p></li>
+            <li>
+                <p>Paste this. It must be an anonymous function that <b>returns</b> a value.</p>
+<pre><code><span class="tok-kw">function</span>() {
+  <span class="tok-kw">try</span> {
+    <span class="tok-kw">return</span> window.sessionStorage.getItem(<span class="tok-str">'course_campaign'</span>) || <span class="tok-str">'(not set)'</span>;
+  } <span class="tok-kw">catch</span> (e) {
+    <span class="tok-com">// Private mode throws here rather than returning null.</span>
+    <span class="tok-kw">return</span> <span class="tok-str">'(unavailable)'</span>;
+  }
+}</code></pre>
+            </li>
+            <li><p>Name it <code>js — stored campaign</code>. Save.</p></li>
+        </ol>
+
+        <div class="gotcha">
+            <h3>Two things break this variable</h3>
+            <p>Forgetting <code>return</code>. The variable will be empty and there is no error message.</p>
+            <p>Forgetting <code>try / catch</code>. Merely touching sessionStorage can throw in a private window, and
+                a Custom JavaScript variable that throws can take the whole tag with it.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 3</span> Build a tag that reads it everywhere</h2>
+
+        <ol class="steps">
+            <li>
+                <p><span class="path">Tags › New › Custom HTML</span>:</p>
+<pre><code>&lt;script&gt;
+  console.log(<span class="tok-str">"Campaign in storage:"</span>, <span class="tok-kw">{{js — stored campaign}}</span>);
+&lt;/script&gt;</code></pre>
+            </li>
+            <li><p>Attach the <b>All Pages</b> trigger. Save.</p></li>
+            <li><p>Preview. Store a value here, then navigate to any other exercise page.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 4</span> Do it the way a real site does</h2>
+
+        <p>The real pattern: on every page load, if there is a <code>utm_source</code> in the URL, write it to
+            storage. Then read from storage everywhere.</p>
+
+        <ol class="steps">
+            <li><p>Open <a href="3-storage.html?utm_source=classroom">this page with <code>?utm_source=classroom</code></a>.</p></li>
+            <li><p>Check the readout. The value was captured from the URL and stored.</p></li>
+            <li><p>Navigate to another exercise page. Your tag still reports <code>classroom</code>.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li><code>js — stored campaign</code> appears in the <b>Variables</b> tab on every event, on every page.</li>
+            <li>It keeps its value after you navigate to a different page in the course.</li>
+            <li>Running <code style="white-space:normal">sessionStorage.getItem('course_campaign')</code> in the console returns the same string.</li>
+            <li>Opening a course page in a <b>new tab</b> shows nothing — sessionStorage is per tab.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>The variable is always empty.</b> You left out <code>return</code>.</li>
+            <li><b>It works for you and not for a classmate.</b> They are in a private window. That is what the <code>catch</code> branch is for.</li>
+            <li><b>The value is wrong or old.</b> Storage has no expiry. A campaign written on Monday is still there on Friday if the tab stayed open. Store a timestamp next to it.</li>
+            <li><b>The value is missing in a new tab.</b> Expected. Use localStorage or a cookie if you need it across tabs.</li>
+        </ul>
+
+        <div class="note">
+            <h3>What not to store</h3>
+            <p>A campaign name is fine. An email address, a customer ID or anything identifying belongs behind consent
+                and in a cookie with a deliberate expiry, not in localStorage forever.</p>
+        </div>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Change the variable to read <code>localStorage</code>. Close the browser completely, reopen this page, and check whether the value survived. Which would you use for a "first visit date"?</li>
+            <li>Store an object instead of a string. Storage only holds strings, so you need <code>JSON.stringify</code> going in and <code>JSON.parse</code> coming out — with a <code>try / catch</code> around the parse.</li>
+            <li>Write a variable that returns how many minutes ago the campaign was stored.</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>gtm custom javascript variable</q>, <q>gtm read localstorage variable</q>,
+            <q>sessionstorage vs localstorage vs cookies</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="2-form-user-data.html">2.2 Form data</a></span>
+            <span><a href="../03-url-parameters/index.html">Module 3: URL parameters</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+var KEY = 'course_campaign';
+
+function readStorage() {
+    try { return window.sessionStorage.getItem(KEY); } catch (e) { return null; }
+}
+
+function writeStorage(value) {
+    try {
+        if (value === null) { window.sessionStorage.removeItem(KEY); }
+        else { window.sessionStorage.setItem(KEY, value); }
+        return true;
+    } catch (e) { return false; }
+}
+
+function report(text) {
+    document.getElementById('store-out').textContent = text;
+}
+
+// The real-world pattern: capture on arrival, read everywhere after.
+var fromUrl = Course.param('utm_source');
+if (fromUrl) {
+    writeStorage(fromUrl);
+    Course.push({ event: 'campaign_stored', campaign_source: fromUrl, capture_method: 'url' });
+    report('Captured "' + fromUrl + '" from the URL and stored it. It will follow you around the course.');
+} else {
+    var existing = readStorage();
+    report(existing ? 'Already in storage: "' + existing + '"' : 'Nothing stored yet.');
+}
+
+document.getElementById('store-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    var value = document.getElementById('s-value').value.trim();
+
+    if (!value) { report('Type something first.'); return; }
+
+    if (!writeStorage(value)) {
+        report('sessionStorage is blocked in this browser. That is exactly why the variable needs a try/catch.');
+        return;
+    }
+
+    Course.push({ event: 'campaign_stored', campaign_source: value, capture_method: 'form' });
+    report('Stored "' + value + '" under the key ' + KEY + '.');
+});
+
+document.getElementById('s-read').addEventListener('click', function () {
+    var value = readStorage();
+    Course.push({ event: 'campaign_read', campaign_source: value || undefined });
+    report(value
+        ? 'Read back: "' + value + '". This came from storage, not from this page load.'
+        : 'Nothing in storage. Save something, or add ?utm_source=classroom to the address.');
+});
+
+document.getElementById('s-clear').addEventListener('click', function () {
+    writeStorage(null);
+    Course.push({ event: 'campaign_cleared' });
+    report('Cleared. Reading it back now returns null.');
+});
+</script>
+
+</body>
+</html>

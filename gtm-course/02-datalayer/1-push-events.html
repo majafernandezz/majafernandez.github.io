@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.1 Push your own events</title>
+<meta name="description" content="Step-by-step GTM exercise: catch a custom event with a Custom Event trigger, read its payload, and reproduce the stale dataLayer value bug.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 2</a></li>
+        <li><a href="1-push-events.html" aria-current="page">2.1 Push events</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">2.1</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i></i> Getting real</span>
+            <span>30 minutes</span>
+        </div>
+
+        <h1>Push your own events</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>The buttons on this page push events into the dataLayer, the way a developer would. You will catch one
+                of them in Tag Manager, then deliberately break it.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>A Custom Event trigger</li>
+                <li>Two Data Layer Variables for the event's payload</li>
+                <li>A reproduction of the stale-value bug that catches everyone once</li>
+            </ul>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Press the buttons and read the panel</h2>
+
+        <p>Press them left to right, top row first. Each entry in the panel is exactly what the button sent.</p>
+
+        <div class="demo">
+            <h3>Buttons that push</h3>
+            <div class="row">
+                <button class="btn signal" id="p-cta">cta_click</button>
+                <button class="btn" id="p-video">video_start</button>
+                <button class="btn" id="p-signup">newsletter_signup</button>
+            </div>
+            <div class="row" style="margin-top:.6rem">
+                <button class="btn secondary" id="p-data">Push data with no event key</button>
+                <button class="btn secondary" id="p-clear">Clear video_title</button>
+            </div>
+            <p class="readout" id="push-out">Nothing pushed yet.</p>
+        </div>
+
+        <h3>What each button sends</h3>
+<pre><code><span class="tok-com">// cta_click</span>
+{ <span class="tok-key">event</span>: <span class="tok-str">'cta_click'</span>, <span class="tok-key">button_text</span>: <span class="tok-str">'cta_click'</span>, <span class="tok-key">page_section</span>: <span class="tok-str">'demo'</span> }
+
+<span class="tok-com">// video_start</span>
+{ <span class="tok-key">event</span>: <span class="tok-str">'video_start'</span>, <span class="tok-key">video_title</span>: <span class="tok-str">'How the dataLayer works'</span>, <span class="tok-key">video_duration</span>: <span class="tok-kw">312</span> }
+
+<span class="tok-com">// newsletter_signup — note: no video_title</span>
+{ <span class="tok-key">event</span>: <span class="tok-str">'newsletter_signup'</span>, <span class="tok-key">method</span>: <span class="tok-str">'footer form'</span> }</code></pre>
+
+        <h2 class="step"><span class="num">Step 2</span> Build the Custom Event trigger</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Triggers › New › Custom Event</span>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Event name</th><td><code>video_start</code></td></tr>
+                    <tr><th>Use regex matching</th><td>Off</td></tr>
+                    <tr><th>Fires on</th><td>All Custom Events</td></tr>
+                    <tr><th>Name</th><td><code>Custom Event — video_start</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save. The event name must match the push character for character, including case.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 3</span> Build two Data Layer Variables</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Variables › New › Data Layer Variable</span>. Name:
+                <code>dlv — video_title</code>, Data Layer Variable Name: <code>video_title</code>.</p></li>
+            <li><p>Repeat for <code>dlv — video_duration</code> / <code>video_duration</code>.</p></li>
+            <li><p>Give both a <b>Default Value</b> of <code>(not set)</code>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 4</span> Build the tag and test</h2>
+
+        <ol class="steps">
+            <li>
+                <p><span class="path">Tags › New › Custom HTML</span>:</p>
+<pre><code>&lt;script&gt;
+  console.log(<span class="tok-str">"Video started:"</span>, <span class="tok-kw">{{dlv — video_title}}</span>,
+              <span class="tok-str">"length"</span>, <span class="tok-kw">{{dlv — video_duration}}</span>);
+&lt;/script&gt;</code></pre>
+            </li>
+            <li><p>Attach the <code>Custom Event — video_start</code> trigger. Save.</p></li>
+            <li><p>Press <span class="path">Preview</span>, connect to this page, press <b>video_start</b>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 5</span> Break it on purpose</h2>
+
+        <ol class="steps">
+            <li><p>Build a second Custom Event trigger for <code>newsletter_signup</code>.</p></li>
+            <li><p>Build a second tag on it that logs <code>{{dlv — video_title}}</code> — a variable that has nothing
+                to do with newsletters.</p></li>
+            <li><p>Press <b>video_start</b>, then press <b>newsletter_signup</b>.</p></li>
+            <li><p>Read the console.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>A <code>video_start</code> event in Tag Assistant with your first tag under <b>Tags Fired</b>.</li>
+            <li>On that event, <b>Variables</b> shows <code>How the dataLayer works</code> and <code>312</code>.</li>
+            <li>After pressing <b>newsletter_signup</b>: your second tag logs <b>How the dataLayer works</b> — a video title, on a newsletter event.</li>
+            <li>The <code>newsletter_signup</code> push in the panel contains no <code>video_title</code> at all.</li>
+        </ul>
+
+        <div class="gotcha">
+            <h3>Why that happened</h3>
+            <p>The dataLayer is cumulative. Tag Manager keeps a running model of every key it has ever seen, and a key
+                keeps its last value until something replaces it. This is why you get purchases attributed to the
+                wrong product.</p>
+            <p>Two fixes:</p>
+            <ul class="build-list">
+                <li>Push <code>video_title: undefined</code> before the next unrelated event. That is what the <b>Clear video_title</b> button does.</li>
+                <li>Better: nest related data under one object per event, so the whole object is replaced at once. That is exactly why GA4 ecommerce data lives inside an <code>ecommerce</code> object.</li>
+            </ul>
+        </div>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>The trigger never fires.</b> The event name does not match. Copy it from the panel rather than typing it.</li>
+            <li><b>The variable is empty.</b> The Data Layer Variable Name must be the key, not the event name. It is <code>video_title</code>, not <code>video_start</code>.</li>
+            <li><b>Pressing "Push data with no event key" fires nothing.</b> Correct. An object with no <code>event</code> key updates variables but triggers no tags. That is useful for setting data up in advance.</li>
+        </ul>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Make one trigger that catches all three events using <b>Use regex matching</b> with <code>cta_click|video_start|newsletter_signup</code>, and one tag that logs the built-in <code>{{Event}}</code> variable.</li>
+            <li>Press <b>Push data with no event key</b>, then <b>newsletter_signup</b>. Does your tag see the <code>user_type</code> value? Explain why to the person next to you.</li>
+            <li>Replace the Custom HTML tag with a real <b>GA4 event</b> tag named <code>video_start</code>, with <code>video_title</code> and <code>video_duration</code> as event parameters.</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>gtm custom event trigger</q>, <q>gtm data layer variable persistence</q>,
+            <q>datalayer.push documentation</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="index.html">Module 2</a></span>
+            <span><a href="2-form-user-data.html">2.2 Form data and hashing</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+function say(text) {
+    document.getElementById('push-out').textContent = text;
+}
+
+document.getElementById('p-cta').addEventListener('click', function () {
+    Course.push({ event: 'cta_click', button_text: 'cta_click', page_section: 'demo' });
+    say('Pushed cta_click. It is entry ' + (dataLayer.length - 1) + ' in the panel.');
+});
+
+document.getElementById('p-video').addEventListener('click', function () {
+    Course.push({ event: 'video_start', video_title: 'How the dataLayer works', video_duration: 312 });
+    say('Pushed video_start with a title and a duration.');
+});
+
+document.getElementById('p-signup').addEventListener('click', function () {
+    Course.push({ event: 'newsletter_signup', method: 'footer form' });
+    say('Pushed newsletter_signup — with no video_title. A Data Layer Variable will still return the old one.');
+});
+
+document.getElementById('p-data').addEventListener('click', function () {
+    Course.push({ user_type: 'returning', logged_in: true });
+    say('Pushed data with no event key. It is in the dataLayer, but no trigger fired.');
+});
+
+document.getElementById('p-clear').addEventListener('click', function () {
+    Course.push({ video_title: undefined, video_duration: undefined });
+    say('Pushed video_title: undefined. The variable is empty again.');
+});
+</script>
+
+</body>
+</html>

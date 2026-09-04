@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.3 Combine two parameters</title>
+<meta name="description" content="Step-by-step GTM exercise: read two URL parameters into one nested dataLayer object and reach into it with dot notation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 3</a></li>
+        <li><a href="3-two-parameters.html" aria-current="page">3.3 Two parameters</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">3.3</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i></i> Getting real</span>
+            <span>25 minutes</span>
+        </div>
+
+        <h1 id="product-heading">Combine two parameters</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>This is a product page that takes its product and colour from the URL and pushes both as one nested
+                object. You will read into that object from Tag Manager.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>Two URL Variables</li>
+                <li>Two Data Layer Variables using dot notation</li>
+                <li>A tag that shows both sources agreeing</li>
+            </ul>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Load a few combinations</h2>
+
+        <div class="demo">
+            <h3>Product page</h3>
+            <div class="row">
+                <a class="btn" href="?product=Laptop&amp;color=Silver">Laptop, Silver</a>
+                <a class="btn" href="?product=Laptop&amp;color=Space%20Grey">Laptop, Space Grey</a>
+                <a class="btn" href="?product=Headphones&amp;color=Black">Headphones, Black</a>
+                <a class="btn secondary" href="?product=Headphones">Headphones, no colour</a>
+                <a class="btn secondary" href="3-two-parameters.html">Neither</a>
+            </div>
+            <p class="readout" id="product-out"></p>
+        </div>
+
+        <h3>What the page pushes</h3>
+<pre><code>dataLayer.push({
+  <span class="tok-key">event</span>: <span class="tok-str">'product_view'</span>,
+  <span class="tok-key">product_info</span>: {                  <span class="tok-com">// one object, replaced whole every time</span>
+    <span class="tok-key">name</span>:  <span class="tok-str">'Laptop'</span>,
+    <span class="tok-key">color</span>: <span class="tok-str">'Silver'</span>
+  }
+});</code></pre>
+
+        <p>The flat alternative would be <code>product_name</code> and <code>product_color</code> side by side at the
+            top level. Both work. Nesting is better for one reason: when the next product view pushes a
+            <code>product_info</code> with no colour, the whole object is replaced and the old colour goes with it.
+            Flat keys persist individually — and you end up reporting a silver pair of headphones.</p>
+
+        <h2 class="step"><span class="num">Step 2</span> Build two URL Variables</h2>
+
+        <table class="settings">
+            <tr><th><code>url — product</code></th><td>URL, Query, key <code>product</code>, default <code>(not set)</code></td></tr>
+            <tr><th><code>url — color</code></th><td>URL, Query, key <code>color</code>, default <code>(not set)</code></td></tr>
+        </table>
+
+        <h2 class="step"><span class="num">Step 3</span> Build two Data Layer Variables with dots</h2>
+
+        <table class="settings">
+            <tr><th><code>dlv — product_info.name</code></th><td>Data Layer Variable Name: <code>product_info.name</code></td></tr>
+            <tr><th><code>dlv — product_info.color</code></th><td>Data Layer Variable Name: <code>product_info.color</code></td></tr>
+        </table>
+
+        <p>The dot is not a Tag Manager feature you switch on. It is a path into an object, and works to any depth:
+            <code>a.b.c.d</code>. For an array, use the index: <code>items.0.item_name</code>.</p>
+
+        <h2 class="step"><span class="num">Step 4</span> Build the trigger and tag</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Triggers › New › Custom Event</span>, event name <code>product_view</code>.</p></li>
+            <li>
+                <p><span class="path">Tags › New › Custom HTML</span>:</p>
+<pre><code>&lt;script&gt;
+  console.log(<span class="tok-str">"Viewing"</span>, <span class="tok-kw">{{dlv — product_info.name}}</span>,
+              <span class="tok-str">"in"</span>, <span class="tok-kw">{{dlv — product_info.color}}</span>,
+              <span class="tok-str">"| URL says"</span>, <span class="tok-kw">{{url — product}}</span>);
+&lt;/script&gt;</code></pre>
+            </li>
+            <li><p>Attach the trigger. Save. Preview and click through the links above.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>With <code>?product=Laptop&amp;color=Silver</code>: both pairs of variables show <code>Laptop</code> and <code>Silver</code>.</li>
+            <li>The URL variables and the dataLayer variables always agree on this page. They come from different places — the address bar and an object the page built.</li>
+            <li>With <code>?product=Headphones</code> and no colour: <code>dlv — product_info.color</code> shows <code>(not set)</code>, because the page pushed a fresh object without that key.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>The nested variable is empty.</b> Look at the actual object in the panel first. If a developer literally named a key <code>"product.name"</code> instead of nesting, dot notation will look for an object and find nothing.</li>
+            <li><b>Space Grey arrives broken.</b> Spaces must travel as <code>%20</code>. Browsers do this when you type; code has to be told, with <code>encodeURIComponent()</code>. An <code>&amp;</code> inside a value splits the parameter in half.</li>
+            <li><b><code>?color=red&amp;color=blue</code> only gives you red.</b> Repeated parameters are legal. The URL variable returns the first and silently drops the rest.</li>
+        </ul>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Add a third parameter <code>?size=</code> all the way through: URL variable, pushed object, Data Layer Variable, tag.</li>
+            <li>Build a Custom JavaScript variable that joins the values into a SKU like <code>laptop-silver-15</code> — lowercased, spaces turned into hyphens.</li>
+            <li>Change the page's push to flat keys instead of a nested object. Load Laptop/Silver, then Headphones with no colour. Watch the bug appear.</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>gtm data layer variable dot notation nested</q>,
+            <q>encodeURIComponent query string</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="2-swap-content.html">3.2 Change the page</a></span>
+            <span><a href="4-campaign-source.html">3.4 Campaign source</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+var product = Course.param('product');
+var color = Course.param('color');
+var out = document.getElementById('product-out');
+
+if (product || color) {
+    document.getElementById('product-heading').textContent =
+        (product || 'Product') + (color ? ' — ' + color : '');
+
+    // One nested object, so the next push replaces all of it at once.
+    var info = {};
+    if (product) { info.name = product; }
+    if (color) { info.color = color; }
+
+    Course.push({ event: 'product_view', product_info: info });
+
+    out.textContent = 'Pushed product_info with ' + Object.keys(info).length +
+        ' key' + (Object.keys(info).length === 1 ? '' : 's') + '. Open the panel and look at the object.';
+} else {
+    out.textContent = 'No parameters. Nothing was pushed.';
+}
+</script>
+
+</body>
+</html>

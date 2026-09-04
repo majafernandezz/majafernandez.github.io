@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.4 Track where a visitor came from</title>
+<meta name="description" content="Step-by-step GTM exercise: build UTM campaign URLs, read them with URL Variables, and compare with what GA4 collects automatically.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 3</a></li>
+        <li><a href="4-campaign-source.html" aria-current="page">3.4 Campaign source</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">3.4</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i></i> Getting real</span>
+            <span>30 minutes</span>
+        </div>
+
+        <h1 id="campaign-heading">Track where a visitor came from</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>This page is a campaign landing page with a link builder on it. You will build a real campaign URL,
+                land on this page with it, and read every part of it in Tag Manager.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>Three URL Variables for the UTM parameters</li>
+                <li>A tag that only fires on campaign landings</li>
+                <li>A comparison against what GA4 already collects on its own</li>
+            </ul>
+        </div>
+
+        <h3>The five parameters everyone uses</h3>
+        <table class="settings">
+            <tr><th>utm_source</th><td>Where the click came from. <code>newsletter</code>, <code>facebook</code>. Required.</td></tr>
+            <tr><th>utm_medium</th><td>The kind of channel. <code>email</code>, <code>cpc</code>, <code>social</code>. Required, and the one most often wrong.</td></tr>
+            <tr><th>utm_campaign</th><td>Which campaign. <code>spring-sale-2026</code>. Required.</td></tr>
+            <tr><th>utm_content</th><td>Which specific ad or link. Optional.</td></tr>
+            <tr><th>utm_term</th><td>The keyword, for paid search. Optional, largely historical.</td></tr>
+        </table>
+
+        <h2 class="step"><span class="num">Step 1</span> Build a campaign link and land on it</h2>
+
+        <div class="demo">
+            <h3>Campaign link builder</h3>
+            <p class="demo-hint">Fill it in. It builds a real URL back to this page and opens it.</p>
+            <form id="builder" class="stack">
+                <div>
+                    <label class="field" for="c-source">utm_source</label>
+                    <input type="text" id="c-source" placeholder="newsletter" autocomplete="off">
+                </div>
+                <div>
+                    <label class="field" for="c-medium">utm_medium</label>
+                    <input type="text" id="c-medium" placeholder="email" autocomplete="off">
+                </div>
+                <div>
+                    <label class="field" for="c-campaign">utm_campaign</label>
+                    <input type="text" id="c-campaign" placeholder="spring-sale-2026" autocomplete="off">
+                </div>
+                <div class="row">
+                    <button class="btn signal" type="submit">Build and open the link</button>
+                    <a class="btn secondary" href="4-campaign-source.html">Arrive with nothing</a>
+                </div>
+            </form>
+            <p class="readout" id="built-url">Your campaign URL will appear here.</p>
+            <p class="readout" id="campaign-out"></p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 2</span> Build three URL Variables</h2>
+
+        <p>One each for <code>utm_source</code>, <code>utm_medium</code> and <code>utm_campaign</code>. All the same
+            shape:</p>
+
+        <table class="settings">
+            <tr><th>Type</th><td>URL</td></tr>
+            <tr><th>Component Type</th><td>Query</td></tr>
+            <tr><th>Query Key</th><td>the parameter name</td></tr>
+            <tr><th>Set Default Value</th><td>On, <code>(direct)</code></td></tr>
+            <tr><th>Name</th><td><code>url — utm_source</code>, and so on</td></tr>
+        </table>
+
+        <p>Use <code>(direct)</code> rather than <code>(not set)</code> as the default. A visit with no campaign
+            parameters genuinely is a direct visit, and reports read better for it.</p>
+
+        <h2 class="step"><span class="num">Step 3</span> Fire a tag on campaign landings only</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Triggers › New › Page View</span>, <b>Some Page Views</b>.</p></li>
+            <li><p>Condition: <code>url — utm_source</code> <b>does not equal</b> <code>(direct)</code>.</p></li>
+            <li>
+                <p><span class="path">Tags › New › Custom HTML</span>:</p>
+<pre><code>&lt;script&gt;
+  console.log(<span class="tok-str">"Campaign landing"</span>, {
+    <span class="tok-key">source</span>:   <span class="tok-kw">{{url — utm_source}}</span>,
+    <span class="tok-key">medium</span>:   <span class="tok-kw">{{url — utm_medium}}</span>,
+    <span class="tok-key">campaign</span>: <span class="tok-kw">{{url — utm_campaign}}</span>
+  });
+&lt;/script&gt;</code></pre>
+            </li>
+            <li><p>Attach the trigger. Save. Preview and land with a campaign URL.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 4</span> Compare with what GA4 already knows</h2>
+
+        <ol class="steps">
+            <li><p>If you have a GA4 tag in your container, open the <b>Realtime</b> report.</p></li>
+            <li><p>Land on this page with a campaign URL.</p></li>
+            <li><p>Look at source, medium and campaign in Realtime. They are already there.</p></li>
+        </ol>
+
+        <p>You just built variables for values GA4 reads by itself. Worth knowing before you build them again next
+            month. They start earning their keep the moment you send data anywhere other than GA4.</p>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>Landing with all three parameters: all three variables show their values and the tag fires.</li>
+            <li>The panel shows a <code>campaign_landing</code> event.</li>
+            <li>Landing with no parameters: all three show <code>(direct)</code> and the tag does not fire.</li>
+            <li>GA4 Realtime shows the same source, medium and campaign without any variable of yours.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>Two rows in your report for the same campaign.</b> <code>Newsletter</code> and <code>newsletter</code> are different strings. Pick lowercase, write it down, make everyone follow it.</li>
+            <li><b>Traffic lands in "Unassigned".</b> <code>utm_medium</code> is free text, but only about eight values map to GA4's default channel groups: <code>email</code>, <code>cpc</code>, <code>organic</code>, <code>social</code>, <code>referral</code>, <code>affiliate</code>, <code>display</code>. Invent one and you lose the channel.</li>
+            <li><b>Sessions restart in the middle of a visit.</b> You tagged an internal link. Never put UTM parameters on a link from your own site to your own site — it throws away the real source.</li>
+            <li><b>A campaign shows almost no traffic.</b> Some email clients, link shorteners and in-app browsers strip query strings. Test the real link from the real client before blaming the tracking.</li>
+        </ul>
+
+        <div class="note">
+            <h3>Parameters only exist on the landing page</h3>
+            <p>Click one link and they are gone, so a purchase three pages later has no campaign attached. Combine this
+                with <a href="../02-datalayer/3-storage.html">exercise 2.3</a>: write <code>utm_source</code> to
+                sessionStorage on arrival, read it from storage everywhere else. GA4 does its own version with a
+                cookie, which is why you usually do not have to.</p>
+        </div>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Build a Lookup Table turning <code>utm_medium</code> into a friendly channel name — <code>cpc</code> to <code>Paid search</code>, <code>email</code> to <code>Newsletter</code> — with a default of <code>Other</code>.</li>
+            <li>Store the campaign in sessionStorage on arrival, then prove on another exercise page that you can still read it.</li>
+            <li>Write down the naming convention your class will use for source, medium and campaign. Actually write it down — that document is the most valuable thing in most analytics setups.</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>utm parameters ga4</q>, <q>ga4 default channel group definitions</q>,
+            <q>google campaign url builder</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="3-two-parameters.html">3.3 Two parameters</a></span>
+            <span><a href="5-personalise.html">3.5 One page state</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+var source = Course.param('utm_source');
+var medium = Course.param('utm_medium');
+var campaign = Course.param('utm_campaign');
+var out = document.getElementById('campaign-out');
+
+if (source || medium || campaign) {
+    document.getElementById('campaign-heading').textContent = 'Welcome from ' + (source || 'an untagged source');
+
+    Course.push({
+        event: 'campaign_landing',
+        campaign_source: source || undefined,
+        campaign_medium: medium || undefined,
+        campaign_name: campaign || undefined
+    });
+
+    out.textContent =
+        'utm_source:   ' + (source || '(direct)') + '\n' +
+        'utm_medium:   ' + (medium || '(direct)') + '\n' +
+        'utm_campaign: ' + (campaign || '(direct)');
+    out.style.whiteSpace = 'pre-line';
+} else {
+    out.textContent = 'No campaign parameters — GA4 would call this a direct visit.';
+}
+
+document.getElementById('builder').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    var params = new URLSearchParams();
+    var fields = { utm_source: 'c-source', utm_medium: 'c-medium', utm_campaign: 'c-campaign' };
+
+    Object.keys(fields).forEach(function (key) {
+        var value = document.getElementById(fields[key]).value.trim().toLowerCase();
+        if (value) { params.set(key, value); }
+    });
+
+    if (!params.toString()) {
+        document.getElementById('built-url').textContent = 'Fill in at least one field.';
+        return;
+    }
+
+    var url = window.location.origin + window.location.pathname + '?' + params.toString();
+    document.getElementById('built-url').textContent = url;
+    window.location.href = url;
+});
+</script>
+
+</body>
+</html>

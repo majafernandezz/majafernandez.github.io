@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Google Tag Manager — a hands-on course</title>
+<meta name="description" content="Twenty practice pages for learning Google Tag Manager: tags, triggers, variables, the dataLayer, URL parameters and ecommerce tracking. Attach your own container and watch the dataLayer live.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/course.css">
+<script src="assets/config.js"></script>
+<script src="assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="index.html" aria-current="page">Tag Manager course</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+
+    <section class="hero">
+        <div class="hero-grid">
+            <div>
+                <h1>Learn Google Tag Manager by building it</h1>
+                <p class="lede">Twenty practice pages built to be tracked. Each one tells you what it is for, what to
+                    build in Tag Manager step by step, and exactly what you should see when it works.</p>
+
+                <h3>How to use this course</h3>
+                <ol class="steps">
+                    <li><p>Get a free container: <a href="reference/setup.html">Set up a container</a>. 15 minutes.</p></li>
+                    <li><p>Paste your container ID into the box under the panel on the right.</p></li>
+                    <li><p>Start at <a href="01-gtm-basics/1-first-tag.html">exercise 1.1</a> and work down.</p></li>
+                </ol>
+
+                <h3>Why every page has that black panel</h3>
+                <p>You cannot see the dataLayer. It is the most important object on the page and it is invisible,
+                    which is the hardest part of starting with Tag Manager. So every page in this course puts it on
+                    screen. Press a button and watch.</p>
+
+                <div class="demo">
+                    <h3>Try it now</h3>
+                    <p class="demo-hint">No container needed. The dataLayer is a plain JavaScript array that any page
+                        can have.</p>
+                    <div class="row">
+                        <button class="btn signal" id="hero-btn">Push an event</button>
+                        <button class="btn secondary" id="hero-btn-2">Push a purchase</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="monitor"></div>
+        </div>
+    </section>
+
+    <section class="page">
+        <h2>The four modules</h2>
+        <p>Module 1 is the one to start with. It teaches the three things Tag Manager is made of — tags, triggers and
+            variables — using nothing but clicks on a page. The later modules are about the data underneath.</p>
+
+        <ol class="module-list">
+
+            <li class="module">
+                <div>
+                    <h3><a href="01-gtm-basics/index.html">Tags, triggers and variables</a></h3>
+                    <p>Start here. Install a container, fire a tag, catch clicks, forms, scrolls and appearing
+                        elements, and build the four variable types.</p>
+                    <ul class="exercises">
+            <li><a href="01-gtm-basics/1-first-tag.html"><span class="n">1.1</span><span>Install a container and fire your first tag</span><span class="what">Preview mode</span></a></li>
+            <li><a href="01-gtm-basics/2-install-ga4.html"><span class="n">1.2</span><span>Install Google Analytics 4</span><span class="what">Google tag</span></a></li>
+            <li><a href="01-gtm-basics/3-click-trigger.html"><span class="n">1.3</span><span>Track a button click, and send it to GA4</span><span class="what">Click triggers</span></a></li>
+            <li><a href="01-gtm-basics/4-variables.html"><span class="n">1.4</span><span>Four variables, four jobs</span><span class="what">Variables</span></a></li>
+            <li><a href="01-gtm-basics/5-form-trigger.html"><span class="n">1.5</span><span>Track a form submission</span><span class="what">Form trigger</span></a></li>
+            <li><a href="01-gtm-basics/6-scroll-visibility.html"><span class="n">1.6</span><span>Scroll depth and element visibility</span><span class="what">Passive triggers</span></a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="module">
+                <div>
+                    <h3><a href="02-datalayer/index.html">The dataLayer</a></h3>
+                    <p>Stop guessing at the page. Custom events, hashing personal data properly, and reading values
+                        stored earlier in the visit.</p>
+                    <ul class="exercises">
+                        <li><a href="02-datalayer/1-push-events.html"><span class="n">2.1</span><span>Push your own events</span><span class="what">Custom Event</span></a></li>
+                        <li><a href="02-datalayer/2-form-user-data.html"><span class="n">2.2</span><span>Send form data, and hash what is personal</span><span class="what">User data</span></a></li>
+                        <li><a href="02-datalayer/3-storage.html"><span class="n">2.3</span><span>Read a value stored earlier in the visit</span><span class="what">sessionStorage</span></a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="module">
+                <div>
+                    <h3><a href="03-url-parameters/index.html">URL parameters</a></h3>
+                    <p>Read one parameter, read several, change what the page says, track campaigns, and handle
+                        pages that never reload.</p>
+                    <ul class="exercises">
+                        <li><a href="03-url-parameters/1-one-parameter.html"><span class="n">3.1</span><span>Read a single parameter</span><span class="what">URL Variable</span></a></li>
+                        <li><a href="03-url-parameters/2-swap-content.html"><span class="n">3.2</span><span>Change the page from the URL</span><span class="what">Personalisation</span></a></li>
+                        <li><a href="03-url-parameters/3-two-parameters.html"><span class="n">3.3</span><span>Combine two parameters</span><span class="what">Nested data</span></a></li>
+                        <li><a href="03-url-parameters/4-campaign-source.html"><span class="n">3.4</span><span>Track where a visitor came from</span><span class="what">Campaigns</span></a></li>
+                        <li><a href="03-url-parameters/5-personalise.html"><span class="n">3.5</span><span>Two parameters, one page state</span><span class="what">Lookup Table</span></a></li>
+                        <li><a href="03-url-parameters/6-virtual-pageviews.html"><span class="n">3.6</span><span>Pages that never reload</span><span class="what">Virtual pageview</span></a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="module">
+                <div>
+                    <h3><a href="04-ecommerce/index.html">Ecommerce tracking</a></h3>
+                    <p>A working shop that pushes the six GA4 ecommerce events. Catch them all with one trigger and
+                        one tag, and learn the object structure Google expects.</p>
+                    <ul class="exercises">
+                        <li><a href="04-ecommerce/1-shop.html"><span class="n">4.1</span><span>Track a shop from listing to purchase</span><span class="what">Six events</span></a></li>
+                    </ul>
+                </div>
+            </li>
+
+        </ol>
+
+        <h2>Reference</h2>
+        <ul class="exercises" style="max-width:44rem">
+            <li><a href="reference/setup.html"><span class="n">A</span><span>Set up a free Tag Manager container</span><span class="what">15 minutes</span></a></li>
+            <li><a href="reference/glossary.html"><span class="n">B</span><span>Glossary: every word this course uses</span><span class="what">Look things up</span></a></li>
+        </ul>
+
+        <div class="note" style="margin-top:2rem">
+            <h3>Attaching your own container</h3>
+            <p>No copying files, no writing code. Two ways:</p>
+            <ul class="build-list">
+                <li>Paste the ID into the box under the dataLayer panel on any page</li>
+                <li>Or add <code>?gtm=GTM-XXXXXXX</code> to the address — the quickest way to hand a container to a whole class</li>
+            </ul>
+            <p>Every page then loads your container, so your tags fire on these demos and appear in your own Preview
+                mode.</p>
+        </div>
+    </section>
+
+</main>
+
+<footer class="site">
+    <p>Course material by <a href="https://jesperastrom.github.io/">Jesper Åström</a>.
+        Nothing here sends data anywhere until you connect a container of your own.</p>
+</footer>
+
+<script>
+document.getElementById('hero-btn').addEventListener('click', function () {
+    Course.push({
+        event: 'course_demo_click',
+        button_text: this.textContent,
+        page_section: 'hero'
+    });
+});
+
+document.getElementById('hero-btn-2').addEventListener('click', function () {
+    Course.push({
+        event: 'purchase',
+        ecommerce: {
+            transaction_id: 'T-' + Math.floor(Math.random() * 90000 + 10000),
+            value: 419.00,
+            currency: 'SEK',
+            items: [{ item_id: 'SKU-12', item_name: 'Demo product', price: 419.00, quantity: 1 }]
+        }
+    });
+});
+</script>
+
+</body>
+</html>

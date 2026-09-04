@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.1 Track a shop from listing to purchase</title>
+<meta name="description" content="Step-by-step GTM exercise: catch the six GA4 ecommerce events from a working demo shop and send them with GA4 event tags.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+<style>
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+        gap: .9rem;
+        margin-bottom: 1.5rem;
+    }
+    .product {
+        border: 1px solid var(--rule);
+        border-radius: var(--radius);
+        padding: 1rem;
+        background: var(--surface);
+        font-family: var(--sans);
+    }
+    .product h4 { margin: 0 0 .3rem; font-family: var(--sans); font-size: 1rem; }
+    .product .price { margin: 0 0 .1rem; font-weight: 600; }
+    .product .sku { margin: 0 0 .8rem; font-size: .78rem; color: var(--ink-3); font-family: var(--mono); }
+    .product .btn { font-size: .85rem; padding: .4rem .8rem; }
+
+    ul.cart { list-style: none; padding: 0; margin: 0 0 1rem; font-family: var(--sans); font-size: .95rem; }
+    ul.cart li {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: .45rem 0;
+        border-bottom: 1px solid var(--rule-soft);
+    }
+    ul.cart li.empty { color: var(--ink-3); border-bottom: 0; }
+    .line-right { white-space: nowrap; }
+    .link-btn {
+        background: none; border: 0; padding: 0 0 0 .4rem;
+        color: var(--signal-deep); cursor: pointer;
+        font-family: var(--sans); font-size: .85rem; text-decoration: underline;
+    }
+    .cart-total {
+        display: flex; justify-content: space-between;
+        font-family: var(--sans); font-weight: 600; margin-bottom: 1rem;
+    }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 4</a></li>
+        <li><a href="1-shop.html" aria-current="page">4.1 The shop</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">4.1</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i class="on"></i> Careful now</span>
+            <span>60 minutes</span>
+        </div>
+
+        <h1>Track a shop from listing to purchase</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>The shop below already pushes all six GA4 ecommerce events, correctly structured. Your job is to catch
+                them in Tag Manager and send them to GA4.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>One Data Layer Variable for the whole <code>ecommerce</code> object</li>
+                <li>One Custom Event trigger using regex to catch all six events</li>
+                <li>One GA4 event tag that handles the entire funnel</li>
+            </ul>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Run the whole funnel once</h2>
+
+        <p>Do this before touching Tag Manager. Watch the panel as you go — every event is there in full.</p>
+
+        <ol class="steps">
+            <li><p>Press <b>View</b> on a product.</p></li>
+            <li><p>Press <b>Add to cart</b> on two different products.</p></li>
+            <li><p>Remove one of them.</p></li>
+            <li><p>Press <b>Start checkout</b>, then <b>Place order</b>.</p></li>
+        </ol>
+
+        <div class="demo">
+            <h3>Demo shop</h3>
+            <p class="demo-hint">Prices in SEK. Nothing is charged and nothing is sent anywhere.</p>
+
+            <div class="product-grid" id="product-grid"></div>
+
+            <h3>Cart</h3>
+            <ul class="cart" id="cart-lines"></ul>
+            <p class="cart-total"><span>Total</span><span id="cart-total">0 SEK</span></p>
+            <div class="row">
+                <button class="btn" id="begin-checkout" disabled>Start checkout</button>
+                <button class="btn signal" id="purchase" disabled>Place order</button>
+            </div>
+
+            <p class="readout" id="shop-status">Press something above.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 2</span> Build one variable for the whole object</h2>
+
+        <p>Do not build a variable per field. GA4's tag understands the whole <code>ecommerce</code> object at once.</p>
+
+        <ol class="steps">
+            <li><p><span class="path">Variables › New › Data Layer Variable</span>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Data Layer Variable Name</th><td><code>ecommerce</code></td></tr>
+                    <tr><th>Data Layer Version</th><td>Version 2</td></tr>
+                    <tr><th>Name</th><td><code>dlv — ecommerce</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 3</span> Build one trigger for all six events</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Triggers › New › Custom Event</span>.</p></li>
+            <li><p>Tick <b>Use regex matching</b>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Event name</th><td><code>^(view_item_list|select_item|view_item|add_to_cart|remove_from_cart|begin_checkout|purchase)$</code></td></tr>
+                    <tr><th>Use regex matching</th><td>On</td></tr>
+                    <tr><th>Name</th><td><code>Custom Event — ecommerce</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save. The <code>^</code> and <code>$</code> matter — without them, <code>purchase</code> would also
+                match an event called <code>purchase_failed</code>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 4</span> Build one GA4 tag for the whole funnel</h2>
+
+        <ol class="steps">
+            <li><p>You need a GA4 configuration first. If you do not have one:
+                <span class="path">Tags › New › Google Tag</span>, with your <code>G-</code> measurement ID, on
+                <b>Initialization — All Pages</b>.</p></li>
+            <li><p><span class="path">Tags › New › Google Analytics: GA4 Event</span>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Measurement ID</th><td>your <code>G-XXXXXXX</code></td></tr>
+                    <tr><th>Event Name</th><td><code>{{Event}}</code></td></tr>
+                    <tr><th>Send Ecommerce data</th><td>On</td></tr>
+                    <tr><th>Data source</th><td>Data Layer</td></tr>
+                    <tr><th>Trigger</th><td><code>Custom Event — ecommerce</code></td></tr>
+                    <tr><th>Name</th><td><code>GA4 — ecommerce (all events)</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save. Preview. Run the funnel again.</p></li>
+        </ol>
+
+        <div class="note">
+            <h3>Why <code>{{Event}}</code> in the Event Name field</h3>
+            <p><code>{{Event}}</code> is a built-in variable holding the name of the event that is firing right now.
+                One tag then sends <code>add_to_cart</code> as <code>add_to_cart</code> and <code>purchase</code> as
+                <code>purchase</code>. Six tags would do the same job and be six times the maintenance.</p>
+        </div>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>Six event names in Tag Assistant's left column as you work through the funnel.</li>
+            <li>Your one GA4 tag fired on every one of them.</li>
+            <li>On <code>purchase</code>, the <b>Variables</b> tab shows <code>dlv — ecommerce</code> containing <code>transaction_id</code>, <code>value</code>, <code>tax</code>, <code>shipping</code> and an <code>items</code> array.</li>
+            <li>An <code>ecommerce: null</code> entry in the panel immediately <em>before</em> every ecommerce event.</li>
+            <li>In GA4's <b>Realtime</b> report, the events appear with product names attached.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>Events arrive with no products.</b> Send Ecommerce data is off, or Data source is not set to Data Layer.</li>
+            <li><b>The wrong product is attached.</b> The <code>ecommerce: null</code> push is missing. Without it, GA4 reads leftover items from the previous event.</li>
+            <li><b>The purchase is counted twice.</b> Reloading a thank-you page pushes <code>purchase</code> again. GA4 deduplicates on <code>transaction_id</code> — so it must be the real order number, never a random one per page load.</li>
+            <li><b>value does not match the items.</b> On <code>add_to_cart</code>, <code>value</code> is the price of what was added. On <code>begin_checkout</code> and <code>purchase</code> it is the whole cart. Check which one you are looking at.</li>
+            <li><b>Revenue looks wrong in GA4.</b> <code>currency</code> is missing, or is not a three-letter ISO code. <code>SEK</code>, not <code>kr</code>.</li>
+        </ul>
+
+        <h2 class="step"><span class="num">Step 5</span> Read the code</h2>
+
+        <p>Open <a href="js/shop.js">js/shop.js</a>. Every push in it follows the same two lines:</p>
+
+<pre><code><span class="tok-com">// 1. Clear the previous product.</span>
+dataLayer.push({ <span class="tok-key">ecommerce</span>: <span class="tok-kw">null</span> });
+
+<span class="tok-com">// 2. Send the new one.</span>
+dataLayer.push({
+  <span class="tok-key">event</span>: <span class="tok-str">'add_to_cart'</span>,
+  <span class="tok-key">ecommerce</span>: {
+    <span class="tok-key">currency</span>: <span class="tok-str">'SEK'</span>,
+    <span class="tok-key">value</span>: <span class="tok-kw">899</span>,
+    <span class="tok-key">items</span>: [{
+      <span class="tok-key">item_id</span>:       <span class="tok-str">'SKU-101'</span>,      <span class="tok-com">// required</span>
+      <span class="tok-key">item_name</span>:     <span class="tok-str">'Blue running shoe'</span>, <span class="tok-com">// required</span>
+      <span class="tok-key">item_category</span>: <span class="tok-str">'Shoes'</span>,
+      <span class="tok-key">item_brand</span>:    <span class="tok-str">'Demo'</span>,
+      <span class="tok-key">price</span>:         <span class="tok-kw">899</span>,
+      <span class="tok-key">quantity</span>:      <span class="tok-kw">1</span>
+    }]
+  }
+});</code></pre>
+
+        <p>This is the specification you hand a developer. GA4 needs either <code>item_id</code> or
+            <code>item_name</code> on every item; everything else is optional but reports get thin without it.</p>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Split <code>purchase</code> onto its own trigger and tag. Was that worth doing? Argue both sides.</li>
+            <li>Add an <b>Element Visibility</b> trigger so <code>view_item_list</code> only fires when the grid is actually on screen, rather than on page load.</li>
+            <li>Build a Lookup Table mapping <code>item_category</code> to an internal department code, and add it to the items as a custom parameter.</li>
+            <li>Break it on purpose: comment out the <code>ecommerce: null</code> line in shop.js, add product A, then add product B. Watch what arrives.</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>ga4 ecommerce datalayer measure ecommerce</q>,
+            <q>gtm ga4 event tag send ecommerce data</q>, <q>ga4 purchase transaction_id deduplication</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="index.html">Module 4</a></span>
+            <span><a href="../reference/glossary.html">Glossary</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script src="js/shop.js"></script>
+
+</body>
+</html>

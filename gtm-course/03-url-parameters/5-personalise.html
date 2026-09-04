@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.5 Two parameters, one page state</title>
+<meta name="description" content="Step-by-step GTM exercise: combine two URL parameters into one page state, and translate one of them with a Lookup Table.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+<style>
+    /* The demo panel changes theme, not the whole page — the reading column stays readable. */
+    #theme-box {
+        border: 1px solid var(--rule);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        transition: background-color .15s, color .15s;
+        font-family: var(--sans);
+    }
+    #theme-box.light-theme { background: #FFFFFF; color: #10203A; }
+    #theme-box.dark-theme  { background: #10203A; color: #E7ECF1; }
+    #theme-box.dark-theme .btn.secondary { background: #1B3252; color: #E7ECF1; border-color: #2E4463; }
+    #theme-box h3 { margin-top: 0; }
+    @media (prefers-reduced-motion: reduce) { #theme-box { transition: none; } }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html">Module 3</a></li>
+        <li><a href="5-personalise.html" aria-current="page">3.5 One page state</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">3.5</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i></i> Getting real</span>
+            <span>25 minutes</span>
+        </div>
+
+        <h1>Two parameters, one page state</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>Two parameters — <code>theme</code> and <code>user</code> — decide how the box below looks and what it
+                says. You will report that combined state to Tag Manager as one clean value.</p>
+            <p>You will build:</p>
+            <ul class="build-list">
+                <li>Two URL Variables</li>
+                <li>A Lookup Table translating <code>theme</code> into a readable label</li>
+                <li>A tag that reports both, with sensible defaults when nothing was supplied</li>
+            </ul>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Try the combinations</h2>
+
+        <div class="demo">
+            <h3>Personalised panel</h3>
+            <div id="theme-box" class="light-theme">
+                <h3 id="welcome-heading">Welcome, Guest</h3>
+                <p style="margin-bottom:1rem">Theme: <b id="theme-label">light</b></p>
+                <button class="btn secondary" id="theme-toggle">Toggle theme</button>
+            </div>
+            <div class="row" style="margin-top:1rem">
+                <a class="btn" href="?theme=dark&amp;user=Anna">dark + Anna</a>
+                <a class="btn" href="?theme=light&amp;user=Erik">light + Erik</a>
+                <a class="btn secondary" href="?theme=dark">dark, no user</a>
+                <a class="btn secondary" href="?theme=neon&amp;user=Anna">theme=neon (invalid)</a>
+                <a class="btn secondary" href="5-personalise.html">nothing</a>
+            </div>
+            <p class="readout" id="state-out"></p>
+        </div>
+
+        <p>The toggle button rebuilds the URL and reloads. That is deliberate: the page state is always readable from
+            the address, so it can be shared, bookmarked, and — the part that matters here — read by Tag Manager on
+            page load.</p>
+
+        <h2 class="step"><span class="num">Step 2</span> Build two URL Variables</h2>
+
+        <table class="settings">
+            <tr><th><code>url — theme</code></th><td>URL, Query, key <code>theme</code>, default <code>light</code></td></tr>
+            <tr><th><code>url — user</code></th><td>URL, Query, key <code>user</code>, default <code>Guest</code></td></tr>
+        </table>
+
+        <p>The defaults here are not <code>(not set)</code>. They are the values the page actually uses when the
+            parameter is absent, so your variables match what the visitor really saw.</p>
+
+        <h2 class="step"><span class="num">Step 3</span> Build the Lookup Table</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Variables › New › Lookup Table</span>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Input Variable</th><td><code>{{url — theme}}</code></td></tr>
+                    <tr><th>light</th><td><code>Light mode</code></td></tr>
+                    <tr><th>dark</th><td><code>Dark mode</code></td></tr>
+                    <tr><th>Set Default Value</th><td>On, <code>Unsupported theme</code></td></tr>
+                    <tr><th>Name</th><td><code>lookup — theme label</code></td></tr>
+                </table>
+            </li>
+            <li><p>Save.</p></li>
+        </ol>
+
+        <p>The default row is doing real work. <code>?theme=neon</code> is a link somebody will send you, and without
+            a default you would report an empty theme instead of a broken one.</p>
+
+        <h2 class="step"><span class="num">Step 4</span> Build the trigger and tag</h2>
+
+        <ol class="steps">
+            <li><p><span class="path">Triggers › New › Custom Event</span>, event name <code>page_personalised</code>.</p></li>
+            <li>
+                <p><span class="path">Tags › New › Custom HTML</span>:</p>
+<pre><code>&lt;script&gt;
+  console.log(<span class="tok-str">"Page state"</span>, {
+    <span class="tok-key">theme</span>:      <span class="tok-kw">{{url — theme}}</span>,
+    <span class="tok-key">theme_label</span>: <span class="tok-kw">{{lookup — theme label}}</span>,
+    <span class="tok-key">user</span>:       <span class="tok-kw">{{url — user}}</span>
+  });
+&lt;/script&gt;</code></pre>
+            </li>
+            <li><p>Attach the trigger. Save. Preview and click through the links above.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li><code>?theme=dark&amp;user=Anna</code>: the box turns dark, and the variables read <code>dark</code>, <code>Dark mode</code>, <code>Anna</code>.</li>
+            <li><code>?theme=dark</code> with no user: <code>url — user</code> falls back to <code>Guest</code>, matching what the box says.</li>
+            <li><code>?theme=neon</code>: the box stays light, and <code>lookup — theme label</code> reads <code>Unsupported theme</code>.</li>
+            <li>No parameters at all: <code>light</code>, <code>Light mode</code>, <code>Guest</code>. The tag still fires — the page still has a state.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>The lookup always returns the default.</b> Lookup Tables are case sensitive. <code>Dark</code> is not <code>dark</code>. Add both rows, or use a <b>RegEx Table</b>.</li>
+            <li><b>The user name arrives with <code>%20</code> in it.</b> Tag Manager decodes it for you; your own JavaScript does not unless you call <code>decodeURIComponent()</code>.</li>
+            <li><b>Your variable says one thing and the page shows another.</b> Your default does not match the page's default. Set the variable defaults to the values the page actually falls back to.</li>
+        </ul>
+
+        <div class="gotcha">
+            <h3>A name in a URL is a name in your reports</h3>
+            <p><code>?user=Anna</code> is fine in a classroom. On a live site the same pattern puts real names into
+                page paths, referrer headers and every report you own. Personalise from a session cookie or a login,
+                not from the address bar.</p>
+        </div>
+
+        <h2>Go further</h2>
+        <ol class="tasks">
+            <li>Add a third state, <code>?density=compact</code>, and fold it into the same event.</li>
+            <li>Replace the Lookup Table with a <b>RegEx Table</b> that accepts <code>dark</code>, <code>Dark</code> and <code>DARK</code>.</li>
+            <li>Store the theme in localStorage so it survives without a parameter, then compare which source your variable should trust first.</li>
+        </ol>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>gtm lookup table variable</q>, <q>gtm regex table variable</q>,
+            <q>gtm url variable default value</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="4-campaign-source.html">3.4 Campaign source</a></span>
+            <span><a href="6-virtual-pageviews.html">3.6 Pages that never reload</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+<script>
+var VALID_THEMES = ['light', 'dark'];
+
+var rawTheme = Course.param('theme') || 'light';
+var theme = VALID_THEMES.indexOf(rawTheme) > -1 ? rawTheme : 'light';
+var user = Course.param('user') || 'Guest';
+
+document.getElementById('theme-box').className = theme + '-theme';
+document.getElementById('theme-label').textContent = rawTheme;
+document.getElementById('welcome-heading').textContent = 'Welcome, ' + user;
+
+document.getElementById('state-out').textContent =
+    'theme parameter: ' + rawTheme +
+    (rawTheme === theme ? '' : ' (not supported — fell back to light)') +
+    '\nuser parameter:  ' + user;
+document.getElementById('state-out').style.whiteSpace = 'pre-line';
+
+Course.push({
+    event: 'page_personalised',
+    page_settings: {
+        theme: rawTheme,
+        theme_applied: theme,
+        user_name: user
+    }
+});
+
+document.getElementById('theme-toggle').addEventListener('click', function () {
+    var next = theme === 'light' ? 'dark' : 'light';
+    var params = new URLSearchParams(window.location.search);
+    params.set('theme', next);
+    params.set('user', user);
+    window.location.search = params.toString();
+});
+</script>
+
+</body>
+</html>

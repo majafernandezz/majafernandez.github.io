@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2 — The dataLayer</title>
+<meta name="description" content="GTM exercises on the dataLayer: custom events, Data Layer Variables, user data and hashing, and reading values stored earlier in the visit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html" aria-current="page">Module 2</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Module 2</span>
+            <span>Three exercises</span>
+            <span>About 45 minutes</span>
+        </div>
+
+        <h1>The dataLayer</h1>
+
+        <div class="purpose">
+            <h2>What this module is for</h2>
+            <p>The dataLayer is a JavaScript array a website uses to tell Tag Manager things. It is the difference
+                between guessing what happened and being told.</p>
+            <p>Do Module 1 first. These exercises assume you can build a trigger and a tag.</p>
+        </div>
+
+        <h3>The entire API</h3>
+<pre><code><span class="tok-kw">window</span>.dataLayer = <span class="tok-kw">window</span>.dataLayer || [];
+
+<span class="tok-kw">window</span>.dataLayer.push({
+  <span class="tok-key">event</span>: <span class="tok-str">'add_to_cart'</span>,
+  <span class="tok-key">product_name</span>: <span class="tok-str">'Blue running shoe'</span>,
+  <span class="tok-key">value</span>: <span class="tok-kw">899</span>
+});</code></pre>
+
+        <ul class="build-list">
+            <li>Line 1 creates the array if the container script has not already. Script order can then never break it.</li>
+            <li><code>event</code> is the special key. Tag Manager watches for it and wakes up.</li>
+            <li>Every other key is data, waiting for you to name it in a Data Layer Variable.</li>
+        </ul>
+
+        <h2>The exercises</h2>
+        <ul class="exercises">
+            <li><a href="1-push-events.html"><span class="n">2.1</span><span>Push your own events</span><span class="what">Custom Event</span></a></li>
+            <li><a href="2-form-user-data.html"><span class="n">2.2</span><span>Send form data, and hash what is personal</span><span class="what">User data</span></a></li>
+            <li><a href="3-storage.html"><span class="n">2.3</span><span>Read a value stored earlier in the visit</span><span class="what">sessionStorage</span></a></li>
+        </ul>
+
+        <h2>Three rules to memorise</h2>
+        <table class="settings">
+            <tr>
+                <th>Push before you need it</th>
+                <td>A tag can only read what is already in the dataLayer when it fires.</td>
+            </tr>
+            <tr>
+                <th>The dataLayer remembers</th>
+                <td>Values persist across later events until something overwrites them. Exercise 2.1 makes you prove it.</td>
+            </tr>
+            <tr>
+                <th>Name keys in snake_case</th>
+                <td><code>product_name</code>, not <code>productName</code>. It matches GA4 and everyone guesses the same spelling.</td>
+            </tr>
+        </table>
+
+        <div class="pager">
+            <span><a href="../01-gtm-basics/index.html">Module 1</a></span>
+            <span><a href="1-push-events.html">Exercise 2.1</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+</body>
+</html>

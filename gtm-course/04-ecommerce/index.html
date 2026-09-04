@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 4 — Ecommerce tracking</title>
+<meta name="description" content="GA4 ecommerce exercises in Google Tag Manager: view_item_list, select_item, add_to_cart, begin_checkout and purchase.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="index.html" aria-current="page">Module 4</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Module 4</span>
+            <span>One long exercise</span>
+            <span>About an hour</span>
+        </div>
+
+        <h1>Ecommerce tracking</h1>
+        <p class="lede">A working shop that pushes the six GA4 ecommerce events. You build the tags that catch them.</p>
+
+        <h2>What makes ecommerce different</h2>
+        <p>Every event so far carried a few loose keys. Ecommerce events carry a strict structure that GA4 recognises
+            by shape, not by name. Get the shape wrong and the event arrives with no products in it — no error, no
+            warning, just empty reports.</p>
+
+<pre><code>dataLayer.push({ <span class="tok-key">ecommerce</span>: <span class="tok-kw">null</span> });   <span class="tok-com">// clear the previous product first</span>
+dataLayer.push({
+  <span class="tok-key">event</span>: <span class="tok-str">'add_to_cart'</span>,
+  <span class="tok-key">ecommerce</span>: {
+    <span class="tok-key">currency</span>: <span class="tok-str">'SEK'</span>,
+    <span class="tok-key">value</span>: <span class="tok-kw">899</span>,
+    <span class="tok-key">items</span>: [{
+      <span class="tok-key">item_id</span>: <span class="tok-str">'SKU-101'</span>,
+      <span class="tok-key">item_name</span>: <span class="tok-str">'Blue running shoe'</span>,
+      <span class="tok-key">price</span>: <span class="tok-kw">899</span>,
+      <span class="tok-key">quantity</span>: <span class="tok-kw">1</span>
+    }]
+  }
+});</code></pre>
+
+        <div class="purpose">
+            <h2>Three rules for this module</h2>
+            <ul class="build-list">
+                <li>Everything lives inside one <code>ecommerce</code> object</li>
+                <li><code>items</code> is always an array, even for one product</li>
+                <li>Push <code>ecommerce: null</code> before every event, or the previous product comes along for the ride</li>
+            </ul>
+        </div>
+
+        <h2>The exercise</h2>
+        <ul class="exercises">
+            <li><a href="1-shop.html"><span class="n">4.1</span><span>Track a shop from listing to purchase</span><span class="what">Six events</span></a></li>
+        </ul>
+
+        <h2>The six events you will see</h2>
+        <table class="settings">
+            <tr><th>view_item_list</th><td>The product grid appeared. Fires once on load.</td></tr>
+            <tr><th>select_item</th><td>Someone clicked a product in the list.</td></tr>
+            <tr><th>add_to_cart</th><td>A product went into the cart.</td></tr>
+            <tr><th>remove_from_cart</th><td>A product came back out.</td></tr>
+            <tr><th>begin_checkout</th><td>Checkout started. The whole cart is in <code>items</code>.</td></tr>
+            <tr><th>purchase</th><td>The order completed. Needs a <code>transaction_id</code>.</td></tr>
+        </table>
+
+        <div class="pager">
+            <span><a href="../03-url-parameters/index.html">Module 3</a></span>
+            <span><a href="1-shop.html">Exercise 4.1</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="../reference/glossary.html">Glossary</a></p>
+</footer>
+
+</body>
+</html>

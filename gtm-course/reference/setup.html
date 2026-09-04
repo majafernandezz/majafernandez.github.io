@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Set up a Tag Manager container</title>
+<meta name="description" content="Step-by-step: create a free Google Tag Manager account and container, install it, connect it to the course exercises, and publish.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/course.css">
+<script src="../assets/config.js"></script>
+<script src="../assets/course.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="../index.html">Tag Manager course</a></li>
+        <li><a href="setup.html" aria-current="page">Set up a container</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Reference A</span>
+            <span>15 minutes</span>
+        </div>
+
+        <h1>Set up a Tag Manager container</h1>
+
+        <div class="purpose">
+            <h2>What this page is for</h2>
+            <p>Do this once, before Module 1. It gives you a free container of your own to build in.</p>
+            <p>You need: a Google account. Nothing else, and no website.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Create the account and container</h2>
+
+        <ol class="steps">
+            <li><p>Go to <a href="https://tagmanager.google.com/">tagmanager.google.com</a> and sign in.</p></li>
+            <li><p>Press <b>Create Account</b>.</p></li>
+            <li>
+                <table class="settings">
+                    <tr><th>Account Name</th><td>your name, or your school</td></tr>
+                    <tr><th>Country</th><td>Sweden</td></tr>
+                    <tr><th>Container name</th><td><code>gtm-course</code></td></tr>
+                    <tr><th>Target platform</th><td><b>Web</b></td></tr>
+                </table>
+            </li>
+            <li><p>Press <b>Create</b> and accept the terms.</p></li>
+            <li><p>A dialog shows two blocks of code. Close it — you do not need them for this course.</p></li>
+        </ol>
+
+        <div class="note">
+            <h3>Account and container are not the same thing</h3>
+            <p>An <b>account</b> is usually one company. A <b>container</b> is usually one website. One account can
+                hold many containers. For this course, one of each is plenty.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 2</span> Find your container ID</h2>
+
+        <ol class="steps">
+            <li><p>Look at the top right of the workspace, next to the Preview button.</p></li>
+            <li><p>You will see something like <code>GTM-A1B2C3D</code>. That is your container ID.</p></li>
+            <li><p>Copy it.</p></li>
+        </ol>
+
+        <div class="gotcha">
+            <h3>Three IDs that look alike</h3>
+            <ul class="build-list">
+                <li><code>GTM-XXXXXXX</code> — a Tag Manager container. This is the one you want.</li>
+                <li><code>G-XXXXXXXXXX</code> — a GA4 measurement ID. Used inside a tag, not instead of the container.</li>
+                <li><code>AW-XXXXXXXXX</code> — a Google Ads conversion ID.</li>
+            </ul>
+        </div>
+
+        <h2 class="step"><span class="num">Step 3</span> Connect it to this course</h2>
+
+        <p>Three ways. The first is permanent, the other two are for a quick test.</p>
+
+        <ol class="steps">
+            <li>
+                <p><b>Edit one file.</b> Open <code>assets/config.js</code> in this folder and put your ID between the
+                    quotes:</p>
+<pre><code>window.GTM_COURSE_CONFIG = {
+  <span class="tok-key">containerId</span>: <span class="tok-str">'GTM-A1B2C3D'</span>,
+  <span class="tok-key">hideConnectBox</span>: <span class="tok-kw">false</span>
+};</code></pre>
+                <p>Save, upload, done. Every page in the course now loads your container.</p>
+            </li>
+            <li><p><b>Or paste it into the box</b> under the dataLayer panel on any page and press <b>Connect</b>.
+                It is remembered in your browser for every other page.</p></li>
+            <li><p><b>Or add it to the address:</b> <code>?gtm=GTM-A1B2C3D</code>. Quickest way to hand a container
+                to a whole classroom at once.</p></li>
+        </ol>
+
+        <p>Check that the panel's status line turns green and names your container.</p>
+
+        <h2 class="step"><span class="num">Step 4</span> Check that Preview works</h2>
+
+        <ol class="steps">
+            <li><p>Press <span class="path">Preview</span> at the top right of Tag Manager.</p></li>
+            <li><p>Paste this page's address into Tag Assistant and press <b>Connect</b>.</p></li>
+            <li><p>A new tab opens with this page and a "Tag Assistant Connected" badge.</p></li>
+            <li><p>Switch back to Tag Assistant. You should see a <b>Container Loaded</b> event.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>The panel on this page shows a green dot and your container ID.</li>
+            <li>Tag Assistant connects and lists events in the left column.</li>
+            <li>You are ready for <a href="../01-gtm-basics/1-first-tag.html">exercise 1.1</a>.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>Tag Assistant will not connect.</b> An ad blocker or a browser blocking third-party cookies. Try an incognito window with extensions disabled.</li>
+            <li><b>The panel stays grey.</b> The ID was mistyped, or a network filter is blocking <code>googletagmanager.com</code>. Check the browser console for a blocked request.</li>
+            <li><b>You are in the wrong container.</b> The container name is next to the ID at the top. Switch with the account picker.</li>
+        </ul>
+
+        <h2>Publishing, for when you need it</h2>
+
+        <p>Preview shows changes to you alone. To make them real for everyone:</p>
+
+        <ol class="steps">
+            <li><p>Press <span class="path">Submit</span> at the top right.</p></li>
+            <li><p>Give the version a name that says what changed — <code>Added click tracking on CTA</code>, not <code>v2</code>.</p></li>
+            <li><p>Press <b>Publish</b>.</p></li>
+        </ol>
+
+        <p>Every publish creates a version you can roll back to from
+            <span class="path">Versions</span>. This is the safety net that makes Tag Manager worth using.</p>
+
+        <h2>Putting this folder on your own website</h2>
+
+        <p>Unzip the folder and upload it to your GitHub Pages repository — as a folder called
+            <code>gtm-course</code> at the top level. It then lives at
+            <code>https://yourname.github.io/gtm-course/</code>.</p>
+
+        <ol class="steps">
+            <li><p>Unzip <code>gtm-course.zip</code>.</p></li>
+            <li><p>Edit <code>assets/config.js</code> and put your container ID in it.</p></li>
+            <li><p>Drag the whole <code>gtm-course</code> folder into your repository on github.com, or commit it
+                from your editor.</p></li>
+            <li><p>Wait a minute, then open <code>https://yourname.github.io/gtm-course/</code>.</p></li>
+        </ol>
+
+        <div class="gotcha">
+            <h3>Two container snippets on one page</h3>
+            <p>Your own site already has the Tag Manager snippet in its template. These course pages are standalone
+                HTML and do not inherit it — which is why <code>config.js</code> exists.</p>
+            <p>If you ever paste the snippet into these pages <em>as well</em>, the container loads twice and every
+                tag fires twice. Use one method, not both.</p>
+        </div>
+
+        <div class="note">
+            <h3>Opening the files without uploading</h3>
+            <p>Double-clicking the HTML files works for almost everything. Two exceptions, both because the browser
+                treats <code>file://</code> as untrusted: the hashing in exercise 2.2 needs HTTPS, and the container
+                ID is not remembered between pages. Upload to GitHub Pages and both work.</p>
+        </div>
+
+        <h2>The snippet, for reference</h2>
+
+        <p>This is what your own website already has in its template. You do not need to add it to these pages:</p>
+
+<pre><code>&lt;!-- Google Tag Manager — as high in &lt;head&gt; as possible --&gt;
+&lt;script&gt;(<span class="tok-kw">function</span>(w,d,s,l,i){w[l]=w[l]||[];w[l].push({<span class="tok-str">'gtm.start'</span>:
+<span class="tok-kw">new</span> Date().getTime(),event:<span class="tok-str">'gtm.js'</span>});<span class="tok-kw">var</span> f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!=<span class="tok-str">'dataLayer'</span>?<span class="tok-str">'&amp;l='</span>+l:<span class="tok-str">''</span>;j.async=<span class="tok-kw">true</span>;j.src=
+<span class="tok-str">'https://www.googletagmanager.com/gtm.js?id='</span>+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,<span class="tok-str">'script'</span>,<span class="tok-str">'dataLayer'</span>,<span class="tok-str">'GTM-XXXXXXX'</span>);&lt;/script&gt;
+
+&lt;!-- immediately after the opening &lt;body&gt; tag --&gt;
+&lt;noscript&gt;&lt;iframe src=<span class="tok-str">"https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"</span>
+height=<span class="tok-str">"0"</span> width=<span class="tok-str">"0"</span> style=<span class="tok-str">"display:none;visibility:hidden"</span>&gt;&lt;/iframe&gt;&lt;/noscript&gt;</code></pre>
+
+        <p>Replace both <code>GTM-XXXXXXX</code> with your own ID. It must go on every page, which is why it belongs
+            in a template rather than pasted page by page.</p>
+
+        <div class="lookup">
+            <b>Search for:</b> <q>google tag manager setup and install</q>, <q>gtm container vs account</q>,
+            <q>gtm publish version rollback</q>.
+        </div>
+
+        <div class="pager">
+            <span><a href="../index.html">Tag Manager course</a></span>
+            <span><a href="../01-gtm-basics/1-first-tag.html">Exercise 1.1</a></span>
+        </div>
+
+    </div>
+
+    <div class="rail">
+        <div id="monitor"></div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="../index.html">Tag Manager course</a> · <a href="glossary.html">Glossary</a></p>
+</footer>
+
+</body>
+</html>
