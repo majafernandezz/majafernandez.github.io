@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Before you start</title>
+<meta name="description" content="Create a Google Tag Manager container and a Google Analytics 4 property, connect them, and put the practice shop online with GitHub Pages.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="index.html">Tag Manager on a real site</a></li><li><a href="0-before-you-start.html" aria-current="page">0. Before you start</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Exercise 0</span>
+            <span class="level"><i class="on"></i><i></i><i></i> Getting started</span>
+            <span>About 45 minutes</span>
+        </div>
+
+        <h1>Before you start</h1>
+        <p class="lede">Four things to set up. All of them are free. Do them in this order.</p>
+
+        <h2 class="step"><span class="num">Part A</span> Create a Tag Manager container</h2>
+        <ol class="steps">
+            <li><p>Go to <a href="https://tagmanager.google.com" target="_blank" rel="noopener">tagmanager.google.com</a> and log in with a Google account. Any Gmail account works.</p></li>
+            <li><p>Click the blue button <b>Create Account</b>.</p></li>
+            <li><p>Under <b>Account Name</b>, type your own name. Under <b>Country</b>, choose your country.</p></li>
+            <li><p>Under <b>Container name</b>, type <code>Fika practice shop</code>. Under <b>Target platform</b>, choose <b>Web</b>.</p></li>
+            <li><p>Click <b>Create</b>. Accept the terms of service.</p></li>
+            <li><p>A window opens with two boxes of code. This is your snippet. You do not need it yet. Close the window.</p></li>
+            <li><p>Look at the top right of the page. You will see an ID that starts with <code>GTM-</code>. That is your container ID. Write it down.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Part B</span> Create a Google Analytics property</h2>
+        <p>A <b>property</b> is your Google Analytics account for one website. It has an ID that starts with <code>G-</code>.</p>
+        <ol class="steps">
+            <li><p>Go to <a href="https://analytics.google.com" target="_blank" rel="noopener">analytics.google.com</a> and log in with the same Google account.</p></li>
+            <li><p>If you have never used Google Analytics, click <b>Start measuring</b>. If you have, click the gear icon <b>Admin</b> at the bottom left, then <b>Create</b>, then <b>Property</b>.</p></li>
+            <li><p>Under <b>Property name</b>, type <code>Fika practice shop</code>. Choose your time zone and currency. Click <b>Next</b>.</p></li>
+            <li><p>Answer the questions about your business any way you like. Click <b>Create</b>.</p></li>
+            <li><p>When it asks how you want to collect data, choose <b>Web</b>.</p></li>
+            <li><p>Under <b>Website URL</b>, type <code>yourname.github.io</code>, using the GitHub user name you will choose in part D. Under <b>Stream name</b>, type <code>Fika practice shop</code>. Click <b>Create stream</b>.</p></li>
+            <li><p>A page opens with the details of the stream. At the top right you will see a <b>Measurement ID</b> that starts with <code>G-</code>. Write it down.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Part C</span> Connect Tag Manager to Google Analytics</h2>
+        <p>You do this with one tag, called the <b>Google tag</b>. It runs on every page and sends every page view to your property. All the other tags you build later send their data to the same place.</p>
+        <ol class="steps">
+            <li><p>Go back to <a href="https://tagmanager.google.com" target="_blank" rel="noopener">tagmanager.google.com</a> and open your container.</p></li>
+            <li><p>In the menu on the left, click <b>Tags</b>. Then click the blue button <b>New</b>.</p></li>
+            <li><p>Click on the big box called <b>Tag Configuration</b>. A list of tag types opens. Choose <b>Google tag</b>.</p></li>
+            <li><p>In the field <b>Tag ID</b>, paste your Measurement ID from part B, the one that starts with <code>G-</code>.</p></li>
+            <li><p>Click on the big box called <b>Triggering</b>. Choose <b>Initialization - All Pages</b>.</p></li>
+            <li><p>At the top left, where it says <b>Untitled Tag</b>, type the name <code>Google tag - GA4</code>.</p></li>
+            <li><p>Click <b>Save</b> at the top right.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Part D</span> Put the folder online</h2>
+        <p>Tag Manager's test tool can only open pages that are on the internet, not files on your computer. <b>GitHub Pages</b> is a free way to put a folder of web pages online.</p>
+        <ol class="steps">
+            <li><p>Go to <a href="https://github.com" target="_blank" rel="noopener">github.com</a> and create an account. Choose a short user name. It becomes part of your web address.</p></li>
+            <li><p>Click the <b>+</b> at the top right and choose <b>New repository</b>.</p></li>
+            <li><p>Under <b>Repository name</b>, type exactly <code>yourname.github.io</code>, with your user name instead of <i>yourname</i>. Leave it <b>Public</b>. Tick <b>Add a README file</b>. Click <b>Create repository</b>.</p></li>
+            <li><p>On the page that opens, click the button <b>Add file</b>, then <b>Upload files</b>.</p></li>
+            <li><p>Open the folder on your computer that contains <code>gtm-real-site</code>. Drag the whole <code>gtm-real-site</code> folder into the browser window, onto the box that says <b>Drag files here</b>.</p></li>
+            <li><p>Wait until every file is listed. Then click the green button <b>Commit changes</b> at the bottom.</p></li>
+            <li><p>Wait two minutes. Then open this address in a new tab, with your user name instead of <i>yourname</i>:</p>
+<pre><code>https://yourname.github.io/gtm-real-site/site/index.html</code></pre>
+                <p>You should see the practice shop. If you see a "404" page, wait another minute and reload.</p></li>
+        </ol>
+        <figure class="shot"><a href="assets/img/site-home.png" target="_blank" rel="noopener"><img src="assets/img/site-home.png" alt="What you should see at the end of part D: the practice shop, online, at your own address."></a><figcaption>What you should see at the end of part D: the practice shop, online, at your own address. Click the picture to see it full size.</figcaption></figure>
+
+        <h2>What you have now</h2>
+        <ul class="outcome">
+            <li>A Tag Manager container with an ID like <code>GTM-ABC1234</code>.</li>
+            <li>A Google Analytics property with a Measurement ID like <code>G-ABC123XYZ</code>.</li>
+            <li>One tag in the container, <code>Google tag - GA4</code>, that connects the two.</li>
+            <li>The practice shop online at <code>https://yourname.github.io/gtm-real-site/site/index.html</code>.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>The shop shows a 404 page.</b> Check the repository name. It must be exactly <code>yourname.github.io</code>. Then check that the folder <code>gtm-real-site</code> is at the top of the repository, not inside another folder.</li>
+            <li><b>GitHub says the upload is too big.</b> Upload the <code>site</code> folder and the other files in two rounds.</li>
+        </ul>
+
+        <div class="lookup">
+            <b>If you get stuck, search for:</b> <q>create google tag manager account</q>, <q>create ga4 property</q>,
+            <q>github pages upload files</q>.
+        </div>
+
+
+        <div class="pager">
+            <span><a href="index.html">&larr; Start page</a></span>
+            <span><a href="1-install.html">Exercise 1 &rarr;</a></span>
+        </div>
+    </div>
+
+    <div class="rail">
+        <div class="card">
+            <h3 style="margin-top:0">The practice shop</h3>
+            <p style="font-size:.92rem">The exercises happen on these five pages. Each link opens in a new tab.</p>
+            <ul class="exercises"><li><a href="site/index.html" target="_blank" rel="noopener"><span class="n">1</span><span>Home page</span><span class="what">cta_click, login</span></a></li><li><a href="site/products.html" target="_blank" rel="noopener"><span class="n">2</span><span>All coffees</span><span class="what">view_item_list, select_item</span></a></li><li><a href="site/product.html?sku=FK-002" target="_blank" rel="noopener"><span class="n">3</span><span>One coffee</span><span class="what">view_item, add_to_cart</span></a></li><li><a href="site/checkout.html" target="_blank" rel="noopener"><span class="n">4</span><span>Checkout</span><span class="what">begin_checkout, purchase</span></a></li><li><a href="site/signup.html" target="_blank" rel="noopener"><span class="n">5</span><span>Subscribe form</span><span class="what">generate_lead</span></a></li></ul>
+            <p style="font-size:.88rem;margin:.9rem 0 0;color:var(--ink-2)">At the bottom of every shop page there is a grey line that says <b>Developer view</b>. Click it to see the dataLayer and which containers are running.</p>
+        </div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="index.html">Start page</a> · <a href="reference/glossary.html">Glossary</a> · <a href="site/index.html">Practice shop</a></p>
+</footer>
+
+</body>
+</html>

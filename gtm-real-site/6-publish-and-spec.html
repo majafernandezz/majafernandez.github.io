@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6. Go live, and ask a developer for what is missing</title>
+<meta name="description" content="Publish the Tag Manager container, check it in Google Analytics without Preview mode, then write a specification for a missing dataLayer event, add the code, and track it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="index.html">Tag Manager on a real site</a></li><li><a href="6-publish-and-spec.html" aria-current="page">6. Go live</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Exercise 6</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i class="on"></i> Real work</span>
+            <span>About 60 minutes</span>
+        </div>
+
+        <h1>Go live, and ask a developer for what is missing</h1>
+
+        <div class="purpose">
+            <h2>What you will do</h2>
+            <p>Everything you have built so far only works in Preview mode, for you. Visitors get nothing until you
+                <b>publish</b>. You will publish, and then check the live shop the way anyone would see it.</p>
+            <p>Then the other half of the job. The email form at the bottom of every page does not send anything to
+                the dataLayer. On a real site, you would write down exactly what it should send and give that to a
+                developer. Here you will write it, and then play the developer and add the code yourself.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Publish</h2>
+        <ol class="steps">
+            <li><p>In Tag Manager, click the blue button <b>Submit</b> at the top right.</p></li>
+            <li><p>Under <b>Version Name</b>, type <code>Version 1 - page info, buttons, form, shop</code>. Under <b>Version Description</b>, write one line for each thing you built. In a few months you will be glad you did.</p></li>
+            <li><p>Click <b>Publish</b> at the top right.</p></li>
+            <li><p>Click <b>Versions</b> in the menu at the top. Your version is marked as <b>Live</b>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 2</span> Check it as a visitor</h2>
+        <ol class="steps">
+            <li><p>Close the shop window that was connected to Preview mode.</p></li>
+            <li><p>Open a private browser window (Ctrl + Shift + N in Chrome, Cmd + Shift + N on a Mac). Open the shop's home page in it. Click around: open a coffee, add it to the cart, send the subscribe form.</p></li>
+            <li><p>Go to <a href="https://analytics.google.com" target="_blank" rel="noopener">analytics.google.com</a>. Click <b>Reports</b> in the menu on the left, then <b>Realtime</b>.</p></li>
+            <li><p>Within a minute, your events appear in the box <b>Event count by Event name</b>. Click <code>add_to_cart</code>, then click a parameter name, to see the values that arrived.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 3</span> Write down what the missing event should look like</h2>
+        <p>At the bottom of every shop page there is a form called <b>Fresh roast news</b>. It works, but it sends
+            nothing to the dataLayer, so you cannot track it. This is the note you would give a developer. It has four
+            parts: a name, when it happens, what information it carries, and an example.</p>
+        <table class="settings">
+            <tr><th>Event name</th><td><code>newsletter_signup</code></td></tr>
+            <tr><th>When</th><td>When the Fresh roast news form at the bottom of the page is sent, on any page</td></tr>
+            <tr><th>Information</th><td><code>form.id</code>: the form's ID, <code>footer-newsletter</code><br><code>form.location</code>: where on the page, <code>footer</code><br><code>user.consent.marketing</code>: <code>true</code>, because the person asked for email</td></tr>
+            <tr><th>Example</th><td><pre style="margin:.4rem 0 0"><code>{
+  <span class="tok-key">event</span>: <span class="tok-str">'newsletter_signup'</span>,
+  <span class="tok-key">form</span>: { <span class="tok-key">id</span>: <span class="tok-str">'footer-newsletter'</span>, <span class="tok-key">location</span>: <span class="tok-str">'footer'</span> },
+  <span class="tok-key">user</span>: { <span class="tok-key">consent</span>: { <span class="tok-key">marketing</span>: <span class="tok-kw">true</span> } }
+}</code></pre></td></tr>
+        </table>
+
+        <h2 class="step"><span class="num">Step 4</span> Play the developer: add the code</h2>
+        <ol class="steps">
+            <li><p>Open the file <code>site.js</code> in the <code>site</code> folder in your text editor.</p></li>
+            <li><p>Use the editor's search (Ctrl + F or Cmd + F) to find <code>EXERCISE 6</code>. Just below it is this code:</p>
+<pre><code>news.addEventListener(<span class="tok-str">'submit'</span>, <span class="tok-kw">function</span> (e) {
+    e.preventDefault();
+    news.innerHTML = <span class="tok-str">'&lt;p class="notice"&gt;Thanks — you are on the list.&lt;/p&gt;'</span>;
+});</code></pre></li>
+            <li><p>Add the lines shown in orange, so it becomes this. Be careful with every bracket and comma.</p>
+<pre><code>news.addEventListener(<span class="tok-str">'submit'</span>, <span class="tok-kw">function</span> (e) {
+    e.preventDefault();
+    <span class="tok-kw">window.dataLayer.push({</span>
+        <span class="tok-kw">event: 'newsletter_signup',</span>
+        <span class="tok-kw">form: { id: 'footer-newsletter', location: 'footer' },</span>
+        <span class="tok-kw">user: { consent: { marketing: true } }</span>
+    <span class="tok-kw">});</span>
+    news.innerHTML = <span class="tok-str">'&lt;p class="notice"&gt;Thanks — you are on the list.&lt;/p&gt;'</span>;
+});</code></pre></li>
+            <li><p>Save the file. Upload it to GitHub the same way as in exercise 1, into the <code>site</code> folder. Wait two minutes.</p></li>
+            <li><p>Open the shop's home page and reload it with Ctrl + Shift + R or Cmd + Shift + R. Scroll down, type an email in the Fresh roast news form, and click <b>Sign up</b>. Open the Developer view. The last entry is <code>newsletter_signup</code>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 5</span> Play the analyst: track it</h2>
+        <ol class="steps">
+            <li><p>Make a Custom Event trigger with event name <code>newsletter_signup</code>. Name it <code>CE - newsletter_signup</code>.</p></li>
+            <li><p>Make a Data Layer Variable named <code>dlv - form.location</code> with Data Layer Variable Name <code>form.location</code>.</p></li>
+            <li><p>Make a GA4 Event tag. Event Name <code>newsletter_signup</code>. One parameter: <code>form_location</code> = <code>dlv - form.location</code>. Event Settings Variable: <code>GA4 - shared event settings</code>. Trigger: <code>CE - newsletter_signup</code>. Name it <code>GA4 - newsletter_signup</code>.</p></li>
+            <li><p>Test it in Preview mode: send the form, and check that the tag fired with <code>form_location: footer</code>.</p></li>
+            <li><p>Click <b>Submit</b>, name the version <code>Version 2 - newsletter form</code>, and <b>Publish</b>.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>Two versions under Versions, and version 2 marked Live.</li>
+            <li>Your events in the Realtime report in Google Analytics, from a browser that is not in Preview mode.</li>
+            <li><code>newsletter_signup</code> in Realtime, with <code>form_location</code> and <code>page_type</code>.</li>
+        </ul>
+
+        <div class="gotcha">
+            <h3>Preview shows your draft. Visitors see the published version.</h3>
+            <p>When someone says "the tracking does not work" and you can see it working in Preview mode, the first
+                question is: did you publish? The second question is: do they have an ad blocker?</p>
+        </div>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>Realtime is empty.</b> Check that you published, that you are looking at the right property, and that the browser has no ad blocker.</li>
+            <li><b>The shop stopped working after editing site.js.</b> A bracket or comma is missing. Compare your code with the example above, character by character. If you cannot find it, download a fresh copy of the file from the zip and try again.</li>
+            <li><b>The event shows in the Developer view but the trigger does not fire.</b> The event name in the trigger must be exactly <code>newsletter_signup</code>.</li>
+        </ul>
+
+        <h2>You are done</h2>
+        <p>You have now done the whole job, from the first line of code on the site to data in a report. This is the
+            same work, in the same order, on every website: put the snippet in, read what the site sends, build
+            variables, triggers and tags, publish, check, and write down what is missing.</p>
+
+        <div class="lookup">
+            <b>If you get stuck, search for:</b> <q>gtm publish container version</q>, <q>ga4 realtime report</q>.
+        </div>
+
+
+        <div class="pager">
+            <span><a href="5-shared-settings.html">&larr; Exercise 5</a></span>
+            <span><a href="index.html">Start page &rarr;</a></span>
+        </div>
+    </div>
+
+    <div class="rail">
+        <div class="card">
+            <h3 style="margin-top:0">The practice shop</h3>
+            <p style="font-size:.92rem">The exercises happen on these five pages. Each link opens in a new tab.</p>
+            <ul class="exercises"><li><a href="site/index.html" target="_blank" rel="noopener"><span class="n">1</span><span>Home page</span><span class="what">cta_click, login</span></a></li><li><a href="site/products.html" target="_blank" rel="noopener"><span class="n">2</span><span>All coffees</span><span class="what">view_item_list, select_item</span></a></li><li><a href="site/product.html?sku=FK-002" target="_blank" rel="noopener"><span class="n">3</span><span>One coffee</span><span class="what">view_item, add_to_cart</span></a></li><li><a href="site/checkout.html" target="_blank" rel="noopener"><span class="n">4</span><span>Checkout</span><span class="what">begin_checkout, purchase</span></a></li><li><a href="site/signup.html" target="_blank" rel="noopener"><span class="n">5</span><span>Subscribe form</span><span class="what">generate_lead</span></a></li></ul>
+            <p style="font-size:.88rem;margin:.9rem 0 0;color:var(--ink-2)">At the bottom of every shop page there is a grey line that says <b>Developer view</b>. Click it to see the dataLayer and which containers are running.</p>
+        </div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="index.html">Start page</a> · <a href="reference/glossary.html">Glossary</a> · <a href="site/index.html">Practice shop</a></p>
+</footer>
+
+</body>
+</html>

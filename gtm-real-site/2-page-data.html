@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2. Read information the shop puts in the dataLayer</title>
+<meta name="description" content="Build Data Layer Variables that read nested values such as page.type and user.tier, use one in a trigger, and send them to Google Analytics as event parameters.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="index.html">Tag Manager on a real site</a></li><li><a href="2-page-data.html" aria-current="page">2. Read the dataLayer</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Exercise 2</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i></i> Getting real</span>
+            <span>About 45 minutes</span>
+        </div>
+
+        <h1>Read information the shop puts in the dataLayer</h1>
+
+        <div class="purpose">
+            <h2>What you will do</h2>
+            <p>Every page of the shop tells Tag Manager what kind of page it is, and whether the visitor is logged in.
+                It does this by putting a small package of information in the <b>dataLayer</b>. In this exercise you
+                will read that information, use it to decide when a tag runs, and send it to Google Analytics.</p>
+            <p>You will build three things: <b>variables</b> that read the information, a <b>trigger</b> that only
+                fires on product pages, and a <b>tag</b> that sends an event to Google Analytics.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Look at what the shop sends</h2>
+        <ol class="steps">
+            <li><p>Open the <a href="site/products.html" target="_blank" rel="noopener">All coffees</a> page of the shop, online, at your own address.</p></li>
+            <li><p>Scroll to the bottom and click <b>Developer view</b>. The panel shows every entry in the dataLayer, oldest first.</p></li>
+            <li><p>Look at the entry marked <code>[1]</code>. It is the package the shop sends on every page.</p>
+                <figure class="shot"><a href="assets/img/devview-open.png" target="_blank" rel="noopener"><img src="assets/img/devview-open.png" alt="The Developer view on the All coffees page. Entry [1] is the page information. Entry [3] is an ecommerce event; you will use those in exercise 4."></a><figcaption>The Developer view on the All coffees page. Entry [1] is the page information. Entry [3] is an ecommerce event; you will use those in exercise 4. Click the picture to see it full size.</figcaption></figure></li>
+        </ol>
+        <p>The package has two parts. <code>page</code> says what kind of page this is. <code>user</code> says who is
+            looking at it. Each part has smaller parts inside it. For example, inside <code>user</code> there is
+            <code>consent</code>, and inside <code>consent</code> there is <code>marketing</code>. To point at that
+            value you write the names with dots between them: <code>user.consent.marketing</code>.</p>
+
+        <h2 class="step"><span class="num">Step 2</span> Build four variables</h2>
+        <p>A <b>Data Layer Variable</b> is a variable that reads one value from the dataLayer. You will build four.</p>
+        <ol class="steps">
+            <li><p>In Tag Manager, click <b>Variables</b> in the menu on the left.</p></li>
+            <li><p>Scroll down to the section <b>User-Defined Variables</b> and click <b>New</b>.</p></li>
+            <li><p>Click the big box <b>Variable Configuration</b>. Choose <b>Data Layer Variable</b>.</p></li>
+            <li><p>In the field <b>Data Layer Variable Name</b>, type <code>page.type</code>.</p></li>
+            <li><p>Check that <b>Data Layer Version</b> says <b>Version 2</b>. If it says Version 1, change it. Version 1 does not understand the dots.</p></li>
+            <li><p>At the top left, where it says <b>Untitled Variable</b>, type the name <code>dlv - page.type</code>. Click <b>Save</b>.</p></li>
+            <li><p>Repeat steps 2 to 6 three more times with these values:</p>
+                <table class="settings cols">
+                    <tr><th>Name of the variable</th><th>Data Layer Variable Name</th></tr>
+                    <tr><td><code>dlv - page.category</code></td><td><code>page.category</code></td></tr>
+                    <tr><td><code>dlv - user.tier</code></td><td><code>user.tier</code></td></tr>
+                    <tr><td><code>dlv - user.consent.marketing</code></td><td><code>user.consent.marketing</code></td></tr>
+                </table>
+            </li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 3</span> Check the variables in Preview mode</h2>
+        <ol class="steps">
+            <li><p>Click <b>Preview</b> at the top right of Tag Manager. Enter the address of the shop's <b>All coffees</b> page and click <b>Connect</b>.</p></li>
+            <li><p>In the Tag Assistant tab, click <b>Container Loaded</b> in the list on the left.</p></li>
+            <li><p>In the middle of the page there are tabs: <b>Tags</b>, <b>Variables</b>, <b>Data Layer</b>. Click <b>Variables</b>.</p></li>
+            <li><p>Scroll down the list until you find your four variables. <code>dlv - page.type</code> should have the value <code>listing</code>.</p></li>
+            <li><p>Go to the shop window and click on one of the coffees. Go back to Tag Assistant. Click the new page in the list on the left, then <b>Container Loaded</b>, then <b>Variables</b>. Now <code>dlv - page.type</code> says <code>product</code>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 4</span> Build a trigger that only fires on product pages</h2>
+        <ol class="steps">
+            <li><p>In Tag Manager, click <b>Triggers</b> in the menu on the left. Click <b>New</b>.</p></li>
+            <li><p>Click the big box <b>Trigger Configuration</b>. Choose <b>Page View</b>.</p></li>
+            <li><p>Under <b>This trigger fires on</b>, choose <b>Some Page Views</b>. Three fields appear.</p></li>
+            <li><p>In the first field, choose <code>dlv - page.type</code>. In the second, choose <b>equals</b>. In the third, type <code>product</code>.</p></li>
+            <li><p>At the top left, type the name <code>PV - product page</code>. Click <b>Save</b>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 5</span> Build a tag that sends an event to Google Analytics</h2>
+        <ol class="steps">
+            <li><p>Click <b>Tags</b> in the menu on the left. Click <b>New</b>.</p></li>
+            <li><p>Click the big box <b>Tag Configuration</b>. Choose <b>Google Analytics: GA4 Event</b>.</p></li>
+            <li><p>In the field <b>Measurement ID</b>, paste your <code>G-</code> ID.</p></li>
+            <li><p>In the field <b>Event Name</b>, type <code>view_product_page</code>.</p></li>
+            <li><p>Click <b>Event Parameters</b> to open it. Click <b>Add parameter</b>. In the left field type <code>page_category</code>. In the right field, click the small icon that looks like a building block and choose <code>dlv - page.category</code>.</p></li>
+            <li><p>Click <b>Add parameter</b> again. Left field: <code>user_tier</code>. Right field: choose <code>dlv - user.tier</code>.</p></li>
+            <li><p>Click the big box <b>Triggering</b>. Choose <code>PV - product page</code>.</p></li>
+            <li><p>At the top left, type the name <code>GA4 - view_product_page</code>. Click <b>Save</b>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 6</span> Test it</h2>
+        <ol class="steps">
+            <li><p>Go to the shop window. It is still connected to Preview mode. Open <b>Coffees</b>, then click on a coffee.</p></li>
+            <li><p>In Tag Assistant, click the product page in the list on the left, then <b>Container Loaded</b>. Under <b>Tags Fired</b> you should see <code>GA4 - view_product_page</code>.</p></li>
+            <li><p>Click on the tag. It shows the parameters it sent: <code>page_category</code> is <code>coffee</code> and <code>user_tier</code> is <code>guest</code>.</p></li>
+            <li><p>Now click the All coffees page in the list on the left, then <b>Container Loaded</b>. The tag is under <b>Tags Not Fired</b>. That is correct: it is not a product page.</p></li>
+            <li><p>Go to <a href="https://analytics.google.com" target="_blank" rel="noopener">analytics.google.com</a>. Click <b>Admin</b> (the gear at the bottom left), then <b>DebugView</b>. Go to the shop window and open another coffee. Within a few seconds, <code>view_product_page</code> appears in DebugView. Click it to see the two parameters.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>Four variables with values in the Variables tab in Tag Assistant. The values change from page to page.</li>
+            <li>The tag fires on product pages and not on other pages.</li>
+            <li>In DebugView in Google Analytics, an event called <code>view_product_page</code> with two parameters.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>A variable has the value undefined.</b> Check for spelling mistakes. Small and capital letters matter: <code>page.type</code>, not <code>Page.Type</code>. Also check that the Data Layer Version is 2.</li>
+            <li><b>The variable is correct but the trigger never fires.</b> Open the trigger and check that its type is Page View and the condition is exactly <code>dlv - page.type</code> equals <code>product</code>.</li>
+            <li><b>Nothing appears in DebugView.</b> Check the Measurement ID in the tag. Also try a browser window without extensions, because ad blockers stop Google Analytics.</li>
+        </ul>
+
+        <div class="lookup">
+            <b>If you get stuck, search for:</b> <q>gtm data layer variable nested</q>, <q>ga4 debugview</q>.
+        </div>
+
+
+        <div class="pager">
+            <span><a href="1-install.html">&larr; Exercise 1</a></span>
+            <span><a href="3-custom-events.html">Exercise 3 &rarr;</a></span>
+        </div>
+    </div>
+
+    <div class="rail">
+        <div class="card">
+            <h3 style="margin-top:0">The practice shop</h3>
+            <p style="font-size:.92rem">The exercises happen on these five pages. Each link opens in a new tab.</p>
+            <ul class="exercises"><li><a href="site/index.html" target="_blank" rel="noopener"><span class="n">1</span><span>Home page</span><span class="what">cta_click, login</span></a></li><li><a href="site/products.html" target="_blank" rel="noopener"><span class="n">2</span><span>All coffees</span><span class="what">view_item_list, select_item</span></a></li><li><a href="site/product.html?sku=FK-002" target="_blank" rel="noopener"><span class="n">3</span><span>One coffee</span><span class="what">view_item, add_to_cart</span></a></li><li><a href="site/checkout.html" target="_blank" rel="noopener"><span class="n">4</span><span>Checkout</span><span class="what">begin_checkout, purchase</span></a></li><li><a href="site/signup.html" target="_blank" rel="noopener"><span class="n">5</span><span>Subscribe form</span><span class="what">generate_lead</span></a></li></ul>
+            <p style="font-size:.88rem;margin:.9rem 0 0;color:var(--ink-2)">At the bottom of every shop page there is a grey line that says <b>Developer view</b>. Click it to see the dataLayer and which containers are running.</p>
+        </div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="index.html">Start page</a> · <a href="reference/glossary.html">Glossary</a> · <a href="site/index.html">Practice shop</a></p>
+</footer>
+
+</body>
+</html>

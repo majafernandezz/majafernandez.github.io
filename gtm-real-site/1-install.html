@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1. Put Tag Manager on the shop</title>
+<meta name="description" content="Copy your Google Tag Manager snippet and paste it into the five pages of the practice shop. Then check that it works with Preview mode.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="index.html">Tag Manager on a real site</a></li><li><a href="1-install.html" aria-current="page">1. Put Tag Manager on the shop</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Exercise 1</span>
+            <span class="level"><i class="on"></i><i></i><i></i> Getting started</span>
+            <span>About 30 minutes</span>
+        </div>
+
+        <h1>Put Tag Manager on the shop</h1>
+
+        <div class="purpose">
+            <h2>What you will do</h2>
+            <p>Tag Manager can only work on a page that contains its snippet. Right now the practice shop does not
+                contain yours. You will copy the snippet from Tag Manager and paste it into the five pages of the
+                shop. Then you will use Tag Manager's test tool, <b>Preview mode</b>, to check that it works.</p>
+            <p>You need a text editor for this. On Windows, Notepad works. On a Mac, use TextEdit, but first open
+                TextEdit's settings and choose <b>Plain text</b>. Do not use Word.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Copy the snippet from Tag Manager</h2>
+        <ol class="steps">
+            <li><p>Open <a href="https://tagmanager.google.com" target="_blank" rel="noopener">tagmanager.google.com</a> and open your container.</p></li>
+            <li><p>Click <b>Admin</b> in the menu at the top of the page.</p></li>
+            <li><p>You see two columns. In the right column, called <b>Container</b>, click <b>Install Google Tag Manager</b>.</p></li>
+            <li><p>A page with two grey boxes of code opens. The first box is for the <code>&lt;head&gt;</code> of the page. The second box is for the <code>&lt;body&gt;</code>. Keep this tab open. You will copy from it twice per file.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 2</span> Paste it into the home page</h2>
+        <ol class="steps">
+            <li><p>On your computer, open the folder <code>gtm-real-site</code>, then the folder <code>site</code> inside it. Open the file <code>index.html</code> in your text editor. (Right-click the file, choose <b>Open with</b>, and pick the editor.)</p></li>
+            <li><p>Scroll down a little. Around line 23 there is a comment that says <b>EXERCISE 1 - PASTE THE &lt;head&gt; PART</b>. Below it is an empty line, marked in the picture.</p>
+                <figure class="shot"><a href="assets/img/paste-head.png" target="_blank" rel="noopener"><img src="assets/img/paste-head.png" alt="The first place to paste. Click on the empty line marked in orange."></a><figcaption>The first place to paste. Click on the empty line marked in orange. Click the picture to see it full size.</figcaption></figure></li>
+            <li><p>Go back to the Tag Manager tab. Click the copy icon next to the <b>first</b> grey box. Go back to the editor, click on that empty line, and paste.</p></li>
+            <li><p>Scroll down a little more. Just after the line that starts with <code>&lt;body</code> there is a second comment that says <b>EXERCISE 1 - PASTE THE &lt;body&gt; PART</b>. Below it is another empty line.</p>
+                <figure class="shot"><a href="assets/img/paste-body.png" target="_blank" rel="noopener"><img src="assets/img/paste-body.png" alt="The second place to paste. Click on the empty line marked in orange."></a><figcaption>The second place to paste. Click on the empty line marked in orange. Click the picture to see it full size.</figcaption></figure></li>
+            <li><p>Go back to the Tag Manager tab. Click the copy icon next to the <b>second</b> grey box. Go back to the editor, click on that empty line, and paste.</p></li>
+            <li><p>Save the file.</p></li>
+        </ol>
+
+        <div class="note">
+            <h3>There is already some Tag Manager code at the top of the file. Leave it.</h3>
+            <p>The code at the very top of each page, with the ID <code>GTM-W2S6DPBK</code>, belongs to the person who
+                made this course. It stays there. Your snippet goes in the two marked places below it. Two containers
+                on the same page is normal; many companies have one of their own and one from an agency.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 3</span> Do the same in the other four pages</h2>
+        <p>The shop has five pages, and each one is a separate file. Tag Manager only works on the pages that contain
+            the snippet, so you have to paste it into all five. The other four files are in the same
+            <code>site</code> folder:</p>
+        <ol class="steps">
+            <li><p>Open <code>products.html</code>. Paste the first box on the empty line under the first EXERCISE 1 comment, and the second box on the empty line under the second EXERCISE 1 comment. Save.</p></li>
+            <li><p>Do exactly the same in <code>product.html</code>.</p></li>
+            <li><p>Do exactly the same in <code>checkout.html</code>.</p></li>
+            <li><p>Do exactly the same in <code>signup.html</code>.</p></li>
+        </ol>
+        <p>On a real website you would only do this once, because a real website has one template that all pages
+            share. The practice shop is made of five separate files so that you can see the code.</p>
+
+        <h2 class="step"><span class="num">Step 4</span> Upload the five files again</h2>
+        <ol class="steps">
+            <li><p>Go to <a href="https://github.com" target="_blank" rel="noopener">github.com</a> and open your repository <code>yourname.github.io</code>.</p></li>
+            <li><p>Click the folder <code>gtm-real-site</code>, then the folder <code>site</code>.</p></li>
+            <li><p>Click <b>Add file</b>, then <b>Upload files</b>. Drag the five files you edited into the browser window. Click <b>Commit changes</b>. GitHub replaces the old copies.</p></li>
+            <li><p>Wait two minutes. Then open the shop's home page at <code>https://yourname.github.io/gtm-real-site/site/index.html</code>.</p></li>
+            <li><p>Scroll to the very bottom of the page. Click the grey line that says <b>Developer view</b>. A black panel opens. The second line of the panel should now say <b>Your container GTM-… is running on this page</b>.</p>
+                <figure class="shot"><a href="assets/img/devview-after.png" target="_blank" rel="noopener"><img src="assets/img/devview-after.png" alt="The Developer view after a correct install. The green dot and the line that names your container are what you are looking for."></a><figcaption>The Developer view after a correct install. The green dot and the line that names your container are what you are looking for. Click the picture to see it full size.</figcaption></figure></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 5</span> Test with Preview mode</h2>
+        <p><b>Preview mode</b> is Tag Manager's test tool. It opens your site in a new window and shows you, page by
+            page, what Tag Manager sees and which tags run. You will use it in every exercise from now on.</p>
+        <ol class="steps">
+            <li><p>Go back to <a href="https://tagmanager.google.com" target="_blank" rel="noopener">tagmanager.google.com</a>. At the top right, click the button <b>Preview</b>.</p></li>
+            <li><p>A new tab opens called <b>Tag Assistant</b>. In the field <b>Your website's URL</b>, paste the address of the shop's home page. Click <b>Connect</b>.</p></li>
+            <li><p>Another new window opens with the shop in it. In the bottom right corner of that window there is a small box saying <b>Tag Assistant Connected</b>. Leave that window open.</p></li>
+            <li><p>Go back to the Tag Assistant tab. On the left there is a list. It shows the page you opened, and under it four events: <b>Container Loaded</b>, <b>Initialization</b>, <b>DOM Ready</b> and <b>Window Loaded</b>. This means Tag Manager is working on the page.</p></li>
+            <li><p>Go to the shop window and click <b>Coffees</b> in the menu at the top. Go back to the Tag Assistant tab. A second page has appeared in the list on the left. Do this for all five pages of the shop.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>The Developer view on every shop page says your container is running.</li>
+            <li>In Tag Assistant, all five pages appear in the list on the left, each with <b>Container Loaded</b> under it.</li>
+            <li>When you click on <b>Container Loaded</b>, you see your tag <code>Google tag - GA4</code> under <b>Tags Fired</b>. It is the only tag so far.</li>
+        </ul>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>The Developer view says your container is not on this page yet.</b> Either the file did not upload, or your browser is showing the old copy. Reload the page with Ctrl + Shift + R (Windows) or Cmd + Shift + R (Mac). Then check on GitHub that the file changed.</li>
+            <li><b>The page looks broken after pasting.</b> The snippet was pasted in the wrong place. Delete what you pasted and try again. It goes on the empty line between the two comment lines, nowhere else.</li>
+            <li><b>Tag Assistant says it cannot connect.</b> The address must start with <code>https://</code> and the page must be online. It will not work with a file opened from your computer.</li>
+            <li><b>One page is missing from the list in Tag Assistant.</b> That file did not get the snippet. Go back to step 3.</li>
+        </ul>
+
+        <div class="lookup">
+            <b>If you get stuck, search for:</b> <q>install google tag manager snippet</q>, <q>tag assistant preview mode not connecting</q>.
+        </div>
+
+
+        <div class="pager">
+            <span><a href="0-before-you-start.html">&larr; Before you start</a></span>
+            <span><a href="2-page-data.html">Exercise 2 &rarr;</a></span>
+        </div>
+    </div>
+
+    <div class="rail">
+        <div class="card">
+            <h3 style="margin-top:0">The practice shop</h3>
+            <p style="font-size:.92rem">The exercises happen on these five pages. Each link opens in a new tab.</p>
+            <ul class="exercises"><li><a href="site/index.html" target="_blank" rel="noopener"><span class="n">1</span><span>Home page</span><span class="what">cta_click, login</span></a></li><li><a href="site/products.html" target="_blank" rel="noopener"><span class="n">2</span><span>All coffees</span><span class="what">view_item_list, select_item</span></a></li><li><a href="site/product.html?sku=FK-002" target="_blank" rel="noopener"><span class="n">3</span><span>One coffee</span><span class="what">view_item, add_to_cart</span></a></li><li><a href="site/checkout.html" target="_blank" rel="noopener"><span class="n">4</span><span>Checkout</span><span class="what">begin_checkout, purchase</span></a></li><li><a href="site/signup.html" target="_blank" rel="noopener"><span class="n">5</span><span>Subscribe form</span><span class="what">generate_lead</span></a></li></ul>
+            <p style="font-size:.88rem;margin:.9rem 0 0;color:var(--ink-2)">At the bottom of every shop page there is a grey line that says <b>Developer view</b>. Click it to see the dataLayer and which containers are running.</p>
+        </div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="index.html">Start page</a> · <a href="reference/glossary.html">Glossary</a> · <a href="site/index.html">Practice shop</a></p>
+</footer>
+
+</body>
+</html>

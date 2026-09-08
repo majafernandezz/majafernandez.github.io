@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tag Manager on a real site</title>
+<meta name="description" content="A hands-on Google Tag Manager course for beginners. You put Tag Manager on a small practice web shop yourself, then build the tracking for it step by step and see the results in Google Analytics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="index.html" aria-current="page">Tag Manager on a real site</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Start here</span>
+            <span class="level"><i></i><i></i><i></i> </span>
+            <span>Read this first</span>
+        </div>
+
+        <h1>Tag Manager on a real site</h1>
+        <p class="lede">You get a small practice web shop. You put Google Tag Manager on it yourself, and then you build
+            the tracking for it, one step at a time. At the end, real data arrives in Google Analytics.</p>
+
+        <div class="purpose">
+            <h2>Some words you will see everywhere</h2>
+            <p><b>Google Tag Manager</b> (we will just say Tag Manager) is a free tool from Google. You put one small
+                piece of code on your website, once. After that you add all your tracking through Tag Manager's own
+                website, without editing your site again.</p>
+            <p>A <b>container</b> is your workspace in Tag Manager for one website. Everything you build lives inside
+                it. Every container has an ID that looks like <code>GTM-ABC1234</code>.</p>
+            <p>The <b>snippet</b> is the small piece of code Tag Manager gives you for your website. It comes in two
+                parts, and you paste both into every page of the site.</p>
+            <p>Inside a container you build three kinds of things. A <b>tag</b> is something that runs, for example
+                "send this to Google Analytics". A <b>trigger</b> is the rule for <em>when</em> a tag runs, for example
+                "when someone clicks Add to cart". A <b>variable</b> is a value Tag Manager can read, for example the
+                name of the product that was added.</p>
+            <p><b>Google Analytics 4</b>, or <b>GA4</b>, is Google's free reporting tool. Tag Manager sends the data
+                there, and that is where you look at it.</p>
+            <p>The <b>dataLayer</b> is a list on the web page where the website's own code puts information for Tag
+                Manager to read, such as "this is a product page" or "this order cost 438 kr". It is the most
+                important idea in this course.</p>
+        </div>
+
+        <h2>What is in the folder you downloaded</h2>
+        <p>The folder is called <code>gtm-real-site</code>. The page you are reading now is <code>index.html</code>
+            at the top of it. The practice shop is in the folder called <code>site</code>.</p>
+        <figure class="shot"><a href="assets/img/folder.png" target="_blank" rel="noopener"><img src="assets/img/folder.png" alt="The gtm-real-site folder. The five highlighted files are the pages of the practice shop."></a><figcaption>The gtm-real-site folder. The five highlighted files are the pages of the practice shop. Click the picture to see it full size.</figcaption></figure>
+
+        <h2>How to work through the course</h2>
+        <ol class="steps">
+            <li><p>Do <a href="0-before-you-start.html">Before you start</a> first. It walks you through creating a
+                Tag Manager container, a Google Analytics property, and putting this folder online. You cannot do the
+                exercises without these.</p></li>
+            <li><p>Then do the six exercises in order. Each one tells you what it is for, exactly what to click, and
+                what you should see when it works.</p></li>
+            <li><p>Keep the practice shop open in a second browser tab. The links are in the box on the right.</p></li>
+        </ol>
+
+        <h2>The exercises</h2>
+        <ul class="exercises">
+            <li><a href="0-before-you-start.html"><span class="n">0</span><span>Before you start: accounts and putting the folder online</span><span class="what">Setup</span></a></li>
+            <li><a href="1-install.html"><span class="n">1</span><span>Put Tag Manager on the shop</span><span class="what">The snippet</span></a></li>
+            <li><a href="2-page-data.html"><span class="n">2</span><span>Read information the shop puts in the dataLayer</span><span class="what">Variables</span></a></li>
+            <li><a href="3-custom-events.html"><span class="n">3</span><span>Track clicks and a form</span><span class="what">Triggers and tags</span></a></li>
+            <li><a href="4-ecommerce.html"><span class="n">4</span><span>Track the shop: products, cart and orders</span><span class="what">Ecommerce</span></a></li>
+            <li><a href="5-shared-settings.html"><span class="n">5</span><span>Send the same information with every event</span><span class="what">Settings</span></a></li>
+            <li><a href="6-publish-and-spec.html"><span class="n">6</span><span>Go live, and ask a developer for what is missing</span><span class="what">Publish</span></a></li>
+        </ul>
+
+        <h2>The practice shop</h2>
+        <p>It is called Fika &amp; Co and it sells coffee. Nothing is real: no coffee is sold, no email is sent, no
+            money is charged. It has five pages, listed in the box on the right.</p>
+        <figure class="shot"><a href="assets/img/site-home.png" target="_blank" rel="noopener"><img src="assets/img/site-home.png" alt="The home page of the practice shop."></a><figcaption>The home page of the practice shop. Click the picture to see it full size.</figcaption></figure>
+
+
+        <div class="pager">
+            <span></span>
+            <span><a href="0-before-you-start.html">Before you start &rarr;</a></span>
+        </div>
+    </div>
+
+    <div class="rail">
+        <div class="card">
+            <h3 style="margin-top:0">The practice shop</h3>
+            <p style="font-size:.92rem">The exercises happen on these five pages. Each link opens in a new tab.</p>
+            <ul class="exercises"><li><a href="site/index.html" target="_blank" rel="noopener"><span class="n">1</span><span>Home page</span><span class="what">cta_click, login</span></a></li><li><a href="site/products.html" target="_blank" rel="noopener"><span class="n">2</span><span>All coffees</span><span class="what">view_item_list, select_item</span></a></li><li><a href="site/product.html?sku=FK-002" target="_blank" rel="noopener"><span class="n">3</span><span>One coffee</span><span class="what">view_item, add_to_cart</span></a></li><li><a href="site/checkout.html" target="_blank" rel="noopener"><span class="n">4</span><span>Checkout</span><span class="what">begin_checkout, purchase</span></a></li><li><a href="site/signup.html" target="_blank" rel="noopener"><span class="n">5</span><span>Subscribe form</span><span class="what">generate_lead</span></a></li></ul>
+            <p style="font-size:.88rem;margin:.9rem 0 0;color:var(--ink-2)">At the bottom of every shop page there is a grey line that says <b>Developer view</b>. Click it to see the dataLayer and which containers are running.</p>
+        </div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="index.html">Start page</a> · <a href="reference/glossary.html">Glossary</a> · <a href="site/index.html">Practice shop</a></p>
+</footer>
+
+</body>
+</html>

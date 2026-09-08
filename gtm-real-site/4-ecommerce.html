@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4. Track the shop: products, cart and orders</title>
+<meta name="description" content="One trigger and one tag for all six GA4 ecommerce events in the practice shop, then variables that read inside the list of products.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="index.html">Tag Manager on a real site</a></li><li><a href="4-ecommerce.html" aria-current="page">4. Track the shop</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Exercise 4</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i class="on"></i> Real work</span>
+            <span>About 60 minutes</span>
+        </div>
+
+        <h1>Track the shop: products, cart and orders</h1>
+
+        <div class="purpose">
+            <h2>What you will do</h2>
+            <p>Google Analytics has a fixed set of shop events with fixed names: viewing a list of products, clicking
+                one, viewing it, adding it to the cart, starting checkout, and buying. The shop sends all six. You will
+                catch all of them with <b>one</b> trigger and <b>one</b> tag. That is how it is done on real shops.
+                Then you will read single values from inside the list of products.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Walk through the shop and watch</h2>
+        <ol class="steps">
+            <li><p>Click <b>Preview</b> in Tag Manager, enter the address of the shop's <b>All coffees</b> page, and connect.</p></li>
+            <li><p>In the shop window, do this in order. After each action, look at the list on the left in Tag Assistant and find the event named in brackets.</p>
+                <table class="settings cols">
+                    <tr><th>What you do</th><th>Event that appears</th></tr>
+                    <tr><td>Open the All coffees page</td><td><code>view_item_list</code></td></tr>
+                    <tr><td>Click the name of a coffee</td><td><code>select_item</code></td></tr>
+                    <tr><td>The coffee's page opens</td><td><code>view_item</code></td></tr>
+                    <tr><td>Change Bags to 2 and click <b>Add to cart</b></td><td><code>add_to_cart</code></td></tr>
+                    <tr><td>Click <b>Go to checkout</b></td><td><code>begin_checkout</code></td></tr>
+                    <tr><td>Type <code>FIKA10</code> as discount code, choose Swish, click <b>Place order</b></td><td><code>purchase</code>, then <code>order_details</code></td></tr>
+                </table>
+                <figure class="shot"><a href="assets/img/site-product.png" target="_blank" rel="noopener"><img src="assets/img/site-product.png" alt="The page for one coffee. Change Bags to 2 before you click Add to cart."></a><figcaption>The page for one coffee. Change Bags to 2 before you click Add to cart. Click the picture to see it full size.</figcaption></figure></li>
+            <li><p>In Tag Assistant, click <code>add_to_cart</code>, then the tab <b>Data Layer</b>. This is what the shop sent:</p>
+<pre><code>{
+  <span class="tok-key">event</span>: <span class="tok-str">'add_to_cart'</span>,
+  <span class="tok-key">ecommerce</span>: {
+    <span class="tok-key">currency</span>: <span class="tok-str">'SEK'</span>,
+    <span class="tok-key">value</span>: <span class="tok-kw">438</span>,
+    <span class="tok-key">items</span>: [
+      {
+        <span class="tok-key">item_id</span>: <span class="tok-str">'FK-002'</span>,
+        <span class="tok-key">item_name</span>: <span class="tok-str">'Slow Sunday'</span>,
+        <span class="tok-key">item_brand</span>: <span class="tok-str">'Fika &amp; Co'</span>,
+        <span class="tok-key">item_category</span>: <span class="tok-str">'Coffee'</span>,
+        <span class="tok-key">item_category2</span>: <span class="tok-str">'Medium roast'</span>,
+        <span class="tok-key">item_variant</span>: <span class="tok-str">'500 g'</span>,
+        <span class="tok-key">price</span>: <span class="tok-kw">219</span>,
+        <span class="tok-key">quantity</span>: <span class="tok-kw">2</span>
+      }
+    ]
+  }
+}</code></pre>
+                <p>Everything is inside <code>ecommerce</code>. Inside that, <code>items</code> is a list of products, written with square brackets. Here the list has one product in it. Google Analytics needs exactly this shape.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 2</span> One trigger for all six events</h2>
+        <ol class="steps">
+            <li><p>Click <b>Triggers</b>, then <b>New</b>. Choose <b>Custom Event</b>.</p></li>
+            <li><p>In the field <b>Event name</b>, type all six names with a vertical bar between them. The bar means "or":</p>
+<pre><code>view_item_list|select_item|view_item|add_to_cart|begin_checkout|purchase</code></pre></li>
+            <li><p>Tick the box <b>Use regex matching</b>. Without it, Tag Manager would look for an event with that whole long name.</p></li>
+            <li><p>Name the trigger <code>CE - ecommerce events</code>. Click <b>Save</b>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 3</span> One tag for all six events</h2>
+        <ol class="steps">
+            <li><p>Click <b>Tags</b>, then <b>New</b>. Choose <b>Google Analytics: GA4 Event</b>. Paste your <code>G-</code> ID.</p></li>
+            <li><p>In the field <b>Event Name</b>, do not type anything. Click the building-block icon next to the field and choose the variable called <b>Event</b>. The field now shows <code>{{Event}}</code>. This means: use whatever name the event had.</p></li>
+            <li><p>Click <b>More Settings</b>, then <b>Ecommerce</b>. Tick <b>Send Ecommerce data</b>. Under <b>Data source</b>, choose <b>Data Layer</b>.</p></li>
+            <li><p>Click <b>Triggering</b> and choose <code>CE - ecommerce events</code>.</p></li>
+            <li><p>Name the tag <code>GA4 - ecommerce</code>. Click <b>Save</b>.</p></li>
+            <li><p>Walk through the shop again as in step 1. In Tag Assistant, click each of the six events. Under <b>Tags Fired</b>, <code>GA4 - ecommerce</code> is there every time, and each time it sent the event's own name.</p></li>
+            <li><p>Open DebugView in Google Analytics. Click the <code>purchase</code> event. Open <b>Items</b>. Your coffee is there with quantity 2.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 4</span> Read one value from inside the list</h2>
+        <p>Sometimes you need one value from inside the products list, for example to use it in a trigger. The
+            products are numbered from 0. To point at the name of the first product you write
+            <code>ecommerce.items.0.item_name</code>.</p>
+        <ol class="steps">
+            <li><p>Build these Data Layer Variables, Version 2:</p>
+                <table class="settings cols">
+                    <tr><th>Name of the variable</th><th>Data Layer Variable Name</th><th>Value on the add_to_cart above</th></tr>
+                    <tr><td><code>dlv - ecommerce.value</code></td><td><code>ecommerce.value</code></td><td>438</td></tr>
+                    <tr><td><code>dlv - ecommerce.items.0.item_name</code></td><td><code>ecommerce.items.0.item_name</code></td><td>Slow Sunday</td></tr>
+                    <tr><td><code>dlv - ecommerce.items.0.quantity</code></td><td><code>ecommerce.items.0.quantity</code></td><td>2</td></tr>
+                    <tr><td><code>dlv - ecommerce.coupon</code></td><td><code>ecommerce.coupon</code></td><td>empty until purchase</td></tr>
+                </table></li>
+            <li><p>In the shop, add a coffee to the cart. In Tag Assistant, click <code>add_to_cart</code>, then the tab <b>Variables</b>, and find the four variables.</p></li>
+            <li><p>Place an order with the discount code <code>FIKA10</code>. Click <code>purchase</code>, then <b>Variables</b>. Now <code>dlv - ecommerce.coupon</code> says <code>FIKA10</code>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 5</span> The event after the purchase</h2>
+        <p>Right after <code>purchase</code>, the shop sends one more event, <code>order_details</code>, with facts
+            about the order that do not fit in Google's shop format: how it is delivered and how it was paid.</p>
+<pre><code>{
+  <span class="tok-key">event</span>: <span class="tok-str">'order_details'</span>,
+  <span class="tok-key">order</span>: {
+    <span class="tok-key">id</span>: <span class="tok-str">'FK-583920'</span>,
+    <span class="tok-key">delivery</span>: { <span class="tok-key">method</span>: <span class="tok-str">'pickup_point'</span>, <span class="tok-key">country</span>: <span class="tok-str">'SE'</span> },
+    <span class="tok-key">payment</span>: { <span class="tok-key">method</span>: <span class="tok-str">'swish'</span> },
+    <span class="tok-key">lines</span>: <span class="tok-kw">1</span>
+  }
+}</code></pre>
+        <ol class="steps">
+            <li><p>Make a Custom Event trigger with event name <code>order_details</code>. Name it <code>CE - order_details</code>.</p></li>
+            <li><p>Make three Data Layer Variables: <code>order.id</code>, <code>order.delivery.method</code> and <code>order.payment.method</code>. Name them <code>dlv - </code> followed by the same text.</p></li>
+            <li><p>Make a GA4 Event tag. Event Name <code>order_details</code>. Three parameters: <code>transaction_id</code> = <code>dlv - order.id</code>, <code>delivery_method</code> = <code>dlv - order.delivery.method</code>, <code>payment_method</code> = <code>dlv - order.payment.method</code>. Trigger <code>CE - order_details</code>. Name it <code>GA4 - order_details</code>.</p></li>
+            <li><p>Add a coffee to the cart and place another order. In Tag Assistant, both <code>purchase</code> and <code>order_details</code> appear, each with its tag.</p></li>
+        </ol>
+
+        <h2>What you should see</h2>
+        <ul class="outcome">
+            <li>One tag, <code>GA4 - ecommerce</code>, that fires on all six shop events.</li>
+            <li>In DebugView, the <code>purchase</code> event with the products listed under Items.</li>
+            <li>Variables that read a single value from inside the products list.</li>
+            <li>The <code>order_details</code> event in DebugView with delivery and payment method.</li>
+        </ul>
+
+        <div class="gotcha">
+            <h3>Why every shop event is preceded by "ecommerce: null"</h3>
+            <p>Open the Developer view on any shop page. Before each shop event there is an entry with
+                <code>ecommerce: null</code>. That is the shop's code clearing out the old products before it sends
+                new ones. Without it, Tag Manager would remember the products from the last event (you saw this in
+                exercise 3), and a purchase of one coffee could report two. When you work with a real shop, ask the
+                developer to do this.</p>
+        </div>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>Events arrive in Google Analytics without products.</b> Open the tag and check that <b>Send Ecommerce data</b> is ticked and the data source is Data Layer.</li>
+            <li><b>Google Analytics shows an event called {{Event}}, with the brackets.</b> You typed it. Delete the text and choose the variable with the building-block icon instead.</li>
+            <li><b>dlv - ecommerce.items.0.item_name is undefined.</b> Check the spelling. It is <code>items.0.</code> with dots on both sides of the zero.</li>
+        </ul>
+
+        <div class="lookup">
+            <b>If you get stuck, search for:</b> <q>ga4 ecommerce events gtm data layer</q>, <q>gtm regex trigger multiple events</q>.
+        </div>
+
+
+        <div class="pager">
+            <span><a href="3-custom-events.html">&larr; Exercise 3</a></span>
+            <span><a href="5-shared-settings.html">Exercise 5 &rarr;</a></span>
+        </div>
+    </div>
+
+    <div class="rail">
+        <div class="card">
+            <h3 style="margin-top:0">The practice shop</h3>
+            <p style="font-size:.92rem">The exercises happen on these five pages. Each link opens in a new tab.</p>
+            <ul class="exercises"><li><a href="site/index.html" target="_blank" rel="noopener"><span class="n">1</span><span>Home page</span><span class="what">cta_click, login</span></a></li><li><a href="site/products.html" target="_blank" rel="noopener"><span class="n">2</span><span>All coffees</span><span class="what">view_item_list, select_item</span></a></li><li><a href="site/product.html?sku=FK-002" target="_blank" rel="noopener"><span class="n">3</span><span>One coffee</span><span class="what">view_item, add_to_cart</span></a></li><li><a href="site/checkout.html" target="_blank" rel="noopener"><span class="n">4</span><span>Checkout</span><span class="what">begin_checkout, purchase</span></a></li><li><a href="site/signup.html" target="_blank" rel="noopener"><span class="n">5</span><span>Subscribe form</span><span class="what">generate_lead</span></a></li></ul>
+            <p style="font-size:.88rem;margin:.9rem 0 0;color:var(--ink-2)">At the bottom of every shop page there is a grey line that says <b>Developer view</b>. Click it to see the dataLayer and which containers are running.</p>
+        </div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="index.html">Start page</a> · <a href="reference/glossary.html">Glossary</a> · <a href="site/index.html">Practice shop</a></p>
+</footer>
+
+</body>
+</html>

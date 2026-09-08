@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W2S6DPBK');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3. Track clicks and a form</title>
+<meta name="description" content="Catch the cta_click and generate_lead events the shop sends, read the values inside them with Data Layer Variables, and send them to Google Analytics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2S6DPBK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav aria-label="Breadcrumb">
+    <ul class="crumbs">
+        <li><a href="index.html">Tag Manager on a real site</a></li><li><a href="3-custom-events.html" aria-current="page">3. Track clicks and a form</a></li>
+    </ul>
+</nav>
+
+<main id="main" class="wrap">
+<div class="bench">
+    <div class="column">
+
+        <div class="ex-meta">
+            <span class="ex-no">Exercise 3</span>
+            <span class="level"><i class="on"></i><i class="on"></i><i></i> Getting real</span>
+            <span>About 45 minutes</span>
+        </div>
+
+        <h1>Track clicks and a form</h1>
+
+        <div class="purpose">
+            <h2>What you will do</h2>
+            <p>When a visitor clicks one of the big buttons on the home page, or sends the subscribe form, the shop
+                puts an <b>event</b> in the dataLayer. An event is an entry with a name, and with information about
+                what happened. You will catch two events and send them to Google Analytics with that information.</p>
+            <p>You will build two triggers, six variables and two tags.</p>
+        </div>
+
+        <h2 class="step"><span class="num">Step 1</span> Look at the two events</h2>
+        <ol class="steps">
+            <li><p>Open the shop's <a href="site/index.html" target="_blank" rel="noopener">home page</a>. Scroll to the bottom and open <b>Developer view</b>.</p></li>
+            <li><p>Scroll back up and click the orange button <b>Start your subscription</b>. A new entry appears in the Developer view for a moment before the page changes. It looks like this:</p>
+<pre><code>{
+  <span class="tok-key">event</span>: <span class="tok-str">'cta_click'</span>,
+  <span class="tok-key">cta</span>: {
+    <span class="tok-key">text</span>: <span class="tok-str">'Start your subscription'</span>,
+    <span class="tok-key">location</span>: <span class="tok-str">'hero'</span>,
+    <span class="tok-key">destination</span>: <span class="tok-str">'signup.html'</span>
+  }
+}</code></pre>
+                <p>The event is called <code>cta_click</code>. CTA means call to action, the name marketers use for a button that asks you to do something. The information about the click is inside <code>cta</code>.</p></li>
+            <li><p>You are now on the <a href="site/signup.html" target="_blank" rel="noopener">Subscribe</a> page. Choose <b>Every week</b>, tick the box about email, and click <b>Subscribe</b>. Open the Developer view. The new entry looks like this:</p>
+<pre><code>{
+  <span class="tok-key">event</span>: <span class="tok-str">'generate_lead'</span>,
+  <span class="tok-key">lead</span>: {
+    <span class="tok-key">plan</span>: <span class="tok-str">'weekly'</span>,
+    <span class="tok-key">bag_size</span>: <span class="tok-str">'250g'</span>,
+    <span class="tok-key">source</span>: <span class="tok-str">'signup_page'</span>,
+    <span class="tok-key">value</span>: <span class="tok-kw">516</span>
+  },
+  <span class="tok-key">user</span>: {
+    <span class="tok-key">consent</span>: { <span class="tok-key">marketing</span>: <span class="tok-kw">true</span> }
+  }
+}</code></pre></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 2</span> Build two triggers</h2>
+        <p>A <b>Custom Event</b> trigger fires when an event with a certain name appears in the dataLayer.</p>
+        <ol class="steps">
+            <li><p>In Tag Manager, click <b>Triggers</b>, then <b>New</b>. Click <b>Trigger Configuration</b> and choose <b>Custom Event</b>.</p></li>
+            <li><p>In the field <b>Event name</b>, type <code>cta_click</code>. Name the trigger <code>CE - cta_click</code>. Click <b>Save</b>.</p></li>
+            <li><p>Make a second one the same way. Event name <code>generate_lead</code>, trigger name <code>CE - generate_lead</code>.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 3</span> Build six variables</h2>
+        <p>Make six Data Layer Variables, the same way as in exercise 2. Version 2 every time.</p>
+        <table class="settings cols">
+            <tr><th>Name of the variable</th><th>Data Layer Variable Name</th></tr>
+            <tr><td><code>dlv - cta.text</code></td><td><code>cta.text</code></td></tr>
+            <tr><td><code>dlv - cta.location</code></td><td><code>cta.location</code></td></tr>
+            <tr><td><code>dlv - cta.destination</code></td><td><code>cta.destination</code></td></tr>
+            <tr><td><code>dlv - lead.plan</code></td><td><code>lead.plan</code></td></tr>
+            <tr><td><code>dlv - lead.bag_size</code></td><td><code>lead.bag_size</code></td></tr>
+            <tr><td><code>dlv - lead.value</code></td><td><code>lead.value</code></td></tr>
+        </table>
+
+        <h2 class="step"><span class="num">Step 4</span> Build two tags</h2>
+        <ol class="steps">
+            <li><p>Click <b>Tags</b>, then <b>New</b>. Choose <b>Google Analytics: GA4 Event</b>. Fill it in like this:</p>
+                <table class="settings">
+                    <tr><th>Measurement ID</th><td>Your <code>G-</code> ID</td></tr>
+                    <tr><th>Event Name</th><td><code>cta_click</code></td></tr>
+                    <tr><th>Event Parameters</th><td><code>cta_text</code> = <code>dlv - cta.text</code><br><code>cta_location</code> = <code>dlv - cta.location</code><br><code>cta_destination</code> = <code>dlv - cta.destination</code></td></tr>
+                    <tr><th>Triggering</th><td><code>CE - cta_click</code></td></tr>
+                    <tr><th>Name</th><td><code>GA4 - cta_click</code></td></tr>
+                </table>
+                <p>Remember: for each parameter, the left field is typed, and the right field is chosen with the building-block icon.</p></li>
+            <li><p>Make a second tag:</p>
+                <table class="settings">
+                    <tr><th>Measurement ID</th><td>Your <code>G-</code> ID</td></tr>
+                    <tr><th>Event Name</th><td><code>generate_lead</code></td></tr>
+                    <tr><th>Event Parameters</th><td><code>plan</code> = <code>dlv - lead.plan</code><br><code>bag_size</code> = <code>dlv - lead.bag_size</code><br><code>value</code> = <code>dlv - lead.value</code><br><code>currency</code> = type <code>SEK</code><br><code>marketing_consent</code> = <code>dlv - user.consent.marketing</code></td></tr>
+                    <tr><th>Triggering</th><td><code>CE - generate_lead</code></td></tr>
+                    <tr><th>Name</th><td><code>GA4 - generate_lead</code></td></tr>
+                </table>
+                <p><code>generate_lead</code> is a name Google Analytics already knows. Because you send <code>value</code> and <code>currency</code> with it, Google Analytics can count it as a conversion worth 516 kr.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 5</span> Test it</h2>
+        <ol class="steps">
+            <li><p>Click <b>Preview</b>, enter the address of the shop's home page, and click <b>Connect</b>.</p></li>
+            <li><p>In the shop window, click <b>Start your subscription</b>. Then fill in the subscribe form and click <b>Subscribe</b>.</p></li>
+            <li><p>In Tag Assistant, look at the list on the left. Under the home page there is an event called <code>cta_click</code>. Click it. Under <b>Tags Fired</b> is <code>GA4 - cta_click</code>. Click the tag to see the three parameters.</p></li>
+            <li><p>Under the subscribe page there is an event called <code>generate_lead</code>. Click it. <code>GA4 - generate_lead</code> has fired with five parameters.</p></li>
+            <li><p>Open DebugView in Google Analytics and check that both events arrived.</p></li>
+        </ol>
+
+        <h2 class="step"><span class="num">Step 6</span> See how the dataLayer remembers</h2>
+        <ol class="steps">
+            <li><p>In the shop window, click <b>Log in (demo)</b> at the top right. It is a pretend login. Then open the Subscribe page and send the form again.</p></li>
+            <li><p>In Tag Assistant, click the new <code>generate_lead</code> event, then the tab <b>Data Layer</b>.</p></li>
+            <li><p>Look at <code>user</code>. The form only sent <code>user.consent.marketing</code>. But <code>user.id</code> and <code>user.tier</code> are also there, from the page information. Tag Manager remembers earlier values and only replaces the ones that were sent again.</p></li>
+        </ol>
+
+        <div class="gotcha">
+            <h3>Why this matters</h3>
+            <p>Tag Manager keeps one running copy of the dataLayer. New information is merged into it. This is useful
+                for <code>user</code>, because the login is remembered. It is dangerous for a shopping cart, because
+                the products from the last event would still be there. In the next exercise you will see what the shop
+                does about that.</p>
+        </div>
+
+        <h2>If it does not work</h2>
+        <ul class="fix">
+            <li><b>I cannot find cta_click in Tag Assistant.</b> It is under the <em>home</em> page in the list on the left, not under the subscribe page. The click happened before the page changed.</li>
+            <li><b>A parameter is empty.</b> Open the variable and check the Data Layer Variable Name. It is <code>cta.location</code> with a dot, not <code>cta_location</code>.</li>
+        </ul>
+
+        <div class="lookup">
+            <b>If you get stuck, search for:</b> <q>gtm custom event trigger</q>, <q>ga4 generate_lead event</q>.
+        </div>
+
+
+        <div class="pager">
+            <span><a href="2-page-data.html">&larr; Exercise 2</a></span>
+            <span><a href="4-ecommerce.html">Exercise 4 &rarr;</a></span>
+        </div>
+    </div>
+
+    <div class="rail">
+        <div class="card">
+            <h3 style="margin-top:0">The practice shop</h3>
+            <p style="font-size:.92rem">The exercises happen on these five pages. Each link opens in a new tab.</p>
+            <ul class="exercises"><li><a href="site/index.html" target="_blank" rel="noopener"><span class="n">1</span><span>Home page</span><span class="what">cta_click, login</span></a></li><li><a href="site/products.html" target="_blank" rel="noopener"><span class="n">2</span><span>All coffees</span><span class="what">view_item_list, select_item</span></a></li><li><a href="site/product.html?sku=FK-002" target="_blank" rel="noopener"><span class="n">3</span><span>One coffee</span><span class="what">view_item, add_to_cart</span></a></li><li><a href="site/checkout.html" target="_blank" rel="noopener"><span class="n">4</span><span>Checkout</span><span class="what">begin_checkout, purchase</span></a></li><li><a href="site/signup.html" target="_blank" rel="noopener"><span class="n">5</span><span>Subscribe form</span><span class="what">generate_lead</span></a></li></ul>
+            <p style="font-size:.88rem;margin:.9rem 0 0;color:var(--ink-2)">At the bottom of every shop page there is a grey line that says <b>Developer view</b>. Click it to see the dataLayer and which containers are running.</p>
+        </div>
+    </div>
+</div>
+</main>
+
+<footer class="site">
+    <p><a href="index.html">Start page</a> · <a href="reference/glossary.html">Glossary</a> · <a href="site/index.html">Practice shop</a></p>
+</footer>
+
+</body>
+</html>
