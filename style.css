@@ -69,3 +69,18 @@ nav a {
   font-size: 50px;
   margin: 0;
 }
+.linkedin-knapp {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 25px;
+
+  background-color: #B22323;
+  color: lightgoldenrodyellow;
+
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+
+  border-radius: 25px;
+  cursor: pointer;
+}
