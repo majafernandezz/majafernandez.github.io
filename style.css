@@ -1,86 +1,1334 @@
-body {
-  background-color:lightgoldenrodyellow;
-  color: #B22323;
-  margin: 0;
-  padding-top: 78px;
-}
-h1 {
-  text-align: left;
-  margin-top: 100px;
-  font-family: "Raleway", sans-serif;
-  font-size: 20px;
-  position: relative;
-  z-index: 2;
-}
-.hero-image {
-  width: 100%;
-  display: block;
-  margin-top: -45px;
+/* =========================================================
+   MAJA FERNANDEZ — PORTFOLIO
+   ========================================================= */
+
+
+/* =========================================================
+   1. FÄRGER & GRUNDINSTÄLLNINGAR
+
+   Vill du byta färger senare behöver du främst ändra här.
+   ========================================================= */
+
+:root {
+  --cream: #f4f0d7;
+  --red: #a92d2d;
+  --dark-red: #7f2024;
+  --ink: #181816;
+  --pink: #e9a4b5;
+  --yellow: #e7ff58;
+  --white: #fffdf4;
+
+  --border: 1px solid rgba(24, 24, 22, 0.25);
+
+  --page-padding: clamp(20px, 4vw, 64px);
 }
 
-header {
-position: fixed;
+
+/* =========================================================
+   2. RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "Raleway", sans-serif;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--red);
+  color: var(--cream);
+}
+
+
+/* Gör så att ankarlänkar inte hamnar bakom headern */
+
+section {
+  scroll-margin-top: 100px;
+}
+
+
+/* =========================================================
+   3. HEADER
+   ========================================================= */
+
+.site-header {
+  position: fixed;
   top: 0;
   left: 0;
+
   width: 100%;
-  background-color: lightgoldenrodyellow;
-  color: #B22323;
-  padding: 20px;
-  z-index: 1000;
-  font-family: "Raleway", sans-serif;
+  height: 78px;
+
+  padding: 0 var(--page-padding);
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-sizing: border-box;
+
+  background: rgba(244, 240, 215, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border-bottom: 1px solid transparent;
+
+  z-index: 1000;
+
+  transition:
+    height 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
 }
 
-.namn {
-  font-size: 30px;
+.site-header.scrolled {
+  height: 66px;
+  border-color: rgba(24, 24, 22, 0.18);
 }
 
-nav {
+.logo {
+  text-decoration: none;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  letter-spacing: -0.03em;
+}
+
+.main-nav {
   display: flex;
-  gap: 30px;
+  align-items: center;
+  gap: clamp(18px, 3vw, 42px);
 }
 
-nav a {
-  color: #B22323;
+.main-nav a {
+  position: relative;
+
   text-decoration: none;
-  font-size: 16px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
 }
-.stjarnor {
+
+.main-nav a::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+
   width: 100%;
-  height: 400px;
+  height: 1px;
 
-  background-image: url("header.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background: var(--ink);
+
+  transform: scaleX(0);
+  transform-origin: right;
+
+  transition: transform 0.3s ease;
 }
-.bild-text {
-  text-align: center;
-  color: #B22323;
-  font-family: "Raleway", sans-serif;
-  padding-top: 100px;
+
+.main-nav a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
-.bild-text h2 {
-  font-size: 50px;
+
+
+/* =========================================================
+   4. GENERELLA SEKTIONER
+   ========================================================= */
+
+.section {
+  padding:
+    clamp(90px, 12vw, 180px)
+    var(--page-padding);
+}
+
+.section-number {
+  display: flex;
+  justify-content: space-between;
+
+  padding-bottom: 18px;
+  margin-bottom: clamp(60px, 8vw, 110px);
+
+  border-bottom: var(--border);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.section-number.light {
+  border-color: rgba(255, 253, 244, 0.35);
+}
+
+
+/* =========================================================
+   5. HERO
+   ========================================================= */
+
+.hero {
+  min-height: 100svh;
+
+  position: relative;
+
+  padding:
+    120px
+    var(--page-padding)
+    50px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  overflow: hidden;
+}
+
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+
+  position: relative;
+  z-index: 5;
+}
+
+.eyebrow,
+.hero-location {
   margin: 0;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
 }
-.linkedin-knapp {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 12px 25px;
 
-  background-color: #B22323;
-  color: lightgoldenrodyellow;
+.hero-title-wrap {
+  position: relative;
+  z-index: 5;
 
-  font-family: "Raleway", sans-serif;
+  margin: auto 0;
+}
+
+.hero-title {
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  font-size: clamp(68px, 11.5vw, 180px);
+  line-height: 0.78;
+
+  font-weight: 800;
+  letter-spacing: -0.075em;
+
+  text-transform: uppercase;
+}
+
+.hero-line {
+  display: block;
+}
+
+.hero-line-serif {
+  margin-left: 13%;
+
+  font-family: "DM Serif Display", serif;
+  font-style: italic;
+  font-weight: 400;
+
+  text-transform: lowercase;
+
+  color: var(--red);
+
+  letter-spacing: -0.04em;
+}
+
+.hero-line-right {
+  align-self: flex-end;
+}
+
+.hero-bottom {
+  position: relative;
+  z-index: 5;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.hero-intro {
+  max-width: 470px;
+
+  margin: 0;
+
+  font-size: clamp(16px, 1.5vw, 21px);
+  line-height: 1.55;
+}
+
+.circle-button {
+  width: 118px;
+  height: 118px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: var(--red);
+  color: var(--cream);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-decoration: none;
+  text-align: center;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+
+  transition:
+    transform 0.35s ease,
+    background 0.35s ease;
+}
+
+.circle-button:hover {
+  transform: rotate(8deg) scale(1.07);
+  background: var(--ink);
+}
+
+.circle-button .arrow {
+  margin-top: 7px;
+  font-size: 19px;
+}
+
+
+/* Dekorativa former */
+
+.hero-shape {
+  position: absolute;
+  pointer-events: none;
+}
+
+.shape-one {
+  width: 30vw;
+  height: 30vw;
+
+  max-width: 470px;
+  max-height: 470px;
+
+  right: 13%;
+  top: 16%;
+
+  border-radius: 50%;
+
+  background: var(--pink);
+
+  opacity: 0.8;
+
+  z-index: 1;
+}
+
+.shape-two {
+  width: 180px;
+  height: 180px;
+
+  left: -45px;
+  bottom: 16%;
+
+  background: var(--yellow);
+
+  transform: rotate(18deg);
+
+  z-index: 1;
+}
+
+
+/* =========================================================
+   6. MARQUEE
+   ========================================================= */
+
+.marquee-section {
+  overflow: hidden;
+
+  padding: 22px 0;
+
+  background: var(--red);
+  color: var(--cream);
+
+  transform: rotate(-1.2deg) scale(1.02);
+}
+
+.marquee {
+  width: 100%;
+  overflow: hidden;
+}
+
+.marquee-content {
+  width: max-content;
+
+  display: flex;
+  gap: 34px;
+
+  font-size: clamp(24px, 3vw, 48px);
+  font-weight: 800;
+
+  white-space: nowrap;
+
+  animation: marquee 22s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+/* =========================================================
+   7. OM MIG
+   ========================================================= */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+
+  gap: clamp(50px, 9vw, 150px);
+
+  align-items: start;
+}
+
+.about-heading h2 {
+  margin: 0;
+
+  font-size: clamp(50px, 7vw, 105px);
+  line-height: 0.95;
+
+  letter-spacing: -0.055em;
+}
+
+.about-heading em {
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+
+  color: var(--red);
+}
+
+.about-copy {
+  padding-top: 10px;
+}
+
+.about-copy p {
   font-size: 16px;
+  line-height: 1.75;
+}
+
+.about-copy .large-copy {
+  margin-top: 0;
+
+  font-size: clamp(22px, 2.2vw, 31px);
+  line-height: 1.35;
+
+  letter-spacing: -0.025em;
+}
+
+.about-actions {
+  margin-top: 38px;
+
+  display: flex;
+  align-items: center;
+  gap: 28px;
+
+  flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   8. KNAPPAR
+   ========================================================= */
+
+.button {
+  min-height: 55px;
+
+  padding: 0 25px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+
+  border-radius: 100px;
+
   text-decoration: none;
 
-  border-radius: 25px;
-  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.button span {
+  font-size: 18px;
+
+  transition: transform 0.25s ease;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+}
+
+.button:hover span {
+  transform: translate(3px, -3px);
+}
+
+.button-dark {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.button-dark:hover {
+  background: var(--red);
+}
+
+.text-link {
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  border-bottom: 1px solid var(--ink);
+
+  padding-bottom: 5px;
+}
+
+
+/* =========================================================
+   9. MINI-CV
+   ========================================================= */
+
+.mini-cv {
+  margin-top: clamp(80px, 12vw, 170px);
+
+  border-top: var(--border);
+}
+
+.cv-item {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+
+  gap: 30px;
+
+  padding: 30px 0;
+
+  border-bottom: var(--border);
+
+  transition: padding-left 0.3s ease;
+}
+
+.cv-item:hover {
+  padding-left: 12px;
+}
+
+.cv-year {
+  padding-top: 4px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+}
+
+.cv-item h3 {
+  margin: 0 0 6px;
+
+  font-size: clamp(20px, 2vw, 28px);
+}
+
+.cv-item p {
+  margin: 0;
+
+  opacity: 0.65;
+}
+
+
+/* =========================================================
+   10. STATEMENT
+   ========================================================= */
+
+.statement {
+  min-height: 75vh;
+
+  padding:
+    clamp(100px, 13vw, 200px)
+    var(--page-padding);
+
+  background: var(--pink);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.statement-small {
+  margin: 0 0 40px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+}
+
+.statement-big {
+  max-width: 1250px;
+
+  margin: 0;
+
+  font-size: clamp(52px, 8vw, 125px);
+  line-height: 0.95;
+
+  font-weight: 700;
+
+  letter-spacing: -0.06em;
+}
+
+.statement-big em {
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+
+  color: var(--red);
+}
+
+
+/* =========================================================
+   11. PROJEKT
+   ========================================================= */
+
+.projects {
+  background: var(--white);
+}
+
+.projects-heading {
+  margin-bottom: clamp(70px, 10vw, 140px);
+
+  display: grid;
+  grid-template-columns: 1.4fr 0.6fr;
+
+  gap: 60px;
+
+  align-items: end;
+}
+
+.projects-heading h2 {
+  margin: 0;
+
+  font-size: clamp(58px, 8vw, 120px);
+  line-height: 0.9;
+
+  letter-spacing: -0.06em;
+}
+
+.projects-heading h2 em {
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+
+  color: var(--red);
+}
+
+.projects-heading p {
+  max-width: 360px;
+
+  margin: 0;
+
+  line-height: 1.6;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap:
+    clamp(60px, 8vw, 120px)
+    clamp(25px, 4vw, 60px);
+}
+
+.project-card {
+  min-width: 0;
+}
+
+.project-large {
+  grid-column: span 2;
+}
+
+.project-wide {
+  grid-column: span 2;
+}
+
+.project-visual {
+  min-height: 480px;
+
+  position: relative;
+
+  padding: clamp(25px, 4vw, 55px);
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: flex-end;
+
+  transition:
+    transform 0.45s cubic-bezier(.2,.8,.2,1),
+    border-radius 0.45s ease;
+}
+
+.project-large .project-visual,
+.project-wide .project-visual {
+  min-height: 620px;
+}
+
+.project-card:hover .project-visual {
+  transform: scale(0.985);
+  border-radius: 22px;
+}
+
+.visual-red {
+  background: var(--red);
+  color: var(--cream);
+}
+
+.visual-pink {
+  background: var(--pink);
+}
+
+.visual-yellow {
+  background: var(--yellow);
+}
+
+.visual-black {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.project-big-number {
+  position: absolute;
+
+  right: -15px;
+  top: -50px;
+
+  font-family: "DM Serif Display", serif;
+
+  font-size: clamp(180px, 27vw, 430px);
+
+  line-height: 1;
+
+  opacity: 0.12;
+
+  pointer-events: none;
+}
+
+.visual-copy {
+  position: relative;
+  z-index: 2;
+
+  font-size: clamp(42px, 6vw, 90px);
+  line-height: 0.9;
+
+  font-weight: 800;
+
+  letter-spacing: -0.055em;
+}
+
+.project-card:not(.project-large):not(.project-wide) .visual-copy {
+  font-size: clamp(35px, 4vw, 60px);
+}
+
+.visual-copy em {
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+}
+
+.visual-copy-dark {
+  color: var(--ink);
+}
+
+.project-info {
+  padding-top: 22px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  gap: 20px;
+}
+
+.project-category {
+  margin: 0 0 8px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.1em;
+
+  opacity: 0.6;
+}
+
+.project-info h3 {
+  margin: 0;
+
+  font-size: clamp(26px, 3vw, 42px);
+
+  letter-spacing: -0.04em;
+}
+
+.project-arrow {
+  font-size: 30px;
+
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-arrow {
+  transform: translate(5px, -5px);
+}
+
+.project-description {
+  max-width: 590px;
+
+  margin: 15px 0 0;
+
+  line-height: 1.6;
+
+  opacity: 0.72;
+}
+
+
+/* =========================================================
+   12. SKILLS
+   ========================================================= */
+
+.skills {
+  background: var(--cream);
+}
+
+.skills-header {
+  margin-bottom: clamp(70px, 9vw, 120px);
+}
+
+.skills-header h2 {
+  margin: 0;
+
+  font-size: clamp(60px, 8vw, 120px);
+  line-height: 0.9;
+
+  letter-spacing: -0.06em;
+}
+
+.skills-header em {
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+
+  color: var(--red);
+}
+
+.skills-list {
+  border-top: var(--border);
+}
+
+.skill-row {
+  display: grid;
+  grid-template-columns: 70px 1fr auto;
+
+  gap: 30px;
+
+  align-items: center;
+
+  padding: 27px 0;
+
+  border-bottom: var(--border);
+
+  transition:
+    padding-left 0.3s ease,
+    color 0.3s ease;
+}
+
+.skill-row:hover {
+  padding-left: 16px;
+  color: var(--red);
+}
+
+.skill-row > span {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.skill-row h3 {
+  margin: 0;
+
+  font-size: clamp(22px, 3vw, 39px);
+
+  letter-spacing: -0.035em;
+}
+
+.skill-row p {
+  margin: 0;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  opacity: 0.6;
+}
+
+
+/* =========================================================
+   13. BIG WORD
+   ========================================================= */
+
+.big-word-section {
+  padding: clamp(80px, 11vw, 150px) 0;
+
+  overflow: hidden;
+
+  background: var(--yellow);
+}
+
+.big-word,
+.big-word-outline {
+  width: max-content;
+
+  font-size: clamp(100px, 21vw, 330px);
+  line-height: 0.75;
+
+  font-weight: 800;
+
+  letter-spacing: -0.08em;
+}
+
+.big-word {
+  transform: translateX(-2%);
+}
+
+.big-word-outline {
+  margin-left: auto;
+
+  color: transparent;
+
+  -webkit-text-stroke: 2px var(--ink);
+
+  transform: translateX(2%);
+}
+
+
+/* =========================================================
+   14. KONTAKT
+   ========================================================= */
+
+.contact {
+  min-height: 90vh;
+
+  background: var(--red);
+  color: var(--cream);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-small {
+  margin: 0 0 35px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+}
+
+.contact h2 {
+  max-width: 1200px;
+
+  margin: 0;
+
+  font-size: clamp(70px, 11vw, 170px);
+  line-height: 0.82;
+
+  letter-spacing: -0.07em;
+}
+
+.contact h2 em {
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+
+  color: var(--pink);
+}
+
+.contact-buttons {
+  margin-top: 65px;
+
+  display: flex;
+  gap: 15px;
+
+  flex-wrap: wrap;
+}
+
+.button-light {
+  background: var(--cream);
+  color: var(--red);
+}
+
+.button-light:hover {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+.button-outline {
+  color: var(--cream);
+
+  border: 1px solid rgba(255, 253, 244, 0.65);
+}
+
+.button-outline:hover {
+  background: var(--cream);
+  color: var(--red);
+}
+
+
+/* =========================================================
+   15. FOOTER
+   ========================================================= */
+
+footer {
+  padding: 24px var(--page-padding);
+
+  background: var(--ink);
+  color: var(--cream);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 30px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.1em;
+}
+
+footer a {
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   16. SCROLL-ANIMATIONER
+   ========================================================= */
+
+.reveal {
+  opacity: 0;
+
+  transform: translateY(35px);
+
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(.2,.8,.2,1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* Lite fördröjning på hero-rader */
+
+.hero-line:nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.hero-line:nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+
+/* =========================================================
+   17. TABLET / MINDRE SKÄRMAR
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .about-grid,
+  .projects-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .about-copy {
+    max-width: 650px;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-large,
+  .project-wide {
+    grid-column: auto;
+  }
+
+  .project-visual,
+  .project-large .project-visual,
+  .project-wide .project-visual {
+    min-height: 480px;
+  }
+
+  .skill-row {
+    grid-template-columns: 50px 1fr;
+  }
+
+  .skill-row p {
+    grid-column: 2;
+  }
+
+}
+
+
+/* =========================================================
+   18. MOBIL
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+  :root {
+    --page-padding: 20px;
+  }
+
+
+  /* HEADER */
+
+  .site-header {
+    height: 68px;
+  }
+
+  .site-header.scrolled {
+    height: 62px;
+  }
+
+  .logo {
+    font-size: 15px;
+  }
+
+  .main-nav {
+    gap: 13px;
+  }
+
+  .main-nav a {
+    font-size: 9px;
+  }
+
+
+  /* HERO */
+
+  .hero {
+    min-height: 100svh;
+
+    padding-top: 105px;
+    padding-bottom: 28px;
+  }
+
+  .hero-location {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: clamp(60px, 19vw, 95px);
+    line-height: 0.84;
+  }
+
+  .hero-line-serif {
+    margin-left: 7%;
+  }
+
+  .hero-bottom {
+    gap: 25px;
+  }
+
+  .hero-intro {
+    max-width: 230px;
+
+    font-size: 14px;
+  }
+
+  .circle-button {
+    width: 90px;
+    height: 90px;
+
+    font-size: 9px;
+  }
+
+  .shape-one {
+    width: 70vw;
+    height: 70vw;
+
+    right: -25%;
+    top: 25%;
+  }
+
+  .shape-two {
+    width: 100px;
+    height: 100px;
+  }
+
+
+  /* OM MIG */
+
+  .about-heading h2 {
+    font-size: 53px;
+  }
+
+  .about-grid {
+    gap: 45px;
+  }
+
+  .about-copy .large-copy {
+    font-size: 22px;
+  }
+
+  .cv-item {
+    grid-template-columns: 55px 1fr;
+
+    gap: 15px;
+  }
+
+
+  /* STATEMENT */
+
+  .statement {
+    min-height: 65vh;
+  }
+
+
+  /* PROJECT */
+
+  .projects-heading {
+    gap: 30px;
+  }
+
+  .projects-heading h2 {
+    font-size: 58px;
+  }
+
+  .project-visual,
+  .project-large .project-visual,
+  .project-wide .project-visual {
+    min-height: 390px;
+  }
+
+  .visual-copy,
+  .project-card:not(.project-large):not(.project-wide) .visual-copy {
+    font-size: 39px;
+  }
+
+
+  /* SKILLS */
+
+  .skills-header h2 {
+    font-size: 58px;
+  }
+
+  .skill-row {
+    grid-template-columns: 35px 1fr;
+
+    gap: 12px;
+  }
+
+  .skill-row h3 {
+    font-size: 22px;
+  }
+
+
+  /* CONTACT */
+
+  .contact {
+    min-height: 80vh;
+  }
+
+  .contact h2 {
+    font-size: clamp(65px, 20vw, 105px);
+  }
+
+
+  /* FOOTER */
+
+  footer {
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 12px;
+  }
+
+}
+
+
+/* =========================================================
+   19. RESPEKTERA "REDUCED MOTION"
+
+   Bra för tillgänglighet.
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
 }
