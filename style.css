@@ -1332,3 +1332,16 @@ footer a {
   }
 
 }
+
+/* Ritade pilar som visas likadant på mobil och dator. */
+.arrow-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
