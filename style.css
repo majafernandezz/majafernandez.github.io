@@ -381,7 +381,7 @@ section {
   background: var(--red);
   color: var(--cream);
 
-  transform: rotate(-1.2deg) scale(1.02);
+  transform: none;
 }
 
 .marquee {
