@@ -1,0 +1,60 @@
+const axios = require("axios");
+const cheerio = require("cheerio");
+const fs = require("fs");
+
+const url = "https://books.toscrape.com/";
+
+async function scrapeBooks() {
+  try {
+    // Hämtar webbsidan
+    const response = await axios.get(url);
+
+    // Läser sidans HTML
+    const $ = cheerio.load(response.data);
+
+    const books = [];
+
+    // Går igenom varje bok på sidan
+    $(".product_pod").each((index, element) => {
+
+      const title = $(element)
+        .find("h3 a")
+        .attr("title");
+
+      const price = $(element)
+        .find(".price_color")
+        .text()
+        .trim();
+
+      const availability = $(element)
+        .find(".availability")
+        .text()
+        .trim();
+
+      const rating = $(element)
+        .find(".star-rating")
+        .attr("class")
+        .replace("star-rating", "")
+        .trim();
+
+      books.push(
+        `${title} | ${price} | ${availability} | ${rating}`
+      );
+    });
+
+    // Rubrik till vår datafil
+    const output =
+      "Titel | Pris | Lagerstatus | Betyg\n\n" +
+      books.join("\n");
+
+    // Sparar resultatet
+    fs.writeFileSync("scraping/data.txt", output);
+
+    console.log("Klart! Data har sparats i data.txt.");
+
+  } catch (error) {
+    console.error("Något gick fel:", error.message);
+  }
+}
+
+scrapeBooks();
