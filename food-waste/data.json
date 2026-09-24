@@ -1,0 +1,28 @@
+{
+  "title": "UNEP estimated global food waste by sector",
+  "reference_year": 2022,
+  "publication_year": 2024,
+  "geography": "Global",
+  "unit": "million tonnes per year",
+  "definition": "Includes edible and inedible parts. Excludes losses before retail.",
+  "source": "https://www.unep.org/resources/publication/food-waste-index-report-2024",
+  "table": "Table 1, printed page XII",
+  "total": 1052,
+  "sectors": [
+    {
+      "sector": "Households",
+      "million_tonnes": 631,
+      "rounded_share_percent": 60
+    },
+    {
+      "sector": "Food service",
+      "million_tonnes": 290,
+      "rounded_share_percent": 28
+    },
+    {
+      "sector": "Retail",
+      "million_tonnes": 131,
+      "rounded_share_percent": 12
+    }
+  ]
+}
