@@ -1,0 +1,560 @@
+/* =========================================================
+   DASHBOARD PAGE
+   ========================================================= */
+
+.dashboard-page {
+  background: var(--cream);
+}
+
+
+/* =========================================================
+   DASHBOARD HERO
+   ========================================================= */
+
+.dashboard-hero {
+
+  min-height: 100svh;
+
+  padding:
+    150px
+    var(--page-padding)
+    70px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+
+.dashboard-kicker {
+
+  margin-bottom: clamp(45px, 7vw, 90px);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+}
+
+
+.dashboard-hero h1 {
+
+  max-width: 1300px;
+
+  margin: 0;
+
+  font-size: clamp(75px, 12vw, 185px);
+  line-height: 0.78;
+
+  font-weight: 800;
+
+  letter-spacing: -0.075em;
+
+  text-transform: uppercase;
+}
+
+
+.dashboard-hero h1 span {
+
+  display: block;
+
+  margin-left: 13%;
+}
+
+
+.dashboard-hero h1 em {
+
+  font-family: "DM Serif Display", serif;
+
+  font-weight: 400;
+  font-style: italic;
+
+  text-transform: lowercase;
+
+  color: var(--red);
+
+  letter-spacing: -0.04em;
+}
+
+
+.dashboard-intro {
+
+  margin-top: clamp(60px, 8vw, 100px);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  gap: 60px;
+}
+
+
+.dashboard-intro p {
+
+  max-width: 560px;
+
+  margin: 0;
+
+  font-size: clamp(17px, 1.5vw, 21px);
+
+  line-height: 1.6;
+}
+
+
+.dashboard-scroll {
+
+  position: absolute;
+
+  right: var(--page-padding);
+  bottom: 35px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.1em;
+}
+
+
+.dashboard-scroll span {
+
+  font-size: 18px;
+}
+
+
+/* Dekorativ rosa cirkel */
+
+.dashboard-hero::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: min(30vw, 430px);
+  aspect-ratio: 1;
+
+  right: 8%;
+  top: 16%;
+
+  border-radius: 50%;
+
+  background: var(--pink);
+
+  opacity: 0.55;
+
+  z-index: -1;
+}
+
+
+/* =========================================================
+   DASHBOARD DISPLAY
+   ========================================================= */
+
+.dashboard-display {
+
+  padding:
+    clamp(90px, 11vw, 150px)
+    var(--page-padding)
+    clamp(120px, 14vw, 200px);
+
+  background: var(--yellow);
+}
+
+
+.dashboard-display-top {
+
+  margin-bottom: 25px;
+
+  padding-bottom: 18px;
+
+  display: flex;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  border-bottom: 1px solid var(--ink);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+}
+
+
+/* Browserfönstret */
+
+.dashboard-browser {
+
+  overflow: hidden;
+
+  background: var(--white);
+
+  border: 1px solid var(--ink);
+
+  border-radius: 20px;
+
+  box-shadow:
+    14px
+    14px
+    0
+    var(--red);
+}
+
+
+.dashboard-browser-bar {
+
+  min-height: 58px;
+
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+
+  position: relative;
+
+  border-bottom: 1px solid var(--ink);
+}
+
+
+.browser-dots {
+
+  display: flex;
+
+  gap: 7px;
+}
+
+
+.browser-dots span {
+
+  display: block;
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: var(--ink);
+}
+
+
+.browser-address {
+
+  position: absolute;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 0.1em;
+
+  white-space: nowrap;
+}
+
+
+/* Själva Looker Studio-dashboarden */
+
+.dashboard-frame {
+
+  width: 100%;
+
+  aspect-ratio: 16 / 9;
+
+  position: relative;
+
+  background: var(--white);
+}
+
+
+.dashboard-frame iframe {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+}
+
+
+/* =========================================================
+   DASHBOARD CTA
+   ========================================================= */
+
+.dashboard-cta {
+
+  min-height: 80vh;
+
+  padding:
+    clamp(100px, 13vw, 190px)
+    var(--page-padding);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background: var(--red);
+
+  color: var(--cream);
+}
+
+
+.dashboard-cta > p {
+
+  margin: 0 0 40px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+}
+
+
+.dashboard-cta h2 {
+
+  max-width: 1150px;
+
+  margin: 0;
+
+  font-size: clamp(65px, 10vw, 150px);
+
+  line-height: 0.84;
+
+  letter-spacing: -0.065em;
+}
+
+
+.dashboard-cta h2 span {
+
+  display: block;
+}
+
+
+.dashboard-cta h2 em {
+
+  font-family: "DM Serif Display", serif;
+
+  font-weight: 400;
+  font-style: italic;
+
+  color: var(--pink);
+}
+
+
+.dashboard-cta-buttons {
+
+  margin-top: 65px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 30px;
+
+  flex-wrap: wrap;
+}
+
+
+.dashboard-back-link {
+
+  padding-bottom: 5px;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 9px;
+
+  color: var(--cream);
+
+  text-decoration: none;
+
+  border-bottom:
+    1px solid
+    rgba(255, 253, 244, 0.6);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.09em;
+}
+
+
+/* =========================================================
+   DASHBOARD TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .dashboard-intro {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+}
+
+
+/* =========================================================
+   DASHBOARD MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+  .dashboard-hero {
+
+    min-height: 100svh;
+
+    padding-top: 115px;
+
+    padding-bottom: 75px;
+  }
+
+
+  .dashboard-kicker {
+
+    margin-bottom: 40px;
+  }
+
+
+  .dashboard-hero h1 {
+
+    font-size: clamp(62px, 19vw, 100px);
+
+    line-height: 0.82;
+  }
+
+
+  .dashboard-hero h1 span {
+
+    margin-left: 6%;
+  }
+
+
+  .dashboard-intro {
+
+    margin-top: 55px;
+
+    gap: 35px;
+  }
+
+
+  .dashboard-intro p {
+
+    max-width: 100%;
+
+    font-size: 15px;
+  }
+
+
+  .dashboard-scroll {
+
+    display: none;
+  }
+
+
+  .dashboard-hero::after {
+
+    width: 70vw;
+
+    right: -30%;
+
+    top: 25%;
+  }
+
+
+  .dashboard-display {
+
+    padding-top: 80px;
+
+    padding-bottom: 110px;
+  }
+
+
+  .dashboard-display-top {
+
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+
+  .dashboard-browser {
+
+    border-radius: 12px;
+
+    box-shadow:
+      7px
+      7px
+      0
+      var(--red);
+  }
+
+
+  .dashboard-browser-bar {
+
+    min-height: 45px;
+
+    padding: 0 13px;
+  }
+
+
+  .browser-dots span {
+
+    width: 8px;
+    height: 8px;
+  }
+
+
+  .browser-address {
+
+    font-size: 7px;
+  }
+
+
+  /*
+    Dashboarden behöver mer höjd på telefon,
+    annars blir innehållet väldigt litet.
+  */
+
+  .dashboard-frame {
+
+    aspect-ratio: 4 / 5;
+  }
+
+
+  .dashboard-cta {
+
+    min-height: 70vh;
+  }
+
+
+  .dashboard-cta h2 {
+
+    font-size: clamp(60px, 18vw, 100px);
+  }
+
+
+  .dashboard-cta-buttons {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+}
+/* Readable report and portfolio details */
+.dashboard-hero{min-height:auto;padding-bottom:80px;isolation:isolate}.dashboard-intro{margin-top:50px}.dashboard-kicker{margin-bottom:45px}.dashboard-scroll{display:none}.dashboard-intro .button{flex-shrink:0}.dashboard-frame{aspect-ratio:auto;height:850px}.dashboard-help{max-width:850px;line-height:1.7;font-size:13px;margin-top:30px}.dashboard-guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:50px}.dashboard-guide article{padding:25px;background:var(--cream);border:var(--border);border-radius:16px}.dashboard-guide span{font-size:10px;font-weight:800;letter-spacing:.08em}.dashboard-guide h3{font-size:26px;letter-spacing:-.04em}.dashboard-guide p{font-size:14px;line-height:1.7}.dashboard-guide code{overflow-wrap:anywhere}.dashboard-page a:focus-visible{outline:3px solid currentColor;outline-offset:5px}.dashboard-cta{min-height:auto}.dashboard-browser-bar{gap:20px}.browser-address{position:static;transform:none;margin:auto;text-align:center;white-space:normal}.dashboard-hero h1{font-size:clamp(54px,11vw,155px)}@media(max-width:650px){.dashboard-guide{grid-template-columns:1fr}.dashboard-frame{height:680px}.dashboard-hero{padding-bottom:55px}.dashboard-intro .button{max-width:100%;font-size:10px;gap:15px}.dashboard-display{padding-top:50px;padding-bottom:65px}.dashboard-hero h1{font-size:clamp(48px,15vw,90px)}.dashboard-cta h2{font-size:clamp(48px,14vw,90px)}}
+
+.dashboard-display:has(+ .dashboard-extra){padding-bottom:30px}.dashboard-extra{padding-top:0}.dashboard-extra .dashboard-help{margin-top:0}
